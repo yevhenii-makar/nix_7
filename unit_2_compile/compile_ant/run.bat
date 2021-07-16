@@ -1,23 +1,35 @@
 @echo off
 cls
 echo #############################################################
-echo remove old build compile_console
+echo start ANT
 echo #############################################################
 
-rmdir /s /q .\build
+call ..\ant\setantenv
+
+echo #############################################################
+echo start Clean build
+echo #############################################################
+
+call ant clean
+
 
 echo #############################################################
 echo start compilation compile_console
 echo #############################################################
 
-
-javac -sourcepath .\src -d build\classes -cp .\lib\commons-math3-3.6.1.jar;lib\commons-text-1.9.jar;lib\commons-lang3-3.11.jar src\com\yevheniimakar\console\test\test2\Test2.java src\com\yevheniimakar\console\test\Test1.java src\com\yevheniimakar\console\Main.java
+call ant compile
 
 echo #############################################################
-echo run compile_console
+echo build jar
 echo #############################################################
 
-java -cp build\classes\;.\lib\commons-math3-3.6.1.jar;.\lib\commons-text-1.9.jar;.\lib\commons-lang3-3.11.jar  com.yevheniimakar.console.Main
+call ant jar
+
+echo #############################################################
+echo run compile_ant
+echo #############################################################
+
+call ant run
 
 echo #############################################################
 echo END
