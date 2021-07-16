@@ -22,4 +22,3 @@ java -cp build\classes\;.\lib\commons-math3-3.6.1.jar;.\lib\commons-text-1.9.jar
 echo #############################################################
 echo END
 echo #############################################################
-cmd /k

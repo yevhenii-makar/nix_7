@@ -6,4 +6,4 @@ rem deleting CLASSPATH as a workaround for PLA-8702
 set CLASSPATH=
 echo Setting ant home to: %ANT_HOME%
 ant -version
-
+exit /b
