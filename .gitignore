@@ -4,7 +4,7 @@ out/
 *.iml
 *.ipr
 *.iws
-
+build/
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -19,7 +19,7 @@ buildNumber.properties
 
 .mtj.tmp/
 *.class
-*.jar
+
 *.war
 *.ear
 *.nar
