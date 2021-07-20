@@ -7,13 +7,14 @@ import com.yevheniimakar.unit3.quantity_letter_from_string.QuantityLetterFromStr
 import java.util.Scanner;
 
 public class UserFriendlyConsoleInteraction {
+    NumberFromString numberFromString = new NumberFromString();
+    QuantityLetterFromString quantityLetterFromString = new QuantityLetterFromString();
+    EndOfLessons endOfLessons = new EndOfLessons();
+
+    Scanner scanner = new Scanner(System.in);
 
     public void start() {
-        NumberFromString numberFromString = new NumberFromString();
-        QuantityLetterFromString quantityLetterFromString = new QuantityLetterFromString();
-        EndOfLessons endOfLessons = new EndOfLessons();
 
-        Scanner scanner = new Scanner(System.in);
 
         boolean isExit = false;
 
@@ -26,7 +27,7 @@ public class UserFriendlyConsoleInteraction {
 
 
             if (!scanner.hasNextInt()) {
-                System.out.println("Уou entered incorrect data. try again");
+                System.out.println("Уou entered - " + scanner.next() + ". incorrect data. try again");
                 continue;
             }
             int choice = scanner.nextInt();
@@ -38,18 +39,9 @@ public class UserFriendlyConsoleInteraction {
                         System.out.print("please enter the string:");
                         String string = scanner.next();
                         System.out.println("Sum number from string: " + numberFromString.getSumNumberFromString(string));
-                        System.out.println("Press any key for repeat or 1 to exit");
-                        if (scanner.hasNextInt()) {
-                            int choiceExit = scanner.nextInt();
-                            if (choiceExit == 1) {
-                                isFirstTaskExit = true;
-                            } else {
-                                String reset = scanner.next();
-                            }
-                        } else {
-                            String reset = scanner.next();
-                        }
+                        isFirstTaskExit = isExit();
                     }
+
                     break;
 
                 case 2:
@@ -59,63 +51,60 @@ public class UserFriendlyConsoleInteraction {
                         System.out.print("please enter the string:");
                         String string = scanner.next();
                         System.out.println("Count letters from string: \n" + quantityLetterFromString.countAllLettersFromString(string));
-                        System.out.println("Press any key for repeat or 1 to exit");
-                        if (scanner.hasNextInt()) {
-                            int choiceExit = scanner.nextInt();
-                            if (choiceExit == 1) {
-                                isSecondTaskExit = true;
-                            } else {
-                                String reset = scanner.next();
-                            }
-                        } else {
-                            String reset = scanner.next();
-                        }
+                        isSecondTaskExit = isExit();
                     }
+
                     break;
 
                 case 3:
                     System.out.println("If you wont to know  when lessons and?");
                     boolean isThirdTaskExit = false;
                     while (!isThirdTaskExit) {
-                        System.out.print("please enter the numm more 0 :");
+                        System.out.print("please enter the number more 0 :");
 
                         if (!scanner.hasNextInt()) {
-                            System.out.println("Уou entered incorrect data. try again");
+                            System.out.println("Уou entered - " + scanner.next() + ". It is incorrect data. try again");
                             continue;
                         }
+
                         int numberOfLessons = scanner.nextInt();
+
                         if (numberOfLessons <= 0) {
-                            System.out.println("Уou entered incorrect data. try again");
+                            System.out.println("Уou entered - " + scanner.next() + ". It is incorrect data. try again");
                             continue;
                         }
 
                         System.out.println(endOfLessons.endOfLessons(numberOfLessons));
+                        isThirdTaskExit = isExit();
 
-
-                        System.out.println("Press any key for repeat or 1 to exit");
-                        if (scanner.hasNextInt()) {
-                            int choiceExit = scanner.nextInt();
-                            if (choiceExit == 1) {
-                                isThirdTaskExit = true;
-                            } else {
-                                String reset = scanner.next();
-                            }
-
-                        } else {
-                            String reset = scanner.next();
-                        }
                     }
                     break;
 
                 case 4:
                     isExit = true;
                     break;
+
                 default:
                     System.out.println("Уou entered incorrect data. try again");
                     break;
-
-
             }
         }
+    }
+
+    private boolean isExit() {
+        System.out.println("Press any key for repeat or 1 to exit");
+
+        if (scanner.hasNextInt()) {
+            int choiceExit = scanner.nextInt();
+
+            if (choiceExit == 1) {
+                return true;
+            }
+
+        } else {
+            String resetScanner = scanner.next();
+        }
+
+        return false;
     }
 }
