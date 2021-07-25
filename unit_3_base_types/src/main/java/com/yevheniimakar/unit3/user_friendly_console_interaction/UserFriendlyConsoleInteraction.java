@@ -7,6 +7,7 @@ import com.yevheniimakar.unit3.quantity_letter_from_string.QuantityLetterFromStr
 import java.util.Scanner;
 
 public class UserFriendlyConsoleInteraction {
+
     NumberFromString numberFromString = new NumberFromString();
     QuantityLetterFromString quantityLetterFromString = new QuantityLetterFromString();
     EndOfLessons endOfLessons = new EndOfLessons();
