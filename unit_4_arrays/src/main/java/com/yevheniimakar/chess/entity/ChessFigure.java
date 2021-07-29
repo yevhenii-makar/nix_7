@@ -3,14 +3,22 @@ package com.yevheniimakar.chess.entity;
 public class ChessFigure {
     private String color;
     private String name;
-    boolean isWasTheFirstMove;
+    private boolean isWasTheFirstMove;
+    private String symbol;
 
     public ChessFigure() {
     }
 
-    public ChessFigure(String color, String name) {
+    public ChessFigure(String color, String name, String symbol) {
         this.color = color;
         this.name = name;
+        this.symbol = symbol;
+    }
+    public ChessFigure(ChessFigure chessFigure) {
+        this.color = chessFigure.getColor();
+        this.name = chessFigure.getName();
+        this.symbol = chessFigure.getSymbol();
+        this.isWasTheFirstMove = chessFigure.isWasTheFirstMove();
     }
 
     public String getColor() {
@@ -27,6 +35,14 @@ public class ChessFigure {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public boolean isWasTheFirstMove() {
