@@ -14,12 +14,10 @@ public class ChessFigureServiceImpl implements ChessFigureService {
         chessBoardOriginal[targetCoordinate.getCoordinateX()][targetCoordinate.getCoordinateY()].setChessFigure(new ChessFigure(chessBoardOriginal[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].getChessFigure()));
         chessBoardOriginal[targetCoordinate.getCoordinateX()][targetCoordinate.getCoordinateY()].getChessFigure().setWasTheFirstMove(true);
         chessBoardOriginal[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].removeFigure();
-
     }
 
     @Override
     public boolean isCanChessMove(Coordinate startCoordinate, Coordinate targetCoordinate, ChessBoardCell[][] chessBoardOriginal) {
-
         this.chessBoard = cloneChessBoard(chessBoardOriginal);
         boolean isCanChessMove = false;
         this.color = chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].getChessFigure().getColor();
@@ -49,9 +47,7 @@ public class ChessFigureServiceImpl implements ChessFigureService {
                             isCanChessMove = true;
                         }
                     }
-
                 }
-
             }
             break;
 
@@ -62,7 +58,6 @@ public class ChessFigureServiceImpl implements ChessFigureService {
                     if (isWithoutCheckToKing(getKingCoordinate())) {
                         isCanChessMove = true;
                     }
-
                 }
             }
             break;
@@ -77,12 +72,10 @@ public class ChessFigureServiceImpl implements ChessFigureService {
                         }
                     }
                 }
-
             }
             break;
 
             case "queen": {
-
                 if ((coordinateXDifference == 0 && coordinateYDifference != 0) || (coordinateXDifference != 0 && coordinateYDifference == 0) || (coordinateXDifference == coordinateYDifference)) {
                     chessBoard[targetCoordinate.getCoordinateX()][targetCoordinate.getCoordinateY()].setChessFigure(new ChessFigure(chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].getChessFigure()));
                     chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].removeFigure();
@@ -94,7 +87,6 @@ public class ChessFigureServiceImpl implements ChessFigureService {
             break;
 
             case "king": {
-
                 if ((coordinateXDifference == 0 || coordinateXDifference == 1) && (coordinateYDifference == 0 || coordinateYDifference == 1)) {
                     chessBoard[targetCoordinate.getCoordinateX()][targetCoordinate.getCoordinateY()].setChessFigure(new ChessFigure(chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].getChessFigure()));
                     chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].removeFigure();
@@ -102,7 +94,6 @@ public class ChessFigureServiceImpl implements ChessFigureService {
                         isCanChessMove = true;
                     }
                 }
-
             }
             break;
 
@@ -111,7 +102,8 @@ public class ChessFigureServiceImpl implements ChessFigureService {
 
                 if (isHaveChessFigureInTargetCell) {
                     if (startCoordinate.getCoordinateX() == (targetCoordinate.getCoordinateX() + (1 * directionMove))) {
-                        if (startCoordinate.getCoordinateY() == (targetCoordinate.getCoordinateY() + 1) || startCoordinate.getCoordinateY() == (targetCoordinate.getCoordinateY() - 1)) {
+                        if (startCoordinate.getCoordinateY() == (targetCoordinate.getCoordinateY() + 1)
+                                || startCoordinate.getCoordinateY() == (targetCoordinate.getCoordinateY() - 1)) {
                             chessBoard[targetCoordinate.getCoordinateX()][targetCoordinate.getCoordinateY()].setChessFigure(new ChessFigure(chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].getChessFigure()));
                             chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].removeFigure();
                             if (isWithoutCheckToKing(getKingCoordinate())) {
@@ -121,7 +113,8 @@ public class ChessFigureServiceImpl implements ChessFigureService {
                     }
 
                 } else if (!isHaveChessFigureInTargetCell) {
-                    if (startCoordinate.getCoordinateX() == (targetCoordinate.getCoordinateX() + (1 * directionMove)) || (!chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].getChessFigure().isWasTheFirstMove() && startCoordinate.getCoordinateX() == (targetCoordinate.getCoordinateX() + (2 * directionMove)))) {
+                    if (startCoordinate.getCoordinateX() == (targetCoordinate.getCoordinateX() + (1 * directionMove))
+                            || (!chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].getChessFigure().isWasTheFirstMove() && startCoordinate.getCoordinateX() == (targetCoordinate.getCoordinateX() + (2 * directionMove)))) {
                         if (startCoordinate.getCoordinateY() == targetCoordinate.getCoordinateY()) {
                             chessBoard[targetCoordinate.getCoordinateX()][targetCoordinate.getCoordinateY()].setChessFigure(new ChessFigure(chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].getChessFigure()));
                             chessBoard[startCoordinate.getCoordinateX()][startCoordinate.getCoordinateY()].removeFigure();
@@ -164,6 +157,7 @@ public class ChessFigureServiceImpl implements ChessFigureService {
                 }
             }
         }
+
         if (startCoordinate.getCoordinateX() < targetCoordinate.getCoordinateX() && startCoordinate.getCoordinateY() > targetCoordinate.getCoordinateY()) {
             for (int x = 1; (startCoordinate.getCoordinateX() + x) > targetCoordinate.getCoordinateX(); x++) {
                 if (chessBoard[startCoordinate.getCoordinateX() + x][startCoordinate.getCoordinateY() - x].isHaveChessFigureInCell()) {
@@ -174,7 +168,6 @@ public class ChessFigureServiceImpl implements ChessFigureService {
         }
 
         return isWithoutDiagonalObstacles;
-
     }
 
     private boolean isWithoutLineObstacles(Coordinate startCoordinate, Coordinate targetCoordinate) {
@@ -218,7 +211,6 @@ public class ChessFigureServiceImpl implements ChessFigureService {
         }
 
         return isWithoutLineObstacles;
-
     }
 
     @Override
@@ -227,8 +219,6 @@ public class ChessFigureServiceImpl implements ChessFigureService {
         this.color = color;
 
         return isWithoutCheckToKing(getKingCoordinate());
-
-
     }
 
 
@@ -268,7 +258,6 @@ public class ChessFigureServiceImpl implements ChessFigureService {
                     || chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("king")))))) {
                 isWithoutDiagonalObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
                 break;
-
             }
 
         }
@@ -286,7 +275,6 @@ public class ChessFigureServiceImpl implements ChessFigureService {
                     || chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("king")))))) {
                 isWithoutDiagonalObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
                 break;
-
             }
 
         }
@@ -361,56 +349,56 @@ public class ChessFigureServiceImpl implements ChessFigureService {
                     && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("king"))))) {
                 isWithoutLineObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
                 break;
-
             }
-
         }
 
         checkedCoordinateX = coordinate.getCoordinateX();
         checkedCoordinateY = coordinate.getCoordinateY();
 
         if (isWithoutKnightObstacles && (checkedCoordinateX - 1) >= 0 && (checkedCoordinateY - 2) >= 0
-                && chessBoard[checkedCoordinateX - 1][checkedCoordinateY - 2].getChessFigure() != null && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
+                && chessBoard[checkedCoordinateX - 1][checkedCoordinateY - 2].getChessFigure() != null
+                && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
             isWithoutKnightObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
-
         }
         if (isWithoutKnightObstacles && (checkedCoordinateX - 1) >= 0 && (checkedCoordinateY + 2) < 7
-                && chessBoard[checkedCoordinateX - 1][checkedCoordinateY + 2].getChessFigure() != null && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
+                && chessBoard[checkedCoordinateX - 1][checkedCoordinateY + 2].getChessFigure() != null
+                && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
             isWithoutKnightObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
-
         }
         if (isWithoutKnightObstacles && (checkedCoordinateX - 2) >= 0 && (checkedCoordinateY - 1) >= 0
-                && chessBoard[checkedCoordinateX - 2][checkedCoordinateY - 1].getChessFigure() != null && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
+                && chessBoard[checkedCoordinateX - 2][checkedCoordinateY - 1].getChessFigure() != null
+                && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
             isWithoutKnightObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
-
         }
         if (isWithoutKnightObstacles && (checkedCoordinateX - 2) >= 0 && (checkedCoordinateY + 1) < 7
-                && chessBoard[checkedCoordinateX - 2][checkedCoordinateY + 1].getChessFigure() != null && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
+                && chessBoard[checkedCoordinateX - 2][checkedCoordinateY + 1].getChessFigure() != null
+                && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
             isWithoutKnightObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
-
         }
 
         if (isWithoutKnightObstacles && (checkedCoordinateX + 1) < 7 && (checkedCoordinateY - 2) >= 0
-                && chessBoard[checkedCoordinateX + 1][checkedCoordinateY - 2].getChessFigure() != null && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
+                && chessBoard[checkedCoordinateX + 1][checkedCoordinateY - 2].getChessFigure() != null
+                && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
             isWithoutKnightObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
 
         }
         if (isWithoutKnightObstacles && (checkedCoordinateX + 1) < 7 && (checkedCoordinateY + 2) < 7
-                && chessBoard[checkedCoordinateX + 1][checkedCoordinateY + 2].getChessFigure() != null && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
+                && chessBoard[checkedCoordinateX + 1][checkedCoordinateY + 2].getChessFigure() != null
+                && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
             isWithoutKnightObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
 
         }
         if (isWithoutKnightObstacles && (checkedCoordinateX + 2) < 7 && (checkedCoordinateY - 1) >= 0
-                && chessBoard[checkedCoordinateX + 2][checkedCoordinateY - 1].getChessFigure() != null && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
+                && chessBoard[checkedCoordinateX + 2][checkedCoordinateY - 1].getChessFigure() != null
+                && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
             isWithoutKnightObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
 
         }
-        if (isWithoutKnightObstacles && (checkedCoordinateX + 2) <= 0 && (checkedCoordinateY + 1) < 7
-                && chessBoard[checkedCoordinateX + 2][checkedCoordinateY + 1].getChessFigure() != null && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
+        if (isWithoutKnightObstacles && (checkedCoordinateX + 2) < 7 && (checkedCoordinateY + 1) < 7
+                && chessBoard[checkedCoordinateX + 2][checkedCoordinateY + 1].getChessFigure() != null
+                && chessBoard[checkedCoordinateX][checkedCoordinateY].getChessFigure().getName().equals("knight")) {
             isWithoutKnightObstacles = isActiveColorOfFigure(new Coordinate(checkedCoordinateX, checkedCoordinateY));
-
         }
-
 
         if (!isWithoutDiagonalObstacles || !isWithoutKnightObstacles || !isWithoutLineObstacles) {
             System.out.println("you can not move here? you have check");
@@ -420,7 +408,6 @@ public class ChessFigureServiceImpl implements ChessFigureService {
     }
 
     private Coordinate getKingCoordinate() {
-
         for (int x = 0; x < chessBoard.length; x++) {
             for (int y = 0; y < chessBoard[x].length; y++) {
                 if (chessBoard[x][y].getChessFigure() != null && chessBoard[x][y].getChessFigure().getName().equals("king") && chessBoard[x][y].getChessFigure().getColor().equals(color)) {
@@ -449,15 +436,9 @@ public class ChessFigureServiceImpl implements ChessFigureService {
                  } else {
                      figure = null;
                  }
-
                 chessBoardCellsClone[x][y] = new ChessBoardCell(figure);
-
             }
-
         }
         return chessBoardCellsClone;
-
     }
-
-
 }

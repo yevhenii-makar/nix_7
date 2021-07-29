@@ -68,7 +68,6 @@ public class Game {
                         System.out.println("Wrong move. Try again");
                     }
                 }
-
             } else {
                 System.out.println("is empty cell, try again");
 

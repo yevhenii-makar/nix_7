@@ -13,10 +13,7 @@ public class CoordinateServiceImpl implements CoordinateService {
         int coordinateX = 8 - Integer.parseInt(coordinateXString);
         int coordinateY = CharCoordinate.valueOf(coordinateYString.toUpperCase()).ordinal();
 
-
         return new Coordinate(coordinateX, coordinateY);
-
-
     }
 
      private enum CharCoordinate{

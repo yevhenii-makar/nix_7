@@ -17,7 +17,6 @@ public class ChessBoardCellServiceImpl implements ChessBoardCellService {
             }
         }
 
-
         chessBoardCells[0][0].setChessFigure(new ChessFigure("black", "rock", "\u2656"));
         chessBoardCells[0][7].setChessFigure(new ChessFigure("black", "rock", "\u2656"));
 

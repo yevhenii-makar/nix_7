@@ -12,7 +12,6 @@ public class ConsoleReaderServiceImpl implements ConsoleReaderService {
 
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(System.in));
-
         try {
             return reader.readLine().replaceAll("[ \\t\\n\\x0B\\f\\r]","");
         } catch (IOException e) {

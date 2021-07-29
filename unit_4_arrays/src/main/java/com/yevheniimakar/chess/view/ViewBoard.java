@@ -18,8 +18,6 @@ public class ViewBoard {
         }
 
         System.out.printf("%s%s%s%s%s%s%s%s%s%n","  ","  A  "," B  "," C  "," D  "," E  "," F  "," G  "," H  ");
-
-
     }
 
     private String getFigureOrEmpty(int row, int column){
