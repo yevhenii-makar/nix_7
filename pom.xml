@@ -11,6 +11,8 @@
     <modules>
         <module>unit_3_base_types</module>
         <module>unit_4_arrays</module>
+        <module>unit_5_strings</module>
+        <module>unit_5_string_run</module>
     </modules>
 
 
