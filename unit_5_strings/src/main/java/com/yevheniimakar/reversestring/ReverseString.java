@@ -1,6 +1,10 @@
 package com.yevheniimakar.reversestring;
 
-public class ReverseString {
+public final class ReverseString {
+
+    private ReverseString(){
+
+    }
 
     public static String reverse(String str, boolean reversOnlyWord) {
         String demister = "\\p{Z}";
