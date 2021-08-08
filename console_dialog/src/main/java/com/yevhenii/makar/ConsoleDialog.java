@@ -38,23 +38,24 @@ public class ConsoleDialog {
 
         List<Class<?>> listClass = new ArrayList<>();
         listClass.addAll(setClass);
-        listClass.sort((Class<?> o1, Class<?> o2) -> o1.getAnnotation(Task.class).order()-o1.getAnnotation(Task.class).order());
+        listClass.sort((Class<?> o1, Class<?> o2) -> o1.getAnnotation(Task.class).order()-o2.getAnnotation(Task.class).order());
         for (int i = 0; i < listClass.size(); i++) {
             startMassage = startMassage + (i + 1) + " - " + listClass.get(i).getAnnotation(Task.class).taskName() + "\n";
         }
         startMassage += (listClass.size() + 1) + " - to exit\nYour choice: ";
         while (isContinue) {
-            System.out.println(startMassage);
+            System.out.print(startMassage);
             int choice = ConsoleReader.integerReader();
             if (choice <= 0 || choice > (listClass.size()+1)) {
                 System.out.println("Wrong data, try again");
                 continue;
             }
 
-            if (choice > 0 && choice >= listClass.size()) {
+            if (choice > 0 && choice <= listClass.size()) {
                 Object o = null;
                 try {
-                    o = ((Class)listClass.get(choice)).getDeclaredConstructor().newInstance();
+                    o = listClass.get(choice - 1).getDeclaredConstructor().newInstance();
+//                    o = listClass.get(choice).getClass().getDeclaredConstructor().newInstance();
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {

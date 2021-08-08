@@ -28,13 +28,13 @@ public class UniqueNumbers {
 
     }
 
-    @RunTask
+    @RunTask(runTaskName = "Unique numbers")
     public void startTask(){
         System.out.println("Your choice uniqueNumbers from arr");
         boolean isContinue = true;
         while (isContinue) {
             System.out.print("enter numbers separated by a space: ");
-            String numberString = consoleReader.getStringFromConsole().trim().replaceAll("[^0-9 ]", "");
+            String numberString = consoleReader.getStringFromConsole().trim().replaceAll(" {1,}", " ").replaceAll("[^0-9 ]", "");
             String[] numberArr = numberString.split("[ \\t\\n\\x0B\\f\\r]");
             if (numberArr.length > 0) {
                 int[] numArr = new int[numberArr.length];

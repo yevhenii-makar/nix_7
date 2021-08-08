@@ -4,9 +4,10 @@ import com.yevhenii.makar.ConsoleReader;
 import com.yevhenii.makar.annotation.RunTask;
 import com.yevhenii.makar.annotation.Task;
 
+@Task(taskName = "Can knight move", order = 2)
 public class KnightMove {
 
-    @Task(taskName = "Can knight move", order = 2)
+
     public boolean isCanKnightMove(int startCoordinateX, int startCoordinateY
             , int finishCoordinateX, int finishCoordinateY) {
 
@@ -18,8 +19,9 @@ public class KnightMove {
         }
         return false;
     }
-    @RunTask
-    public void runKnightMove(){
+
+    @RunTask(runTaskName = "Can knight move")
+    public void runKnightMove() {
         int startCoordinateX;
         int startCoordinateY;
         int targetCoordinateX;
