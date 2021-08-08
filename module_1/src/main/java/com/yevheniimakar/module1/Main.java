@@ -29,7 +29,7 @@ public class Main {
                     boolean isContinue = true;
                     while (isContinue) {
                         System.out.print("enter numbers separated by a space: ");
-                        String numberString = consoleReader.getStringFromConsole().trim().replaceAll("[^0-9 ]", "");
+                        String numberString = consoleReader.getStringFromConsole().trim().replaceAll(" {1,}", "").replaceAll("[^0-9 ]", "");
                         String[] numberArr = numberString.split("[ \\t\\n\\x0B\\f\\r]");
                         if (numberArr.length > 0) {
                             int[] numArr = new int[numberArr.length];
@@ -139,7 +139,7 @@ public class Main {
                         if (data.length == 2) {
 
                             sideSizeArea = Integer.parseInt(data[0]);
-                            numberOflifeCell = Integer.parseInt(data[0]);
+                            numberOflifeCell = Integer.parseInt(data[1]);
                             gameOfLife.initGame(sideSizeArea, numberOflifeCell);
                             gameOfLife.starGame();
                             isContinue = false;
