@@ -135,7 +135,7 @@ public class Main {
                     boolean isContinue = true;
                     while (isContinue) {
                         System.out.print("enter size side of area and number of life cell separated by a space: ");
-                        String[] data = consoleReader.getStringFromConsole().replaceAll("[^0-9 ]", "").split("[ \\t\\n\\x0B\\f\\r]");
+                        String[] data = consoleReader.getStringFromConsole().replaceAll(" {1,}", "").replaceAll("[^0-9 ]", "").split("[ \\t\\n\\x0B\\f\\r]");
                         if (data.length == 2) {
 
                             sideSizeArea = Integer.parseInt(data[0]);
