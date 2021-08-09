@@ -7,8 +7,8 @@ import com.yevheniimakar.module1.level1.task3.Triangle;
 import com.yevheniimakar.module1.level2.task1.Bracket;
 import com.yevheniimakar.module1.level3.task1.GameOfLife;
 
-
 public class Main {
+
     public static void main(String[] args) {
         boolean continueApp = true;
         ConsoleReader consoleReader = new ConsoleReader();
