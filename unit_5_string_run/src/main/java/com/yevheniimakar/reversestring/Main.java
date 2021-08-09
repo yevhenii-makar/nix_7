@@ -2,9 +2,7 @@ package com.yevheniimakar.reversestring;
 
 import com.yevheniimakar.reversestring.console.ConsoleReader;
 
-
 public class Main {
-
 
     public static void main(String[] args) {
         boolean continueApp = true;
@@ -85,12 +83,7 @@ public class Main {
 
                 }
                 break;
-
             }
-
-
         }
-
     }
-
 }

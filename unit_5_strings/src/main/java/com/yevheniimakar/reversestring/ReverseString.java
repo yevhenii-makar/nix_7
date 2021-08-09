@@ -2,9 +2,7 @@ package com.yevheniimakar.reversestring;
 
 public final class ReverseString {
 
-    private ReverseString(){
-
-    }
+    private ReverseString() { }
 
     public static String reverse(String str, boolean reversOnlyWord) {
         String demister = "\\p{Z}";
@@ -12,7 +10,6 @@ public final class ReverseString {
 
         if (reversOnlyWord) {
             String[] strArr = str.split(demister);
-
             for (String s : strArr) {
                 result += ReverseString.reverseWord(s) + " ";
             }
@@ -27,7 +24,6 @@ public final class ReverseString {
 
     public static String reverse(String str, String substring, boolean reverseAll) {
         String result;
-
         if (str.contains(substring)) {
             int startIndex = str.indexOf(substring);
             char[] reversedSubString = ReverseString.reverseWord(substring).toCharArray();
@@ -46,9 +42,7 @@ public final class ReverseString {
     }
 
     public static String reverse(String str, int firstIndex, int lastIndex) {
-
         String result = null;
-
         if (firstIndex == 0 && firstIndex < lastIndex && lastIndex < str.length()) {
             char[] reverse = ReverseString.reverseWord(str.substring(firstIndex, lastIndex)).toCharArray();
             char[] charsResult = str.toCharArray();
@@ -57,25 +51,19 @@ public final class ReverseString {
             }
             result = new String(charsResult);
         }
-
         return result != null ? result : str;
-
     }
 
     public static String reverse(String str, char firstChar, char lastChar) {
         int firstIndex = str.indexOf(firstChar);
         int lastIndex = str.lastIndexOf(lastChar, firstIndex);
-
         return (firstIndex == -1 || lastIndex == -1) ? str : ReverseString.reverse(str, firstIndex, lastIndex);
-
     }
 
     public static String reverse(String str, String firstSubString, String lastSubString) {
         int firstIndex = str.indexOf(firstSubString);
         int lastIndex = str.lastIndexOf(lastSubString, firstIndex) + lastSubString.length();
-
         return (firstIndex == -1 || lastIndex == -1) ? str : ReverseString.reverse(str, firstIndex, lastIndex);
-
     }
 
     private static String reverseWord(String str) {
