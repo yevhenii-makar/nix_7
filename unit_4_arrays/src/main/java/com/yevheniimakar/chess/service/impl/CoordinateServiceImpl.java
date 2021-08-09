@@ -4,6 +4,7 @@ import com.yevheniimakar.chess.entity.Coordinate;
 import com.yevheniimakar.chess.service.CoordinateService;
 
 public class CoordinateServiceImpl implements CoordinateService {
+
     @Override
     public Coordinate getCoordinateFromString(String chessBoarCoordinate) {
 
@@ -16,8 +17,7 @@ public class CoordinateServiceImpl implements CoordinateService {
         return new Coordinate(coordinateX, coordinateY);
     }
 
-     private enum CharCoordinate{
+     private enum CharCoordinate {
         A,B,C,D,E,F,G,H;
     }
-
 }

@@ -5,9 +5,8 @@ public class Coordinate {
     private int coordinateX;
     private int coordinateY;
 
-    public Coordinate() {
+    public Coordinate() { }
 
-    }
     public Coordinate(int coordinateX, int coordinateY) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
@@ -28,5 +27,4 @@ public class Coordinate {
     public void setCoordinateY(int coordinateY) {
         this.coordinateY = coordinateY;
     }
-
 }

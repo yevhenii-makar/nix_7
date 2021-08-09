@@ -1,13 +1,13 @@
 package com.yevheniimakar.chess.entity;
 
 public class ChessFigure {
+
     private String color;
     private String name;
     private boolean isWasTheFirstMove;
     private String symbol;
 
-    public ChessFigure() {
-    }
+    public ChessFigure() { }
 
     public ChessFigure(String color, String name, String symbol) {
         this.color = color;

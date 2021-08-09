@@ -1,7 +1,10 @@
 package com.yevheniimakar.chess.entity;
 
 public class ChessBoardCell {
+
     private ChessFigure chessFigure;
+
+    public ChessBoardCell() { }
 
     public ChessFigure getChessFigure() {
         return chessFigure;
@@ -17,9 +20,6 @@ public class ChessBoardCell {
 
     public void removeFigure(){
         chessFigure = null;
-    }
-    public ChessBoardCell() {
-
     }
 
     public ChessBoardCell(ChessFigure chessFigure) {

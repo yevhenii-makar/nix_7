@@ -6,6 +6,7 @@ import com.yevheniimakar.chess.entity.Coordinate;
 import com.yevheniimakar.chess.service.ChessFigureService;
 
 public class ChessFigureServiceImpl implements ChessFigureService {
+
     ChessBoardCell[][] chessBoard;
     String color;
 

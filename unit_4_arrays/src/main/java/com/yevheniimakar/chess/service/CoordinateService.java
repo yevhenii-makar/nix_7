@@ -5,5 +5,4 @@ import com.yevheniimakar.chess.entity.Coordinate;
 public interface CoordinateService {
 
     Coordinate getCoordinateFromString(String chessBoarCoordinate);
-
 }

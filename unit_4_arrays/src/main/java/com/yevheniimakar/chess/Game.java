@@ -24,16 +24,13 @@ public class Game {
     private ViewBoard viewBoard;
     private String color = "white";
 
-
     public Game() {
         this.chessBoardCellService = new ChessBoardCellServiceImpl();
         this.consoleReaderService = new ConsoleReaderServiceImpl();
         this.chessFigureService = new ChessFigureServiceImpl();
         this.coordinateService = new CoordinateServiceImpl();
         this.viewBoard = new ViewBoard();
-
     }
-
 
     public void StartGame() {
         chessBoard = chessBoardCellService.arrangeFiguresOnBoard();
@@ -70,10 +67,8 @@ public class Game {
                 }
             } else {
                 System.out.println("is empty cell, try again");
-
             }
         }
-
     }
 
     private Coordinate getCoordinate(boolean isChoiceFigure) {
@@ -90,9 +85,7 @@ public class Game {
                 Coordinate coordinate = coordinateService.getCoordinateFromString(stringFromConsole);
                 return coordinate;
             }
-
         }
         return null;
     }
-
 }

@@ -6,10 +6,8 @@ import com.yevheniimakar.chess.service.ChessBoardCellService;
 
 public class ChessBoardCellServiceImpl implements ChessBoardCellService {
 
-
     @Override
     public ChessBoardCell[][] arrangeFiguresOnBoard() {
-
         ChessBoardCell[][] chessBoardCells = new ChessBoardCell[8][8];
         for(int x=0; x<chessBoardCells.length; x++){
             for(int y=0; y<chessBoardCells[x].length; y++){
@@ -46,7 +44,6 @@ public class ChessBoardCellServiceImpl implements ChessBoardCellService {
             chessBoardCells[6][i].setChessFigure(new ChessFigure("white", "pawn", "\u265f"));
 
         }
-
         return chessBoardCells;
     }
 }

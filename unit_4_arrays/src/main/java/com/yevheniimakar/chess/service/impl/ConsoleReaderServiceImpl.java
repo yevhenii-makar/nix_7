@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ConsoleReaderServiceImpl implements ConsoleReaderService {
+
     @Override
     public String getStringFromConsole() {
 
