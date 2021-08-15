@@ -8,7 +8,7 @@ import com.yevheniimakar.unit6.domain.Course;
 public class CourseDAOImpl implements CourseDao {
 
     private CourseDB courseDB = CourseDB.getInstance();
-    private StudentCourseDB studentCourseDB = StudentCourseDB.getInstance();
+    private StudentCourseDB studentCourseDB =  StudentCourseDB.getInstance();
 
     @Override
     public Course getCourseById(int id) {
