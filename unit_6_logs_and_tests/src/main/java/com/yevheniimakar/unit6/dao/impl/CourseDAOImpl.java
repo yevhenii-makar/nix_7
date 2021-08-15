@@ -23,8 +23,7 @@ public class CourseDAOImpl implements CourseDao {
     @Override
     public void deleteCourseById(int id) {
         courseDB.deleteCourseById(id);
-        studentCourseDB.getStudentIDsByCourseIDorNull(id);
-
+        studentCourseDB.updateListStudentsByCoursetId(id, new int[0]);
     }
 
     @Override
@@ -36,14 +35,13 @@ public class CourseDAOImpl implements CourseDao {
     public void updateCourse(Course course, int[] studentListIds) {
         courseDB.updateCourse(course);
         studentCourseDB.updateListStudentsByCoursetId(course.getId(), studentListIds);
-
     }
 
     @Override
     public Course[] getCoursesListByStudentIdOrNull(int studentId) {
         int[] courseIdDsList = studentCourseDB.getCourseIDsByStudentIDorNull(studentId);
         Course[] coursesList = null;
-        if (courseIdDsList.length > 0) {
+        if (courseIdDsList != null && courseIdDsList.length > 0) {
             coursesList = new Course[courseIdDsList.length];
             for (int i = 0; i < courseIdDsList.length; i++) {
                 coursesList[i] = courseDB.getCourseById(courseIdDsList[i]);

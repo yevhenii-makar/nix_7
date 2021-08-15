@@ -15,6 +15,7 @@
         <module>unit_5_string_run</module>
         <module>module_1</module>
         <module>unit_6_logs_and_tests</module>
+        <module>console_dialog</module>
     </modules>
 
 

@@ -22,20 +22,18 @@ public class ConsoleDialog {
 
     private Reflections reflections;
 
-    public ConsoleDialog(String appPackage) {
+    public ConsoleDialog(String packageName) {
         reflections = new Reflections(ConfigurationBuilder
-                .build(appPackage)
+                .build(packageName)
                 .setScanners(new ResourcesScanner(), new TypeAnnotationsScanner(), new SubTypesScanner(false)));
 
+        run();
     }
 
     public void run() {
         String startMassage = "";
         boolean isContinue = true;
-
         Set<Class<?>> setClass = reflections.getTypesAnnotatedWith(Task.class);
-
-
         List<Class<?>> listClass = new ArrayList<>();
         listClass.addAll(setClass);
         listClass.sort((Class<?> o1, Class<?> o2) -> o1.getAnnotation(Task.class).order()-o2.getAnnotation(Task.class).order());

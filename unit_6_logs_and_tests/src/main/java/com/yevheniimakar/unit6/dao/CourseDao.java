@@ -6,15 +6,15 @@ public interface CourseDao {
 
     Course getCourseById(int id);
 
-    void createCourse(Course course) ;
+    void createCourse(Course course);
 
-    void deleteCourseById(int id) ;
+    void deleteCourseById(int id);
 
-    void updateCourse(Course course) ;
+    void updateCourse(Course course);
 
-    void updateCourse(Course course, int[] studentListIds) ;
+    void updateCourse(Course course, int[] studentListIds);
 
-    Course[] getCoursesListByStudentIdOrNull(int studentId) ;
+    Course[] getCoursesListByStudentIdOrNull(int studentId);
 
-    Course[] getAllCourses() ;
+    Course[] getAllCourses();
 }

@@ -7,16 +7,20 @@ import com.yevheniimakar.unit6.service.CourseService;
 import com.yevheniimakar.unit6.service.StudentService;
 import com.yevheniimakar.unit6.service.objects.CourseObject;
 import com.yevheniimakar.unit6.service.objects.StudentObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CourseServiceImpl implements CourseService {
     CourseDao courseDao;
     StudentService studentService;
 
+    private static final Logger LOGGER_INFO = LoggerFactory.getLogger("info");
+    private static final Logger LOGGER_WARN = LoggerFactory.getLogger("warn");
+
     public CourseServiceImpl() {
         this.courseDao = new CourseDAOImpl();
-        this.studentService = new StudentServiceImpl();
-    }
 
+    }
 
     @Override
     public CourseObject getCourseByIdWithCourses(int id) {
@@ -24,6 +28,7 @@ public class CourseServiceImpl implements CourseService {
         CourseObject courseObject = new CourseObject();
         courseObject.setId(course.getId());
         courseObject.setName(course.getName());
+        this.studentService = new StudentServiceImpl();
         courseObject.setStudent(studentService.getStudentsListByCourseOrNull(courseObject));
         return courseObject;
     }
@@ -39,45 +44,81 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void createCourse(CourseObject courseObject) {
-        Course course = new Course();
-        course.setId(courseObject.getId());
-        course.setName(courseObject.getName());
-        courseDao.createCourse(course);
+        if (isCourseNameValid(courseObject.getName())) {
+            LOGGER_INFO.info("create new course: " + courseObject.getName());
+            Course course = new Course();
+            course.setId(courseObject.getId());
+            course.setName(courseObject.getName());
+            courseDao.createCourse(course);
+        } else {
+            LOGGER_WARN.info("Entered not valid name: " + courseObject.getName() + "\non create");
+        }
+
     }
 
     @Override
     public void deleteCourseById(int id) {
+        LOGGER_INFO.info("delete course id: " + id);
         courseDao.deleteCourseById(id);
     }
 
     @Override
     public void updateCourse(CourseObject courseObject) {
-        Course course = new Course();
-        course.setId(courseObject.getId());
-        course.setName(courseObject.getName());
-        if (courseObject.getStudent() != null && courseObject.getStudent().length > 0) {
-            int[] students = new int[courseObject.getStudent().length];
-            for (int i = 0; i < courseObject.getStudent().length; i++) {
-                if (courseObject.getStudent()[i] != null) {
-                    students[i] = courseObject.getStudent()[i].getId();
-                } else {
-                    students[i] = -1;
+        if (isCourseNameValid(courseObject.getName())) {
+            LOGGER_INFO.info("update course id: " + courseObject.getId());
+            Course course = new Course();
+            course.setId(courseObject.getId());
+            course.setName(courseObject.getName());
+            if (courseObject.getStudent() != null && courseObject.getStudent().length > 0) {
+                int[] students = new int[courseObject.getStudent().length];
+                for (int i = 0; i < courseObject.getStudent().length; i++) {
+                    if (courseObject.getStudent()[i] != null) {
+                        students[i] = courseObject.getStudent()[i].getId();
+                    } else {
+                        students[i] = -1;
+                    }
                 }
+                courseDao.updateCourse(course, getFixedArray(students));
+            } else {
+                courseDao.updateCourse(course);
             }
-            courseDao.updateCourse(course, getFixedArray(students));
         } else {
-            courseDao.updateCourse(course);
+            LOGGER_WARN.info("Entered not valid name: " + courseObject.getName() + "\non update");
         }
     }
 
     @Override
-    public CourseObject[] getCoursesListByStudentOrNull(StudentObject student) {
-        return new CourseObject[0];
+    public CourseObject[] getCoursesListByStudentOrNull(StudentObject studentObject) {
+        Course[] courses = courseDao.getCoursesListByStudentIdOrNull(studentObject.getId());
+        if (courses != null) {
+            CourseObject[] courseObjects = new CourseObject[courses.length];
+            for (int i = 0; i < courses.length; i++) {
+                courseObjects[i] = new CourseObject();
+                courseObjects[i].setId(courses[i].getId());
+                courseObjects[i].setName(courses[i].getName());
+            }
+            return courseObjects;
+        } else {
+            LOGGER_WARN.info("courses list by student id " + studentObject.getId() + " is empty");
+            return null;
+        }
     }
 
     @Override
     public CourseObject[] getAllCourseObject() {
-        return new CourseObject[0];
+        Course[] courses = courseDao.getAllCourses();
+        if (courses != null) {
+            CourseObject[] courseObjects = new CourseObject[courses.length];
+            for (int i = 0; i < courses.length; i++) {
+                courseObjects[i] = new CourseObject();
+                courseObjects[i].setId(courses[i].getId());
+                courseObjects[i].setName(courses[i].getName());
+            }
+            return courseObjects;
+        } else {
+            LOGGER_WARN.info("courses list is empty");
+            return null;
+        }
     }
 
     private int[] getFixedArray(int[] intArray) {
@@ -99,5 +140,9 @@ public class CourseServiceImpl implements CourseService {
             }
         }
         return result;
+    }
+
+    private boolean isCourseNameValid(String name) {
+        return !name.matches("[^a-zA-z0-9\\-_/]");
     }
 }

@@ -8,13 +8,13 @@ public interface CourseService {
 
     CourseObject getCourseByIdWithoutCourses(int id);
 
-    void createCourse(CourseObject course) ;
+    void createCourse(CourseObject course);
 
-    void deleteCourseById(int id) ;
+    void deleteCourseById(int id);
 
-    void updateCourse(CourseObject course) ;
+    void updateCourse(CourseObject course);
 
-    CourseObject[] getCoursesListByStudentOrNull(StudentObject student) ;
+    CourseObject[] getCoursesListByStudentOrNull(StudentObject student);
 
-    CourseObject[] getAllCourseObject() ;
+    CourseObject[] getAllCourseObject();
 }

@@ -7,15 +7,18 @@ import com.yevheniimakar.unit6.service.CourseService;
 import com.yevheniimakar.unit6.service.StudentService;
 import com.yevheniimakar.unit6.service.objects.CourseObject;
 import com.yevheniimakar.unit6.service.objects.StudentObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StudentServiceImpl implements StudentService {
 
     private StudentDao studentDao;
     private CourseService courseService;
+    private static final Logger LOGGER_INFO = LoggerFactory.getLogger("info");
+    private static final Logger LOGGER_WARN = LoggerFactory.getLogger("warn");
 
     public StudentServiceImpl() {
         this.studentDao = new StudentDAOImpl();
-        this.courseService = new CourseServiceImpl();
     }
 
     @Override
@@ -24,6 +27,7 @@ public class StudentServiceImpl implements StudentService {
         StudentObject studentObject = new StudentObject();
         studentObject.setId(student.getId());
         studentObject.setName(student.getName());
+        this.courseService = new CourseServiceImpl();
         studentObject.setCourse(courseService.getCoursesListByStudentOrNull(studentObject));
         return studentObject;
     }
@@ -39,34 +43,45 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void createStudent(StudentObject studentObject) {
-        Student student = new Student();
-        student.setId(studentObject.getId());
-        student.setName(studentObject.getName());
-        studentDao.createStudent(student);
+        if (isStudentNameValid(studentObject.getName())) {
+            LOGGER_INFO.info("create new student: " + studentObject.getName());
+            Student student = new Student();
+            student.setId(studentObject.getId());
+            student.setName(studentObject.getName());
+            studentDao.createStudent(student);
+        } else {
+            LOGGER_WARN.info("Entered not valid name: " + studentObject.getName() + "\non create");
+        }
     }
 
     @Override
     public void deleteStudentById(int id) {
+        LOGGER_INFO.info("delete student id: " + id);
         studentDao.deleteStudentById(id);
     }
 
     @Override
     public void updateStudent(StudentObject studentObject) {
-        Student student = new Student();
-        student.setId(studentObject.getId());
-        student.setName(studentObject.getName());
-        if (studentObject.getCourse() != null && studentObject.getCourse().length > 0) {
-            int[] courses = new int[studentObject.getCourse().length];
-            for (int i = 0; i < studentObject.getCourse().length; i++) {
-                if (studentObject.getCourse()[i] != null) {
-                    courses[i] = studentObject.getCourse()[i].getId();
-                } else {
-                    courses[i] = -1;
+        if (isStudentNameValid(studentObject.getName())) {
+            LOGGER_INFO.info("update student id: " + studentObject.getId());
+            Student student = new Student();
+            student.setId(studentObject.getId());
+            student.setName(studentObject.getName());
+            if (studentObject.getCourse() != null && studentObject.getCourse().length > 0) {
+                int[] courses = new int[studentObject.getCourse().length];
+                for (int i = 0; i < studentObject.getCourse().length; i++) {
+                    if (studentObject.getCourse()[i] != null) {
+                        courses[i] = studentObject.getCourse()[i].getId();
+                    } else {
+                        courses[i] = -1;
+                    }
                 }
+                studentDao.updateStudent(student, getFixedArray(courses));
+            } else {
+                studentDao.updateStudent(student);
             }
-            studentDao.updateStudent(student, getFixedArray(courses));
         } else {
-            studentDao.updateStudent(student);
+            LOGGER_WARN.info("Entered not valid name: " + studentObject.getName() + "\non update");
         }
     }
 
@@ -82,6 +97,7 @@ public class StudentServiceImpl implements StudentService {
             }
             return studentObjects;
         } else {
+            LOGGER_WARN.info("students list by course id " + courseObject.getId() + " is empty");
             return null;
         }
     }
@@ -98,6 +114,7 @@ public class StudentServiceImpl implements StudentService {
             }
             return studentObjects;
         } else {
+            LOGGER_WARN.info("students list is empty");
             return null;
         }
     }
@@ -121,5 +138,9 @@ public class StudentServiceImpl implements StudentService {
             }
         }
         return result;
+    }
+
+    private boolean isStudentNameValid(String name) {
+        return !name.matches("[^a-zA-z]");
     }
 }

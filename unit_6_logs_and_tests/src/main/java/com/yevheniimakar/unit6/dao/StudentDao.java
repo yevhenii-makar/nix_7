@@ -6,15 +6,15 @@ public interface StudentDao {
 
     Student getStudentById(int id);
 
-    void createStudent(Student student) ;
+    void createStudent(Student student);
 
-    void deleteStudentById(int id) ;
+    void deleteStudentById(int id);
 
-    void updateStudent(Student student) ;
+    void updateStudent(Student student);
 
-    void updateStudent(Student student, int[] courseListIds) ;
+    void updateStudent(Student student, int[] courseListIds);
 
-    Student[] getStudentListByCourseIdOrNull(int courseId) ;
+    Student[] getStudentListByCourseIdOrNull(int courseId);
 
-    Student[] getAllStudents() ;
+    Student[] getAllStudents();
 }
