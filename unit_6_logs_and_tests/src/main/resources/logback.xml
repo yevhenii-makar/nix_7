@@ -2,6 +2,8 @@
 <configuration>
     <property name="HOME_LOG" value="logs"/>
     <property name="ARCHIVED_LOG" value="archived"/>
+
+<!--    и зачем все это, если как пропертя это есть в мавене???)))-->
     <property name="log.path" value="logs/life_logs"/>
     <property name="log.info" value="logs/life_logs/info.log"/>
     <property name="log.warn" value="logs/life_logs/warn.log"/>
