@@ -124,7 +124,7 @@ public class GameOfLife {
         return isStepAlreadyBeen;
     }
 
-    @RunTask(runTaskName = "Game of life")
+    @RunTask(runTaskName = "Game of life", order = 0)
     public void starGameOfLife(){
         GameOfLife gameOfLife = new GameOfLife();
         int sideSizeArea;

@@ -53,7 +53,6 @@ public class ConsoleDialog {
                 Object o = null;
                 try {
                     o = listClass.get(choice - 1).getDeclaredConstructor().newInstance();
-//                    o = listClass.get(choice).getClass().getDeclaredConstructor().newInstance();
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
@@ -112,10 +111,12 @@ public class ConsoleDialog {
     private Method changeMethod(List<Method> methodsList){
         boolean isContinue = true;
         String methodMessage = "";
+        methodsList.sort((Method m1, Method m2) -> m1.getAnnotation(RunTask.class).order()-m2.getAnnotation(RunTask.class).order());
 
         for (int i = 0; i < methodsList.size(); i++) {
             methodMessage = methodMessage + (i + 1) + " - " + methodsList.get(i).getAnnotation(RunTask.class).runTaskName() + "\n";
         }
+        System.out.println(methodMessage);
 
         while (isContinue){
             int change = ConsoleReader.integerReader();
