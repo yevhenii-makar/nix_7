@@ -6,6 +6,10 @@ public class ChessBoardCell {
 
     public ChessBoardCell() { }
 
+    public ChessBoardCell(ChessFigure chessFigure) {
+        this.chessFigure = chessFigure;
+    }
+
     public ChessFigure getChessFigure() {
         return chessFigure;
     }
@@ -14,15 +18,12 @@ public class ChessBoardCell {
         this.chessFigure = chessFigure;
     }
 
-    public boolean isHaveChessFigureInCell(){
-        return chessFigure!=null;
+    public boolean isHaveChessFigureInCell() {
+        return chessFigure != null;
     }
 
-    public void removeFigure(){
+    public void removeFigure() {
         chessFigure = null;
     }
 
-    public ChessBoardCell(ChessFigure chessFigure) {
-        this.chessFigure = chessFigure;
-    }
 }
