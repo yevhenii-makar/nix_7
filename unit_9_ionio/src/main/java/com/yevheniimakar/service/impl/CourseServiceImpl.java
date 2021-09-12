@@ -14,13 +14,13 @@ import java.util.List;
 
 
 public class CourseServiceImpl implements CourseService {
+
     CourseDao courseDao;
     StudentService studentService;
 
 
     public CourseServiceImpl() {
         this.courseDao = new CourseDAOImpl();
-
     }
 
     @Override
@@ -51,7 +51,6 @@ public class CourseServiceImpl implements CourseService {
             course.setName(courseObject.getName());
             courseDao.createCourse(course);
         }
-
     }
 
     @Override
@@ -66,11 +65,12 @@ public class CourseServiceImpl implements CourseService {
             course.setId(courseObject.getId());
             course.setName(courseObject.getName());
             if (courseObject.getStudent() != null && courseObject.getStudent().size() > 0) {
-                List<Integer >students = new ArrayList<>();
+                List<Integer> students = new ArrayList<>();
                 for (int i = 0; i < courseObject.getStudent().size(); i++) {
                     if (courseObject.getStudent().get(i) != null) {
                         students.add(courseObject.getStudent().get(i).getId());
-                    }                }
+                    }
+                }
                 courseDao.updateCourse(course);
             } else {
                 courseDao.updateCourse(course);
@@ -113,8 +113,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
 
-
     private boolean isCourseNameValid(String name) {
         return !name.matches("[^a-zA-z0-9\\-_/]");
     }
+
 }

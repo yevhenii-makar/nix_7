@@ -17,6 +17,7 @@ public class StudentServiceImpl implements StudentService {
 
     private StudentDao studentDao;
     private CourseService courseService;
+
     public StudentServiceImpl() {
         this.studentDao = new StudentDAOImpl();
     }
@@ -63,7 +64,7 @@ public class StudentServiceImpl implements StudentService {
             student.setId(studentObject.getId());
             student.setName(studentObject.getName());
             if (studentObject.getCourse() != null && studentObject.getCourse().size() > 0) {
-                List<Integer>courses = new ArrayList<>();
+                List<Integer> courses = new ArrayList<>();
                 for (int i = 0; i < studentObject.getCourse().size(); i++) {
                     if (studentObject.getCourse().get(i) != null) {
                         courses.add(studentObject.getCourse().get(i).getId());
@@ -110,9 +111,8 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-
-
     private boolean isStudentNameValid(String name) {
         return !name.matches("[^a-zA-z]");
     }
+
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 
 public interface CourseService {
+
     CourseObject getCourseByIdWithStudents(int id);
 
     CourseObject getCourseByIdWithoutStudents(int id);
@@ -21,4 +22,5 @@ public interface CourseService {
     List<CourseObject> getCoursesListByStudentOrNull(StudentObject student);
 
     List<CourseObject> getAllCourseObject();
+
 }

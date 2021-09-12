@@ -3,7 +3,6 @@ package com.yevheniimakar.dao.impl;
 
 import com.yevheniimakar.config.DbCsvConfig;
 import com.yevheniimakar.dao.StudentDao;
-import com.yevheniimakar.domain.Course;
 import com.yevheniimakar.domain.CourseStudent;
 import com.yevheniimakar.domain.Student;
 
@@ -12,6 +11,7 @@ import java.util.List;
 
 
 public class StudentDAOImpl implements StudentDao {
+
     DbCsvConfig<Student> db = new DbCsvConfig<>();
     DbCsvConfig<CourseStudent> dbT = new DbCsvConfig();
 
@@ -24,13 +24,11 @@ public class StudentDAOImpl implements StudentDao {
     @Override
     public void createStudent(Student student) {
         db.add(student);
-
     }
 
     @Override
     public void deleteStudentById(int id) {
         db.delete(this.getStudentById(id));
-
     }
 
     @Override
@@ -52,9 +50,9 @@ public class StudentDAOImpl implements StudentDao {
 
     @Override
     public List<Student> getStudentListByCourseIdOrNull(int courseId) {
-        List<CourseStudent> courseStudents = dbT.getByField(""+courseId, "courseId", CourseStudent.class);
+        List<CourseStudent> courseStudents = dbT.getByField("" + courseId, "courseId", CourseStudent.class);
         List<Student> students = new ArrayList<>();
-        for (CourseStudent cs: courseStudents) {
+        for (CourseStudent cs : courseStudents) {
             students.add(db.getByID(cs.getStudentId(), Student.class));
         }
         return students;
@@ -62,7 +60,7 @@ public class StudentDAOImpl implements StudentDao {
 
     @Override
     public List<Student> getAllStudents() {
-       return db.getAll(Student.class);
+        return db.getAll(Student.class);
     }
 
 }

@@ -20,7 +20,6 @@ public class StudentController {
     private StudentService studentService = new StudentServiceImpl();
     private CourseService courseService = new CourseServiceImpl();
 
-
     @RunTask (runTaskName = "add student", order = 0)
     public void createStudent() {
         System.out.println("enter student name");
@@ -29,7 +28,6 @@ public class StudentController {
         student.setName(studentName);
         studentService.createStudent(student);
     }
-
 
     @RunTask (runTaskName = "Delete student", order = 1)
     public void deleteStudent() {
@@ -41,7 +39,6 @@ public class StudentController {
         int id = ConsoleReader.integerReader();
         studentService.deleteStudentById(id);
     }
-
 
     @RunTask (runTaskName = "Update student", order = 2)
     public void updateStudent() {

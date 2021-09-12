@@ -49,9 +49,9 @@ public class CourseDAOImpl implements CourseDao {
 
     @Override
     public List<Course> getCoursesListByStudentIdOrNull(int studentId) {
-        List<CourseStudent> courseStudents = dbT.getByField(""+studentId, "studentId", CourseStudent.class);
+        List<CourseStudent> courseStudents = dbT.getByField("" + studentId, "studentId", CourseStudent.class);
         List<Course> courses = new ArrayList<>();
-        for (CourseStudent cs: courseStudents) {
+        for (CourseStudent cs : courseStudents) {
             courses.add(db.getByID(cs.getCourseId(), Course.class));
         }
         return courses;
