@@ -1,5 +1,9 @@
 package com.yevheniimakar.domain;
 
+import com.yevheniimakar.annotation.CsvDb;
+
+
+@CsvDb (tableName = "coursstudent")
 public class CourseStudent {
 
     private int StudentId;

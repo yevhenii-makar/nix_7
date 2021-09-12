@@ -26,13 +26,13 @@ public class DbCsvConfig<E> {
 
         createDbField(dbPath, fields, Integer.parseInt(getAutoIncrement(dbPath)));
 
-        try (FileWriter fileWriter = new FileWriter(dbPath); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+        try (FileWriter fileWriter = new FileWriter(dbPath, true); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
 
             for (String[] line : db) {
-                bufferedWriter.append(getStringData(line));
+                bufferedWriter.newLine();
+                bufferedWriter.write(getStringData(line));
             }
             bufferedWriter.close();
-            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,6 +41,9 @@ public class DbCsvConfig<E> {
     public List<E> getAll(Class<?> clazz) {
         String dbPath = clazz.getAnnotation(CsvDb.class).tableName() + ".csv";
         List<String[]> db = getCsvDb(dbPath);
+        //        for (int i = 3; i < db.size() ; i++) {
+        //
+        //        }
         List<E> eList = db.stream().skip(3).map(d -> {return getObjectFromStringArray(clazz, d);}).collect(Collectors.toList());
         return eList;
     }
@@ -55,6 +58,9 @@ public class DbCsvConfig<E> {
         }
 
         String dbPath = clazz.getAnnotation(CsvDb.class).tableName() + ".csv";
+        if (!isDbFileExist(dbPath)) {
+            createDbField(dbPath, fields, 1);
+        }
         String[] head = getHead(dbPath);
         int finalFieldPosition = fieldPosition;
         return this.getCsvDb(dbPath).stream().skip(3).filter(s -> s[finalFieldPosition].equals(fieldValue)).map(d -> {return getObjectFromStringArray(clazz, d);}).collect(Collectors.toList());
@@ -66,6 +72,9 @@ public class DbCsvConfig<E> {
         Field[] fields = clazz.getDeclaredFields();
         String identificationFieldName = getIdentificationFieldName(fields);
         String dbPath = clazz.getAnnotation(CsvDb.class).tableName() + ".csv";
+        if (!isDbFileExist(dbPath)) {
+            createDbField(dbPath, fields, 1);
+        }
         String[] head = getHead(dbPath);
         int identificationFieldPosition = getIdentificationPosition(head, identificationFieldName);
         String[] data = new String[0];
@@ -79,23 +88,28 @@ public class DbCsvConfig<E> {
     }
 
     public void delete(E e) {
+
         String dbPath = e.getClass().getAnnotation(CsvDb.class).tableName() + ".csv";
         String identificationFieldName = this.getIdentificationFieldName(e.getClass().getDeclaredFields());
-        String[] head = this.getHeaderTable(dbPath);
+        if (!isDbFileExist(dbPath)) {
+            createDbField(dbPath, e.getClass().getDeclaredFields(), 1);
+        }
+        String[] head = this.getHead(dbPath);
         String[] data = getStringArrayFromObject(e);
         int identificationFieldPosition = getIdentificationPosition(head, identificationFieldName);
+
 
         if (this.existId(Integer.parseInt(data[identificationFieldPosition]), dbPath, identificationFieldName)) {
             List<String[]> db = this.getCsvDb(dbPath);
             db = db.stream().skip(3).filter(s -> !s[identificationFieldPosition].equals(data[identificationFieldPosition])).collect(Collectors.toList());
-            saveDB(db, e.getClass().getFields(), dbPath);
+            saveDB(db, e.getClass().getDeclaredFields(), dbPath);
         }
     }
 
     public void update(E e) {
         String dbPath = e.getClass().getAnnotation(CsvDb.class).tableName() + ".csv";
         String identificationFieldName = this.getIdentificationFieldName(e.getClass().getDeclaredFields());
-        String[] head = this.getHeaderTable(dbPath);
+        String[] head = this.getHead(dbPath);
         String[] data = getStringArrayFromObject(e);
         int identificationFieldPosition = getIdentificationPosition(head, identificationFieldName);
 
@@ -107,7 +121,7 @@ public class DbCsvConfig<E> {
                 }
                 return s;
             }).collect(Collectors.toList());
-            saveDB(db, e.getClass().getFields(), dbPath);
+            saveDB(db, e.getClass().getDeclaredFields(), dbPath);
         }
     }
 
@@ -152,16 +166,26 @@ public class DbCsvConfig<E> {
     }
 
     private boolean existId(int id, String dbPath, String identificationFieldName) {
-
-        if (this.getCsvDb(dbPath).stream().skip(1).filter(s -> s[3].equals("" + id)).collect(Collectors.toList()).size() == 0) {
+        int identificationPosition = getIdentificationPosition(getHead(dbPath), identificationFieldName);
+        if (this.getCsvDb(dbPath).stream().skip(3).filter(s -> s[identificationPosition].equals("" + id)).collect(Collectors.toList()).size() == 0) {
             return false;
         }
         return true;
     }
 
     private String getAutoIncrement(String dbPath) {
+        String increment = "";
+        try (FileReader fileReader = new FileReader(dbPath); BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+            for (int i = 0; i < 1; i++) {
+                bufferedReader.readLine();
+            }
+            increment = bufferedReader.readLine();
 
-        return "";
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return increment;
     }
 
 
@@ -172,8 +196,9 @@ public class DbCsvConfig<E> {
             createDbField(dbPath, e.getClass().getDeclaredFields(), 1);
         }
 
-        try (FileWriter fileWriter = new FileWriter(dbPath); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-            bufferedWriter.append(getStringData(getStringArrayFromObject(e)));
+        try (FileWriter fileWriter = new FileWriter(dbPath, true); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+            bufferedWriter.newLine();
+            bufferedWriter.write(getStringData(getStringArrayFromObject(e)));
             bufferedWriter.close();
             fileWriter.close();
         } catch (IOException ex) {
@@ -201,7 +226,7 @@ public class DbCsvConfig<E> {
             String value = "";
             fields[i].setAccessible(true);
             try {
-                isIdentificationFieldAdd = (!isIdentificationFieldAdd && fields[i].isAnnotationPresent(CsvDbAutoIncrement.class) && ("" + fields[i]).equals("0")) ? true : isIdentificationFieldAdd;
+                isIdentificationFieldAdd = (!isIdentificationFieldAdd && fields[i].isAnnotationPresent(CsvDbAutoIncrement.class) && ("" + fields[i].get(e)).equals("0")) ? true : isIdentificationFieldAdd;
                 value = (isIdentificationFieldAdd && fields[i].isAnnotationPresent(CsvDbAutoIncrement.class)) ? getAutoIncrement(dbPath) : ("" + fields[i].get(e));
             } catch (IllegalAccessException illegalAccessException) {
                 illegalAccessException.printStackTrace();
@@ -231,38 +256,42 @@ public class DbCsvConfig<E> {
     private void updateAutoIncrement(String dbPath) {
         int autoIncrement = Integer.parseInt(getAutoIncrement(dbPath)) + 1;
         List<String[]> db = getCsvDb(dbPath);
-        if (db != null) db.set(1, fromStringToStringArr("" + autoIncrement));
+        if (db != null) {
+            db.set(1, fromStringToStringArr("" + autoIncrement));
+        }
+        try (FileWriter fileWriter = new FileWriter(dbPath); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+            for (int i = 0; i < db.size(); i++) {
+                bufferedWriter.append(getStringData(db.get(i)));
+                if (i < (db.size() - 1)) {
+                    bufferedWriter.newLine();
+                }
+            }
+            //            for (String[] line : db) {
+            //                bufferedWriter.append(getStringData(line));
+            ////                bufferedWriter.newLine();
+            //            }
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public String[] getHeaderTable(String dbPath) {
-
-        return null;
-    }
 
     private boolean isDbFileExist(String dbPath) {
+
         return new File(dbPath).exists();
     }
 
     private void createDbCsvFile(String dbPath, String[] fields, int incrementValue) {
         String head = getStringData(fields);
         String increment = "increment";
-        File file = new File(dbPath);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try (FileWriter fileWriter = new FileWriter(file,true); BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(dbPath))) {
+
+        try (FileWriter fileWriter = new FileWriter(dbPath); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
             bufferedWriter.write(increment);
             bufferedWriter.newLine();
-            bufferedWriter.write(""+incrementValue);
+            bufferedWriter.write("" + incrementValue);
             bufferedWriter.newLine();
             bufferedWriter.write(head);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            fileWriter.flush();
-            fileWriter.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -275,6 +304,7 @@ public class DbCsvConfig<E> {
                 bufferedReader.readLine();
             }
             header = fromStringToStringArr(bufferedReader.readLine());
+
             bufferedReader.close();
             fileReader.close();
         } catch (IOException e) {
@@ -292,8 +322,9 @@ public class DbCsvConfig<E> {
         return 0;
     }
 
-    private E getObjectFromStringArray(Class clazz, String[] data) {
-        String[] head = getHead(clazz.getName() + ".csv");
+    private E getObjectFromStringArray(Class<?> clazz, String[] data) {
+        String dbPath = clazz.getAnnotation(CsvDb.class).tableName() + ".csv";
+        String[] head = getHead(dbPath);
         Field[] fields = clazz.getDeclaredFields();
         E e = null;
         try {
@@ -312,6 +343,7 @@ public class DbCsvConfig<E> {
                 for (int j = 0; j < head.length; j++) {
                     if (fields[i].getName().equals(head[j])) {
                         try {
+                            fields[i].setAccessible(true);
                             fields[i].setInt(e, Integer.parseInt(data[i]));
                         } catch (IllegalAccessException illegalAccessException) {
                             illegalAccessException.printStackTrace();
@@ -323,6 +355,7 @@ public class DbCsvConfig<E> {
                 for (int j = 0; j < head.length; j++) {
                     if (fields[i].getName().equals(head[j])) {
                         try {
+                            fields[i].setAccessible(true);
                             fields[i].set(e, data[i]);
                         } catch (IllegalAccessException illegalAccessException) {
                             illegalAccessException.printStackTrace();

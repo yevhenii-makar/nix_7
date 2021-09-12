@@ -63,15 +63,13 @@ public class StudentServiceImpl implements StudentService {
             student.setId(studentObject.getId());
             student.setName(studentObject.getName());
             if (studentObject.getCourse() != null && studentObject.getCourse().size() > 0) {
-                int[] courses = new int[studentObject.getCourse().size()];
+                List<Integer>courses = new ArrayList<>();
                 for (int i = 0; i < studentObject.getCourse().size(); i++) {
                     if (studentObject.getCourse().get(i) != null) {
-                        courses[i] = studentObject.getCourse().get(i).getId();
-                    } else {
-                        courses[i] = -1;
+                        courses.add(studentObject.getCourse().get(i).getId());
                     }
                 }
-                studentDao.updateStudent(student);
+                studentDao.updateStudent(student, courses);
             } else {
                 studentDao.updateStudent(student);
             }

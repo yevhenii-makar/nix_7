@@ -21,7 +21,7 @@ public class StudentController {
     private CourseService courseService = new CourseServiceImpl();
 
 
-    @RunTask (runTaskName = "Create student", order = 0)
+    @RunTask (runTaskName = "add student", order = 0)
     public void createStudent() {
         System.out.println("enter student name");
         String studentName = ConsoleReader.getStringFromConsole();
@@ -67,7 +67,7 @@ public class StudentController {
         System.out.print("enter student id");
         int id = ConsoleReader.integerReader();
         StudentObject studentObject = studentService.getStudentByIdWithCourseList(id);
-        System.out.println("Student id = " + studentObject.getId() + " course name = " + studentObject.getName());
+        System.out.println("Student id = " + studentObject.getId() + " student name = " + studentObject.getName());
         if (studentObject.getCourse() != null) {
             System.out.println("course list on course:");
             for (int i = 0; i < studentObject.getCourse().size(); i++) {

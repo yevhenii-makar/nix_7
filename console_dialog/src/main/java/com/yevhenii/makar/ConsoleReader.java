@@ -30,6 +30,7 @@ public class ConsoleReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return "";
     }
 

@@ -66,14 +66,11 @@ public class CourseServiceImpl implements CourseService {
             course.setId(courseObject.getId());
             course.setName(courseObject.getName());
             if (courseObject.getStudent() != null && courseObject.getStudent().size() > 0) {
-                int[] students = new int[courseObject.getStudent().size()];
+                List<Integer >students = new ArrayList<>();
                 for (int i = 0; i < courseObject.getStudent().size(); i++) {
                     if (courseObject.getStudent().get(i) != null) {
-                        students[i] = courseObject.getStudent().get(i).getId();
-                    } else {
-                        students[i] = -1;
-                    }
-                }
+                        students.add(courseObject.getStudent().get(i).getId());
+                    }                }
                 courseDao.updateCourse(course);
             } else {
                 courseDao.updateCourse(course);

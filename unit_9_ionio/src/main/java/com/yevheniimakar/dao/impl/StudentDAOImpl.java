@@ -62,7 +62,7 @@ public class StudentDAOImpl implements StudentDao {
 
     @Override
     public List<Student> getAllStudents() {
-        return null;
+       return db.getAll(Student.class);
     }
 
 }

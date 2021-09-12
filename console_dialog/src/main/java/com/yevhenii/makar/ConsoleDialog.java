@@ -116,7 +116,9 @@ public class ConsoleDialog {
         for (int i = 0; i < methodsList.size(); i++) {
             methodMessage = methodMessage + (i + 1) + " - " + methodsList.get(i).getAnnotation(RunTask.class).runTaskName() + "\n";
         }
-        System.out.println(methodMessage);
+        methodMessage = methodMessage +"\nYour choice:";
+
+        System.out.print(methodMessage);
 
         while (isContinue){
             int change = ConsoleReader.integerReader();

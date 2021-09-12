@@ -15,7 +15,7 @@ import com.yevheniimakar.service.objects.StudentObject;
 import java.util.ArrayList;
 import java.util.List;
 
-@Task (taskName = "Course CRUD", order = 0)
+@Task (taskName = "Course CRUD", order = 1)
 public class CourseController {
 
     private StudentService studentService = new StudentServiceImpl();
@@ -125,16 +125,18 @@ public class CourseController {
 
 
     public void creatDB() {
-        String name = "test";
-        String postfix = "I";
-        for (int i = 0; i < 10; i++) {
-            StudentObject studentObject = new StudentObject();
-            studentObject.setName(name + postfix);
-            studentService.createStudent(studentObject);
-            CourseObject courseObject = new CourseObject();
-            courseObject.setName(name + i);
-            courseService.createCourse(courseObject);
-            postfix += "I";
+        if (studentService.getAllStudentObject().size()==0 || courseService.getAllCourseObject().size() == 0) {
+            String name = "test";
+            String postfix = "I";
+            for (int i = 0; i < 10; i++) {
+                StudentObject studentObject = new StudentObject();
+                studentObject.setName(name + postfix);
+                studentService.createStudent(studentObject);
+                CourseObject courseObject = new CourseObject();
+                courseObject.setName(name + i);
+                courseService.createCourse(courseObject);
+                postfix += "I";
+            }
         }
     }
 
