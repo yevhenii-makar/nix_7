@@ -16,6 +16,7 @@ public class NameController {
 
     @RunTask (runTaskName = " get unique name using loop", order = 1)
     public void UniqueNameNameUsingLoop() {
+        System.out.println("save file \"name.txt\" to directory \"module_2\" and press any key");
         List<String> names = fileReaderWriter.readNameFile();
         System.out.println();
         System.out.println("unique name - " + uniqueName.getUniqueNameUsingLoop(names));
@@ -23,6 +24,7 @@ public class NameController {
 
     @RunTask (runTaskName = " get unique name using stream", order = 2)
     public void UniqueNameNameUsingStream() {
+        System.out.println("save file \"name.txt\" to directory \"module_2\" and press any key");
         List<String> names = fileReaderWriter.readNameFile();
         System.out.println();
         System.out.println("unique name - " + uniqueName.getUniqueNameUsingStream(names));
