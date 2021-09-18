@@ -29,7 +29,7 @@ public class Bracket {
         return result;
     }
 
-    @RunTask(runTaskName = "Bracket")
+    @RunTask(runTaskName = "Bracket", order = 1)
     public void startBracket (){
         int coordinateCY;
         boolean isContinue = true;

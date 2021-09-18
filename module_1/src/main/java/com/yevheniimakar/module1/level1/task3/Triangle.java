@@ -27,7 +27,7 @@ public class Triangle {
 
         return sideLength;
     }
-    @RunTask (runTaskName = "Area of triangle")
+    @RunTask (runTaskName = "Area of triangle" , order = 1)
     public void startAreaOfTriangle(){
         int coordinateAX;
         int coordinateAY;

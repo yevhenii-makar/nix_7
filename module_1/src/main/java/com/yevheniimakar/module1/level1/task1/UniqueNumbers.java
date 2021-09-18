@@ -28,7 +28,7 @@ public class UniqueNumbers {
 
     }
 
-    @RunTask(runTaskName = "Unique numbers")
+    @RunTask(runTaskName = "Unique numbers",order = 0)
     public void startTask(){
         System.out.println("Your choice uniqueNumbers from arr");
         boolean isContinue = true;

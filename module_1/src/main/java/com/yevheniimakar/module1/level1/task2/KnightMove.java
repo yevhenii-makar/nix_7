@@ -20,7 +20,7 @@ public class KnightMove {
         return false;
     }
 
-    @RunTask(runTaskName = "Can knight move")
+    @RunTask(runTaskName = "Can knight move", order = 1)
     public void runKnightMove() {
         int startCoordinateX;
         int startCoordinateY;

@@ -1,47 +1,22 @@
 package com.yevheniimakar.date.service.impl;
 
 import com.yevheniimakar.date.constant.Constant;
-import com.yevheniimakar.date.object.CustomDateObject;
+import com.yevheniimakar.date.exceptions.WrongDataException;
+import com.yevheniimakar.date.object.DateObject;
 import com.yevheniimakar.date.service.CustomDateFormatter;
-import com.yevheniimakar.exceptions.WrongDataException;
-import com.yevheniimakar.exceptions.WrongFormatException;
 import org.apache.commons.text.CaseUtils;
 
 
 public class CustomDateFormatterImpl implements CustomDateFormatter {
 
-    private static String customDateFormatInput = "dd-MM-yyyy hh:mm:ss:SSS";
-    private static String customDateFormatOutput = "dd-MM-yyyy hh:mm:ss:SSS";
+    private static final String customDateFormatInput1 = "yyyy/MM/dd";
+    private static final String customDateFormatInput2 = "dd/MM/yyyy";
+    private static final String customDateFormatInput3 = "MM-dd-yyyy";
+    private static final String customDateFormatOutput = "yyyyMMdd";
 
-    public String getInputFormat() {
-        return customDateFormatInput;
-    }
-
-    @Override
-    public void setInputFormat(final String format) {
-
-        if (this.checkDateFormat(format)) {
-            customDateFormatInput = format;
-        } else {
-            throw new WrongFormatException("format " + format + " is not valid");
-        }
-    }
-
-    public String getOutputFormat() {
-        return customDateFormatOutput;
-    }
 
     @Override
-    public void setOutputFormat(final String format) {
-        if (this.checkDateFormat(format)) {
-            customDateFormatOutput = format;
-        } else {
-            throw new WrongFormatException("format " + format + " is not valid");
-        }
-    }
-
-    @Override
-    public String convertDateFromCustomDateToString(final CustomDateObject customDateObject) {
+    public String convertDateFromCustomDateToString(final DateObject customDateObject) {
         return this.convertDateFromMillisecondsToString(customDateObject.getDateInMilliseconds());
     }
 
@@ -128,7 +103,7 @@ public class CustomDateFormatterImpl implements CustomDateFormatter {
             }
         }
         if (date.contains(Constant.PATTERN_MONTH_NAME)) {
-            month = CustomDateFormatterImpl.Month.values()[months - 1].name();
+            month = Month.values()[months - 1].name();
             month = CaseUtils.toCamelCase(month, true);
             date = date.replaceAll(Constant.PATTERN_MONTH_NAME, month);
         }
@@ -180,11 +155,9 @@ public class CustomDateFormatterImpl implements CustomDateFormatter {
         return currentMonth;
     }
 
-    public long convertDateFromStringToMilliseconds(final String date) throws WrongDataException {
+    public long convertDateFromStringToMilliseconds(final String date) {
 
-        if (this.isDateNotMatchToFormat(date)) {
-            throw new WrongDataException("Data " + date + "is not valid");
-        } else {
+        if (!this.isDateNotMatchToFormat(date)) {
             int years = 0;
             int leapYears = 0;
             int month = 1;
@@ -194,8 +167,16 @@ public class CustomDateFormatterImpl implements CustomDateFormatter {
             int seconds = 0;
             long milliseconds = 0;
             final String[] inputDateArray = date.split(Constant.PATTERN_ALLOWED_CHARACTERS, -1);
-            final String[] inputDateFormatArray = customDateFormatInput.split(Constant.PATTERN_ALLOWED_CHARACTERS);
-
+            String[] inputDateFormatArray = customDateFormatInput1.split(Constant.PATTERN_ALLOWED_CHARACTERS);
+            if (date.matches("[0-9]{0,4}/[0-9]{2}/[0-9]{2}")) {
+                inputDateFormatArray = customDateFormatInput1.split(Constant.PATTERN_ALLOWED_CHARACTERS);
+            }
+            if (date.matches("[0-9]{2}/[0-9]{2}/[0-9]{0,4}")) {
+                inputDateFormatArray = customDateFormatInput2.split(Constant.PATTERN_ALLOWED_CHARACTERS);
+            }
+            if (date.matches("[0-9]{2}-[0-9]{2}-[0-9]{0,4}")) {
+                inputDateFormatArray = customDateFormatInput3.split(Constant.PATTERN_ALLOWED_CHARACTERS);
+            }
 
             for (int i = 0; i < inputDateFormatArray.length; i++) {
                 if (inputDateFormatArray[i].equals(Constant.PATTERN_YEAR_LONG)) {
@@ -251,6 +232,7 @@ public class CustomDateFormatterImpl implements CustomDateFormatter {
 
             return milliseconds;
         }
+        return 0;
     }
 
     private void isValidData(final int data, final int compareWith, final String type) throws WrongDataException {
@@ -260,8 +242,15 @@ public class CustomDateFormatterImpl implements CustomDateFormatter {
     }
 
     private boolean isDateNotMatchToFormat(final String date) {
-        final String rex = customDateFormatInput.replaceAll(Constant.REG_EX_DATE_FORMAT, Constant.REG_EX_DATE_FORMAT_REPLACE).replaceAll(Constant.REG_EX_MONTH, Constant.REG_EX_MONTH_REPLACE);
-        return !date.matches(rex);
+        boolean result = true;
+        final String rex1 = customDateFormatInput1.replaceAll(Constant.REG_EX_DATE_FORMAT, Constant.REG_EX_DATE_FORMAT_REPLACE).replaceAll(Constant.REG_EX_MONTH, Constant.REG_EX_MONTH_REPLACE);
+        final String rex2 = customDateFormatInput2.replaceAll(Constant.REG_EX_DATE_FORMAT, Constant.REG_EX_DATE_FORMAT_REPLACE).replaceAll(Constant.REG_EX_MONTH, Constant.REG_EX_MONTH_REPLACE);
+        final String rex3 = customDateFormatInput3.replaceAll(Constant.REG_EX_DATE_FORMAT, Constant.REG_EX_DATE_FORMAT_REPLACE).replaceAll(Constant.REG_EX_MONTH, Constant.REG_EX_MONTH_REPLACE);
+        if (date.matches(rex1) || date.matches(rex2) || date.matches(rex3)) {
+            result = false;
+        }
+
+        return result;
     }
 
     private boolean checkDateFormat(final String dateFormat) {
