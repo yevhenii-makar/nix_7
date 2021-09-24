@@ -24,6 +24,7 @@ public class ConnectorDB {
         try(InputStream input = ConnectorDB.class.getResourceAsStream("/jdbc.properties")) {
             props.load(input);
         } catch (IOException e) {
+            System.err.println(e);
             throw new UncheckedIOException(e);
         }
 

@@ -3,8 +3,6 @@ package com.yevheniimakar.task;
 /**
  * reflection api
  * meta programing
- *
- *
  */
 
 import com.yevheniimakar.entity.Problem;
@@ -17,10 +15,10 @@ import java.util.Map;
 public class TaskInputData {
 
 
-    private Map<Integer, NodeInGraph> nodeInGraphMap;
     List<Problem> problems;
+    private Map<Integer, NodeInGraph> nodeInGraphMap;
 
-    public TaskInputData(Map<Integer, NodeInGraph> nodeInGraphMap,  List<Problem> problems) {
+    public TaskInputData(Map<Integer, NodeInGraph> nodeInGraphMap, List<Problem> problems) {
 
         this.nodeInGraphMap = nodeInGraphMap;
         this.problems = problems;
@@ -43,12 +41,10 @@ public class TaskInputData {
         this.problems = problems;
     }
 
-    public void resetPathLength(){
+    public void resetPathLength() {
         for (int i : nodeInGraphMap.keySet()) {
             nodeInGraphMap.get(i).setPathLength(-1);
         }
     }
-
-
 
 }

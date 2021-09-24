@@ -1,10 +1,10 @@
 package com.yevheniimakar.entity;
 
 import java.util.List;
-import java.util.Map;
 
 
 public class Location {
+
     private int id;
     private String name;
     private List<Route> routes;

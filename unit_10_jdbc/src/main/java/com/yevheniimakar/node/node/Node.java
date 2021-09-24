@@ -9,7 +9,6 @@ public class Node {
     private String name;
     private int index;
     private Map<Integer, Integer> indexNodeAndCost = new HashMap<Integer, Integer>();
-    // first Integer index of a city , second Integer cost
 
     public Node(String name, Map<Integer, Integer> indexNodeAndCost, int index) {
         this.name = name;

@@ -1,24 +1,24 @@
-package com.yevheniimakar.dao;
+package com.yevheniimakar.dao.impl;
 
-import com.yevheniimakar.config.ConnectorDB;
-import com.yevheniimakar.entity.Route;
+import com.yevheniimakar.dao.SolutionDAO;
 import com.yevheniimakar.entity.Solution;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 
-public class SolutionDAO {
+public class SolutionDAOImpl implements SolutionDAO {
+
     public static final String SQL_INSERT_SOLUTION = "INSERT INTO solutions (problem_id, coast) VALUES (?, ?)";
+    Connection connection;
 
+    public SolutionDAOImpl(Connection connection) {
+        this.connection = connection;
+    }
 
-    public void save(Solution solution){
-        try(Connection connection = ConnectorDB.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT_SOLUTION)) {
+    public void save(Solution solution) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_SOLUTION)) {
             connection.setAutoCommit(false);
             statement.setInt(1, solution.getProblemId());
             statement.setInt(2, solution.getCoast());
@@ -26,9 +26,9 @@ public class SolutionDAO {
             statement.executeBatch();
 
             connection.commit();
-
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.err.println(throwables);
         }
     }
+
 }

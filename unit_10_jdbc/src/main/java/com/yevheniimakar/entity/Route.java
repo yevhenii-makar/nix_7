@@ -1,14 +1,17 @@
 package com.yevheniimakar.entity;
 
-public class Problem {
+public class Route {
+
     private int id;
     private int fromId;
     private int toId;
+    private int coast;
 
-    public Problem(int id, int fromId, int toId) {
+    public Route(int id, int fromId, int toId, int coast) {
         this.id = id;
         this.fromId = fromId;
         this.toId = toId;
+        this.coast = coast;
     }
 
     public int getId() {
@@ -35,9 +38,12 @@ public class Problem {
         this.toId = toId;
     }
 
-    @Override
-    public String toString() {
-        return "Problem{" + "id=" + id + ", fromId=" + fromId + ", toId=" + toId + '}';
+    public int getCoast() {
+        return coast;
+    }
+
+    public void setCoast(int coast) {
+        this.coast = coast;
     }
 
 }
