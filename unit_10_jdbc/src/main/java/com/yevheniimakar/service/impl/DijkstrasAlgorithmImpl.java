@@ -1,10 +1,10 @@
-package com.yevheniimakar.node.service.impl;
+package com.yevheniimakar.service.impl;
 
 
 import com.yevheniimakar.entity.Problem;
 import com.yevheniimakar.entity.Solution;
-import com.yevheniimakar.node.node.NodeInGraph;
-import com.yevheniimakar.node.service.DijkstrasAlgorithm;
+import com.yevheniimakar.node.NodeInGraph;
+import com.yevheniimakar.service.DijkstrasAlgorithm;
 
 import java.util.Map;
 

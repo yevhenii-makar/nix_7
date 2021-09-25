@@ -1,10 +1,10 @@
-package com.yevheniimakar.node.service.impl;
+package com.yevheniimakar.service.impl;
 
 
 import com.yevheniimakar.entity.Location;
 import com.yevheniimakar.entity.Route;
-import com.yevheniimakar.node.node.NodeInGraph;
-import com.yevheniimakar.node.service.NodeInGraphService;
+import com.yevheniimakar.node.NodeInGraph;
+import com.yevheniimakar.service.NodeInGraphService;
 
 import java.util.HashMap;
 import java.util.List;

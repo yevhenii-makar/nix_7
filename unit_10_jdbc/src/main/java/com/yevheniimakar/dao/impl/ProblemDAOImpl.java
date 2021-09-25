@@ -14,7 +14,7 @@ import java.util.List;
 public class ProblemDAOImpl implements ProblemDAO {
 
     public static final String SQL_SELECT_All_WITHOUT_SOLUTIONS = "SELECT * FROM problems WHERE id NOT IN (select problem_id from  solutions)";
-    Connection connection;
+    private final Connection connection;
 
     public ProblemDAOImpl(Connection connection) {
         this.connection = connection;

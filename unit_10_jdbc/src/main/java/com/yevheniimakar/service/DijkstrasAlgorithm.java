@@ -1,9 +1,9 @@
-package com.yevheniimakar.node.service;
+package com.yevheniimakar.service;
 
 
 import com.yevheniimakar.entity.Problem;
 import com.yevheniimakar.entity.Solution;
-import com.yevheniimakar.node.node.NodeInGraph;
+import com.yevheniimakar.node.NodeInGraph;
 
 import java.util.Map;
 

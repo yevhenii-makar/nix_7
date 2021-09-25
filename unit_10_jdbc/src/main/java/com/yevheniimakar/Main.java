@@ -12,14 +12,15 @@ import com.yevheniimakar.dao.impl.RoutesDAOImpl;
 import com.yevheniimakar.dao.impl.SolutionDAOImpl;
 import com.yevheniimakar.entity.Problem;
 import com.yevheniimakar.entity.Solution;
-import com.yevheniimakar.node.node.NodeInGraph;
-import com.yevheniimakar.node.service.NodeInGraphService;
-import com.yevheniimakar.node.service.impl.DijkstrasAlgorithmImpl;
-import com.yevheniimakar.node.service.impl.NodeInGraphServiceImpl;
+import com.yevheniimakar.node.NodeInGraph;
+import com.yevheniimakar.service.NodeInGraphService;
+import com.yevheniimakar.service.impl.DijkstrasAlgorithmImpl;
+import com.yevheniimakar.service.impl.NodeInGraphServiceImpl;
 import com.yevheniimakar.task.TaskInputData;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,12 +47,16 @@ public class Main {
             problemList = problemDAO.getAllWithoutSolutions();
             nodeInGraphMap = nodeInGraphService.createNodInGraph(locationDAO.findAll(), routesDAO.getAll());
             taskInputData = new TaskInputData(nodeInGraphMap, problemList);
-
+            List<Solution> solutionList = new ArrayList<>();
             for (int i = 0; i < taskInputData.getProblems().size(); i++) {
                 Solution solution = new DijkstrasAlgorithmImpl().getSolution(taskInputData.getNodeInGraphMap(), taskInputData.getProblems().get(i));
-                solutionDAO.save(solution);
+                solutionList.add(solution);
                 taskInputData.resetPathLength();
             }
+            solutionDAO.saveAll(solutionList);
+
+
+
         } catch (SQLException throwables) {
             System.err.println(throwables);
         }

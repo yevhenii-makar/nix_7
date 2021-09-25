@@ -13,7 +13,7 @@ public class RoutesDAOImpl implements RoutesDAO {
 
     public static final String SQL_SELECT_BY_FROM_ID = "SELECT * FROM routes WHERE from_id = ?";
     public static final String SQL_SELECT_ALL_ROUTES = "SELECT * FROM routes";
-    Connection connection;
+    private final Connection connection;
 
     public RoutesDAOImpl(Connection connection) {
         this.connection = connection;

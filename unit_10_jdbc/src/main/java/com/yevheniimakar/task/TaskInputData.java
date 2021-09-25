@@ -6,7 +6,7 @@ package com.yevheniimakar.task;
  */
 
 import com.yevheniimakar.entity.Problem;
-import com.yevheniimakar.node.node.NodeInGraph;
+import com.yevheniimakar.node.NodeInGraph;
 
 import java.util.List;
 import java.util.Map;

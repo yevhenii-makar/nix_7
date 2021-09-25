@@ -15,7 +15,7 @@ public class LocationDAOImpl implements LocationDAO {
 
     public static final String SQL_SELECT_ALL_LOCATION = "SELECT * FROM locations";
     public static final String SQL_SELECT_BY_ID = "SELECT * FROM locations WHERE id = ?";
-    Connection connection;
+    private final Connection connection;
 
 
     public LocationDAOImpl(Connection connection) {

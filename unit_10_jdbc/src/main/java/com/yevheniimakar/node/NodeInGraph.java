@@ -1,4 +1,4 @@
-package com.yevheniimakar.node.node;
+package com.yevheniimakar.node;
 
 import java.util.Map;
 import java.util.Objects;
