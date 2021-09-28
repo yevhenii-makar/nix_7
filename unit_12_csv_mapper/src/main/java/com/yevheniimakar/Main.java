@@ -1,17 +1,25 @@
 package com.yevheniimakar;
 
-import com.yevhenii.makar.Application;
-import com.yevheniimakar.controller.CourseController;
 
-import java.io.IOException;
+import com.yevheniimakar.annotation.CsvMapping;
+import com.yevheniimakar.domain.Student;
+import com.yevheniimakar.mapper.CsvMapper;
+import com.yevheniimakar.parser.CsvParser;
+
+import java.util.List;
 
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
 
-        new CourseController().creatDB();
-        Application.run(Main.class);
+        CsvParser csvParser = new CsvParser();
+        CsvMapper csvMapper =  new CsvMapper();
+
+        List<Student> studentList = csvMapper.getObjectList(Student.class,csvParser.getCsvDb(args[0]));
+
+        studentList.stream().forEach(System.out::println);
+
     }
 
 }

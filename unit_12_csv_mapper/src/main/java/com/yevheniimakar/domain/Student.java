@@ -7,11 +7,8 @@ import com.yevheniimakar.annotation.CsvMapping;
 import java.time.LocalDate;
 
 
-enum Gender {MALE, FEMALE, UNKNOWN}
-
 @CsvDb (tableName = "students")
 public class Student {
-
 
     @CsvMapping ("gender")
     Gender gender;
@@ -41,6 +38,13 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    enum Gender {MALE, FEMALE, UNKNOWN}
+
+    @Override
+    public String toString() {
+        return "Student{" + "gender=" + gender + ", active=" + active + ", engagementScore=" + engagementScore + ", id=" + id + ", name='" + name + '\'' + ", birthDate=" + birthDate + '}';
     }
 
 }

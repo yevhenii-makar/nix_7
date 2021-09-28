@@ -1,0 +1,3 @@
+id,name,engagementScore,birthDate,active,gender
+1,vasya,2.1,1999-01-15,true,MALE
+2,vasyatwo,2.5,1999-04-05,false,MALE

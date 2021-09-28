@@ -2,7 +2,8 @@ package com.yevheniimakar.appproperty;
 
 import com.yevheniimakar.annotations.PropertyKey;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 
 public class AppProperties {
@@ -23,7 +24,7 @@ public class AppProperties {
     private float floatProp;
 
     @PropertyKey ("property.date")
-    private Date dateProp;
+    private LocalDate dateProp;
 
     @PropertyKey ("property.char")
     private char charProp;
@@ -68,11 +69,11 @@ public class AppProperties {
         this.floatProp = floatProp;
     }
 
-    public Date getDateProp() {
+    public LocalDate getDateProp() {
         return dateProp;
     }
 
-    public void setDateProp(Date dateProp) {
+    public void setDateProp(LocalDate dateProp) {
         this.dateProp = dateProp;
     }
 
