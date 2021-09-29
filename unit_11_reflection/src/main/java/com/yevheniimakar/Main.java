@@ -14,6 +14,8 @@ public class Main {
         Factory factory = new Factory();
 
         AppProperties appProperties = (AppProperties) factory.map(AppProperties.class, properties);
+
+        System.out.println(appProperties);
     }
 
 }

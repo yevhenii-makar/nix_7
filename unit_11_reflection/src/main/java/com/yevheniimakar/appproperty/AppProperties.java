@@ -85,4 +85,9 @@ public class AppProperties {
         this.charProp = charProp;
     }
 
+    @Override
+    public String toString() {
+        return "AppProperties{" + "stringProp='" + stringProp + '\'' + ", intProp=" + intProp + ", doubleProp=" + doubleProp + ", longProp=" + longProp + ", floatProp=" + floatProp + ", dateProp=" + dateProp + ", charProp=" + charProp + '}';
+    }
+
 }
