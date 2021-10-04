@@ -7,5 +7,6 @@ import javax.persistence.EntityManager;
 
 public interface OccupationDao {
 
-    Occupation getNextOccupationByStudentId(EntityManager entityManager);
+    Occupation getNextOccupationByStudentIdCriteria(EntityManager entityManager, long id);
+    Occupation getNextOccupationByStudentIdHQL(EntityManager entityManager, long id);
 }

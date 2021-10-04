@@ -1,6 +1,9 @@
 package com.yevheniimakar;
 
+import com.yevheniimakar.dao.OccupationDao;
+import com.yevheniimakar.dao.impl.OccupationDaoImpl;
 import com.yevheniimakar.entity.Group;
+import com.yevheniimakar.entity.Occupation;
 import com.yevheniimakar.entity.Student;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -12,39 +15,18 @@ public class Main {
 
     public static void main(String[] args) {
         Configuration configuration = new Configuration().configure();
+        OccupationDao occupationDao = new OccupationDaoImpl();
+
 
         try (SessionFactory sessionFactory = configuration.buildSessionFactory()) {
             EntityManager entityManager = sessionFactory.createEntityManager();
 
-            addStudent(entityManager);
+            Occupation occupation = occupationDao.getNextOccupationByStudentIdHQL(entityManager,1l);
         }
     }
 
-    private static void addStudent(EntityManager entityManager) {
-
-        try {
-            entityManager.getTransaction().begin();
-            Student student = new Student();
-            student.setFirstName("Vasya");
-            student.setLastName("Pupkin");
-            student.seteMail("Pupkin@vasya.com");
-
-            entityManager.persist(student);
-
-            Group group = new Group();
-            group.setName("group1");
-            group.addStudent(student);
-
-            entityManager.persist(group);
-
-            entityManager.merge(student);
 
 
-            entityManager.getTransaction().commit();
 
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-        }
-    }
 
 }

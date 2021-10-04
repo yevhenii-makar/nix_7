@@ -9,13 +9,14 @@ import java.time.LocalDateTime;
 @Table (name="occupations")
 public class Occupation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
     @JoinColumn (name = "theme_id", referencedColumnName = "id")
     Theme theme;
 
-    LocalDateTime DateTime;
+    LocalDateTime dateTime;
 
     @ManyToOne
     @JoinColumn (name = "teacher_id", referencedColumnName = "id")
@@ -42,11 +43,11 @@ public class Occupation {
     }
 
     public LocalDateTime getDateTime() {
-        return DateTime;
+        return dateTime;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
-        DateTime = dateTime;
+        dateTime = dateTime;
     }
 
     public Teacher getTeacher() {
