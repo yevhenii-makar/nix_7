@@ -1,29 +1,29 @@
 package com.yevheniimakar.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
 @Entity
-@Table (name="occupations")
-public class Occupation {
+@Table(name = "lessons")
+public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn (name = "theme_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "theme_id", referencedColumnName = "id")
     Theme theme;
 
+    @Column
     LocalDateTime dateTime;
 
     @ManyToOne
-    @JoinColumn (name = "teacher_id", referencedColumnName = "id")
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     Teacher teacher;
 
     @ManyToOne
-    @JoinColumn (name = "group_id", referencedColumnName = "id")
+    @JoinColumn(name = "group_id", referencedColumnName = "id")
     Group group;
 
     public Long getId() {
@@ -56,6 +56,14 @@ public class Occupation {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
 }

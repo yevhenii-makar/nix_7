@@ -7,8 +7,8 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/unit_13</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">0000</property>
+<!--        <property name="hibernate.connection.username">postgres</property>-->
+<!--        <property name="hibernate.connection.password">0000</property>-->
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
@@ -16,7 +16,7 @@
         <property name="hibernate.format_sql">true</property>
         <mapping class="com.yevheniimakar.entity.Student"/>
         <mapping class="com.yevheniimakar.entity.Teacher"/>
-        <mapping class="com.yevheniimakar.entity.Occupation"/>
+        <mapping class="com.yevheniimakar.entity.Lesson"/>
         <mapping class="com.yevheniimakar.entity.Evaluation"/>
         <mapping class="com.yevheniimakar.entity.Theme"/>
         <mapping class="com.yevheniimakar.entity.Group"/>

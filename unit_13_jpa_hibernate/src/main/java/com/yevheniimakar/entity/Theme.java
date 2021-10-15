@@ -1,18 +1,27 @@
 package com.yevheniimakar.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
-@Table (name="themes")
+@Table(name = "themes")
 public class Theme {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "theme", fetch = FetchType.LAZY)
+    private final List<Lesson> lessons;
+
+    public Theme() {
+        this.lessons = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;

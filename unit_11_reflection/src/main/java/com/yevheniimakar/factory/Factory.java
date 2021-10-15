@@ -17,9 +17,7 @@ public class Factory<T> {
         Class<?> fieldType;
         Field field;
         String propertyName;
-        T t = null;
-
-        t = (T) type.getDeclaredConstructor().newInstance();
+        T t = (T) type.getDeclaredConstructor().newInstance();
 
         for (int i = 0; i < fieldList.length; i++) {
             propertyName = fieldList[i].getAnnotation(PropertyKey.class).value();

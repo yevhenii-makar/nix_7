@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</property>
+<!--        <property name="hikari.dataSource.cachePrepStmts">true</property>-->
+<!--        <property name="hikari.dataSource.prepStmtCacheSize">250</property>-->
+<!--        <property name="hikari.dataSource.prepStmtCacheSqlLimit">2048</property>-->
+<!--        <property name="hikari.dataSource.useServerPrepStmts">true</property>-->
+        <property name="hikari.maximumPoolSize">1</property>
+        <property name="hikari.idleTimeout">30000</property>
+        <property name="hibernate.hikari.dataSourceClassName">org.postgresql.ds.PGSimpleDataSource</property>
+        <property name="hikari.dataSource.url">jdbc:postgresql://localhost:5432/module_3</property>
+        <property name="hikari.dataSource.user">postgres</property>
+        <property name="hikari.dataSource.password">0000</property>
+
+
+<!--        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>-->
+<!--        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/module_3</property>-->
+<!--        <property name="hibernate.connection.username">postgres</property>-->
+<!--        <property name="hibernate.connection.password">0000</property>-->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <mapping class="com.yevheniimakar.entity.User"/>
+        <mapping class="com.yevheniimakar.entity.Category"/>
+        <mapping class="com.yevheniimakar.entity.IncomeCategory"/>
+        <mapping class="com.yevheniimakar.entity.ConsumptionCategory"/>
+        <mapping class="com.yevheniimakar.entity.Account"/>
+        <mapping class="com.yevheniimakar.entity.Operation"/>
+    </session-factory>
+
+</hibernate-configuration>

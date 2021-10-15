@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name="students")
+@Table(name = "students")
 public class Student {
 
     @Id
@@ -25,12 +25,12 @@ public class Student {
     @Column(nullable = false)
     private String eMail;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     @Access(AccessType.PROPERTY)
     private Group group;
 
-    @OneToMany(mappedBy="student", fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     List<Evaluation> evaluationList;
 
     public Student() {
@@ -77,7 +77,7 @@ public class Student {
         this.group = group;
     }
 
-    public void addEvaluation(Evaluation evaluation){
+    public void addEvaluation(Evaluation evaluation) {
         evaluationList.add(evaluation);
         evaluation.setStudent(this);
     }

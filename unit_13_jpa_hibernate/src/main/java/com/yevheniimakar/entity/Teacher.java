@@ -6,19 +6,19 @@ import java.util.List;
 
 
 @Entity
-@Table (name = "teachers")
+@Table(name = "teachers")
 public class Teacher {
 
-    @OneToMany (mappedBy = "teacher", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
     List<Evaluation> evaluationList;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String FirstName;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String LastName;
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String eMail;
 
     public Teacher() {

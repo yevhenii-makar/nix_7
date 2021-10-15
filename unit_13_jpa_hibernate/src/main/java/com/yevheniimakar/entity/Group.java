@@ -6,25 +6,25 @@ import java.util.List;
 
 
 @Entity
-@Table (name="groups")
+@Table(name = "groups")
 public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @OneToMany (mappedBy = "group")
+    @OneToMany(mappedBy = "group")
     private List<Student> studentList;
 
-    @OneToMany (mappedBy = "group")
-    private List<Occupation> occupationList;
+    @OneToMany(mappedBy = "group")
+    private final List<Lesson> lessonList;
 
     public Group() {
         this.studentList = new ArrayList<>();
-        this.occupationList = new ArrayList<>();
+        this.lessonList = new ArrayList<>();
     }
 
     public Long getId() {
@@ -51,11 +51,10 @@ public class Group {
         this.studentList = studentList;
     }
 
-    public void addStudent(Student student){
+    public void addStudent(Student student) {
         studentList.add(student);
         student.setGroup(this);
     }
-
 
 
 }
