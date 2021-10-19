@@ -8,15 +8,15 @@ import javax.persistence.*;
 public class Evaluation {
     @ManyToOne
     @JoinColumn(name = "student_id")
-    Student student;
+    private Student student;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
-    Teacher teacher;
+    private Teacher teacher;
 
     @ManyToOne
     @JoinColumn(name = "theme_id", referencedColumnName = "id")
-    Theme theme;
+    private Theme theme;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

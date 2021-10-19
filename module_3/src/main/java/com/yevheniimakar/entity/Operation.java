@@ -16,7 +16,7 @@ public class Operation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @Access(AccessType.PROPERTY)
-    Category category;
+    private Category category;
 
     private Long value;
 
@@ -25,7 +25,7 @@ public class Operation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     @Access(AccessType.PROPERTY)
-    Account account;
+    private Account account;
 
     public Long getId() {
         return id;

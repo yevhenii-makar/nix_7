@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 public class LessonDaoImpl implements LessonDao {
 
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     public LessonDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;

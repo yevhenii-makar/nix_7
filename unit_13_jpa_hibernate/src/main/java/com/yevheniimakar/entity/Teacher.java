@@ -10,7 +10,7 @@ import java.util.List;
 public class Teacher {
 
     @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
-    List<Evaluation> evaluationList;
+    private List<Evaluation> evaluationList;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

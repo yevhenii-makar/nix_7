@@ -7,17 +7,17 @@ import java.util.List;
 
 public class UserDto {
 
-    Long id;
+    private Long id;
 
-    String phoneNumber;
+    private String phoneNumber;
 
-    String firstName;
-
-
-    String lastName;
+    private String firstName;
 
 
-    List<AccountDto> accountDtos;
+    private String lastName;
+
+
+    private List<AccountDto> accountDtos;
 
     public Long getId() {
         return id;

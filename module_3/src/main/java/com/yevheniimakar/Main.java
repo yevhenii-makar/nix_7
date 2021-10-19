@@ -7,9 +7,9 @@ import com.yevheniimakar.controller.ReportController;
 import com.yevheniimakar.dto.UserDto;
 import com.yevheniimakar.service.UserService;
 import com.yevheniimakar.service.impl.UserServiceImpl;
+import com.yevheniimakar.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.yevheniimakar.util.Util;
 
 
 public class Main {
@@ -23,29 +23,28 @@ public class Main {
 
         UserService userService = new UserServiceImpl();
         UserDto userDto = userService.getUserDtoByPhoneNumber(args[0]);
-        if(userDto!=null){
+        if (userDto != null) {
             System.out.println("press 1 to add new operaion or press 2 to create report");
             String choice = Util.getStringFromConsole().trim();
-            switch (choice){
-                case "1":{
+            switch (choice) {
+                case "1": {
                     log.info("coiced add new operation");
                     OperationController operationController = new OperationController();
                     operationController.addOperation(userDto);
                     break;
                 }
-                case "2":{
+                case "2": {
                     log.info("coiced create report");
                     ReportController reportController = new ReportController();
                     reportController.createReport(userDto);
                     break;
                 }
-                default:{
+                default: {
                     log.error("incorrect coice : {}", choice);
                 }
 
             }
         }
-
 
 
     }

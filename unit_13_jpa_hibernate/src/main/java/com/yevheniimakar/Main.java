@@ -9,19 +9,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import javax.persistence.EntityManager;
-import java.util.Date;
 
 
 public class Main {
 
     public static void main(String[] args) {
 
-
-
-
         Configuration configuration = new Configuration().configure();
-        LessonDao lessonDao ;
-        LessonService lessonService ;
+        LessonDao lessonDao;
+        LessonService lessonService;
 
         EntityManager entityManager;
         LessonDTO lesson;

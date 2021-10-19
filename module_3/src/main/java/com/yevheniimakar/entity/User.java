@@ -14,20 +14,20 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @NaturalId
     @Column(nullable = false)
-    String phoneNumber;
+    private String phoneNumber;
 
     @Column(nullable = false)
-    String firstName;
+    private String firstName;
 
     @Column(nullable = false)
-    String lastName;
+    private String lastName;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    List<Account> accounts;
+    private List<Account> accounts;
 
     public User(Long id, String phoneNumber, String firstName, String lastName, List<Account> accounts) {
         this.id = id;

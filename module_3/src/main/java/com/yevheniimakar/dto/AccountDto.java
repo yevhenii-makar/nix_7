@@ -7,19 +7,18 @@ import javax.persistence.*;
 
 public class AccountDto {
 
-    Long id;
+    private Long id;
+
+    private Long balance;
 
 
-    Long balance;
+    private String name;
 
 
-    String name;
+    private String accountsNumber;
 
 
-    String accountsNumber;
-
-
-    Long userDtoId;
+    private Long userDtoId;
 
     public Long getId() {
         return id;

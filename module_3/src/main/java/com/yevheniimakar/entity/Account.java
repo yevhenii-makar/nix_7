@@ -16,25 +16,25 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(nullable = false)
-    Long balance;
+    private Long balance;
 
     @Column(nullable = false)
-    String name;
+    private String name;
 
     @NaturalId
-    String accountsNumber;
+    private String accountsNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @Access(AccessType.PROPERTY)
-    User user;
+    private User user;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
 
-    List<Operation> operations;
+    private List<Operation> operations;
 
     public Account(){
         this.operations = new ArrayList<>();

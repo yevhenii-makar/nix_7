@@ -13,18 +13,18 @@ public class Lesson {
 
     @ManyToOne
     @JoinColumn(name = "theme_id", referencedColumnName = "id")
-    Theme theme;
+    private Theme theme;
 
     @Column
-    LocalDateTime dateTime;
+    private LocalDateTime dateTime;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    Teacher teacher;
+    private Teacher teacher;
 
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "id")
-    Group group;
+    private Group group;
 
     public Long getId() {
         return id;
