@@ -8,8 +8,8 @@ create table users
 
 create table roles
 (
-    id serial primary key,
-    role_name text
+    id serial primary key ,
+    role_name text unique
 );
 
 create table users_roles
@@ -26,7 +26,7 @@ create table manufacturers
 create table units
 (
     id serial primary key,
-    name text
+    name text unique
 );
 
 

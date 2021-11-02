@@ -6,7 +6,7 @@ public class InMemoryDB {
 
     private static ConcurrentHashMap<String,String> uniqueIP = new ConcurrentHashMap<>();
 
-    public static ConcurrentHashMap<String,String> getMap(){
+    public ConcurrentHashMap<String,String> getMap(){
         return uniqueIP;
     }
 }

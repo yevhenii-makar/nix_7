@@ -12,10 +12,20 @@ import java.util.concurrent.ConcurrentHashMap;
 @WebServlet(name = "sample-servlet", urlPatterns = "/sample")
 public class UserCounter extends HttpServlet {
 
+    private ConcurrentHashMap<String, String> uniqueIP;
+
+
+
+    @Override
+    public void init() {
+        uniqueIP = new InMemoryDB().getMap();
+        // либо без InMemoryDB uniqueIP = = new ConcurrentHashMap<>();
+    }
+
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        ConcurrentHashMap<String, String> uniqueIP = InMemoryDB.getMap();
         PrintWriter responseBody = resp.getWriter();
 
         String currentClient = req.getParameter("client") != null ? req.getParameter("client") : "anonymous";
