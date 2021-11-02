@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  final_project-store:
+    image: final_project:0.0.1-SNAPSHOT
+    container_name: belt_cutting_service
+    environment:
+      MESSAGE_DB_HOST: db
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres:13
+    container_name: belt_cutting_db
+    restart: always
+    environment:
+       POSTGRES_USER: postgres
+       POSTGRES_PASSWORD: pass
+       POSTGRES_DB: belt_cutting
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db-data:
+    driver: local
