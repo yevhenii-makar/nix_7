@@ -1,4 +1,4 @@
 package com.yevheniimakar.beltcutting.service;
 
-public interface CardServive {
+public interface RoleService {
 }

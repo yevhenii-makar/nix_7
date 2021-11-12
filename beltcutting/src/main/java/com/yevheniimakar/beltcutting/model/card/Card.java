@@ -1,4 +1,7 @@
-package com.yevheniimakar.beltcutting.model;
+package com.yevheniimakar.beltcutting.model.card;
+
+import com.yevheniimakar.beltcutting.model.Manufacturer;
+import com.yevheniimakar.beltcutting.model.unit.Unit;
 
 import javax.persistence.*;
 
@@ -11,22 +14,22 @@ public class Card {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private Long count;
+    private Long count = 0L;
 
-    @Column(nullable = false)
+    private Long price;
+
     private Integer size;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manufacturers_id")
+    @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accessories_id")
+    @JoinColumn(name = "accessory_id")
     private Card accessory;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "units_id")
+    @JoinColumn(name = "unit_id")
     private Unit unit;
 
 
@@ -88,4 +91,11 @@ public class Card {
         this.unit = unit;
     }
 
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
 }

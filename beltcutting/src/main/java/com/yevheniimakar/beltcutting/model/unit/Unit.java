@@ -1,17 +1,16 @@
-package com.yevheniimakar.beltcutting.model;
+package com.yevheniimakar.beltcutting.model.unit;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "complectations")
-public class Complectation {
+@Table(name = "units")
+public class Unit {
 
     @Id
     private int id;
-    private Integer size;
-
+    private String name;
 
     public int getId() {
         return id;
@@ -21,13 +20,12 @@ public class Complectation {
         this.id = id;
     }
 
-    public Integer getSize() {
-        return size;
+    public String getName() {
+        return name;
     }
 
-    public void setSize(Integer size) {
-        this.size = size;
+    public void setName(String name) {
+        this.name = name;
     }
-
 
 }

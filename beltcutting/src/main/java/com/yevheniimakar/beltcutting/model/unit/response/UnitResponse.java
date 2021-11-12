@@ -1,16 +1,18 @@
-package com.yevheniimakar.beltcutting.model;
+package com.yevheniimakar.beltcutting.model.unit.response;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.yevheniimakar.beltcutting.model.unit.Unit;
 
-@Entity
-@Table(name = "units")
-public class Unit {
+public class UnitResponse {
 
-    @Id
     private int id;
     private String name;
+
+    public UnitResponse() {}
+
+   public UnitResponse(Unit unit) {
+        this.id = unit.getId();
+        this.name = unit.getName();
+    }
 
     public int getId() {
         return id;
@@ -27,5 +29,4 @@ public class Unit {
     public void setName(String name) {
         this.name = name;
     }
-
 }

@@ -1,4 +1,7 @@
-package com.yevheniimakar.beltcutting.model;
+package com.yevheniimakar.beltcutting.model.piece;
+
+import com.yevheniimakar.beltcutting.model.unit.Unit;
+import com.yevheniimakar.beltcutting.model.card.Card;
 
 import javax.persistence.*;
 
@@ -12,12 +15,13 @@ public class Piece {
     private Integer piecesNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "units_id")
+    @JoinColumn(name = "unit_id")
     private Unit unit;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cards_id")
+    @JoinColumn(name = "card_id")
     private Card card;
+
 
     public Long getId() {
         return id;

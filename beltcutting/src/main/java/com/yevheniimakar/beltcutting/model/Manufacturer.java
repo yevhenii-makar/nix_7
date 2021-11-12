@@ -1,5 +1,7 @@
 package com.yevheniimakar.beltcutting.model;
 
+import com.yevheniimakar.beltcutting.model.card.Card;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;

@@ -1,15 +1,21 @@
 package com.yevheniimakar.beltcutting.model;
 
 
+import com.yevheniimakar.beltcutting.model.task.Task;
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
+import java.time.OffsetDateTime;
+import java.util.EnumMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)
@@ -18,14 +24,27 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @NaturalId(mutable = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id"))
-    private Set<Role> roles;
+    @ManyToMany
+    @JoinTable(name = "user_authorities",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id")
+    )
+    @MapKeyEnumerated(EnumType.ORDINAL)
+    @MapKey(name = "id")
+    private Map<KnownAuthority, UserAuthority> authorities = new EnumMap<>(KnownAuthority.class);
+
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private UserStatus status = UserStatus.ACTIVE;
+
+
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
 
     @OneToMany(mappedBy = "user")
     private List<Task> tasks;
@@ -66,11 +85,51 @@ public class User {
         this.email = email;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Map<KnownAuthority, UserAuthority> getAuthorities() {
+        return authorities;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setAuthorities(Map<KnownAuthority, UserAuthority> authorities) {
+        this.authorities = authorities;
     }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return email.equals(user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return email.hashCode();
+    }
+
+
+
 }
