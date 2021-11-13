@@ -1,5 +1,7 @@
 package com.yevheniimakar.beltcutting.model;
 
+import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +17,7 @@ public class UserAuthority {
 
     @ManyToMany(mappedBy = "authorities")
     @SuppressWarnings("FieldMayBeFinal")
-    private Set<User> users = new HashSet<>();
+    private Set<BeltCuttingUser> beltCuttingUsers = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -38,8 +40,8 @@ public class UserAuthority {
         this.id = id;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public Set<BeltCuttingUser> getBeltCuttingUsers() {
+        return beltCuttingUsers;
     }
 
 }

@@ -2,7 +2,7 @@ package com.yevheniimakar.beltcutting.model.task;
 
 import com.yevheniimakar.beltcutting.model.complectation.Complectation;
 import com.yevheniimakar.beltcutting.model.card.Card;
-import com.yevheniimakar.beltcutting.model.User;
+import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -29,7 +29,7 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private BeltCuttingUser beltCuttingUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id")
@@ -92,12 +92,12 @@ public class Task {
         this.status = status;
     }
 
-    public User getUser() {
-        return user;
+    public BeltCuttingUser getBeltCuttingUser() {
+        return beltCuttingUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setBeltCuttingUser(BeltCuttingUser beltCuttingUser) {
+        this.beltCuttingUser = beltCuttingUser;
     }
 
     public Card getCard() {

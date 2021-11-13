@@ -8,11 +8,11 @@ public final class BeltCuttingExceptions {
     private BeltCuttingExceptions() {}
 
     public static ResponseStatusException userNotFound(String email) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, "User with email " + email + " not found");
+        return new ResponseStatusException(HttpStatus.NOT_FOUND, "BeltCuttingUser with email " + email + " not found");
     }
 
     public static ResponseStatusException userNotFound(Long id) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id " + id + " not found");
+        return new ResponseStatusException(HttpStatus.NOT_FOUND, "BeltCuttingUser with id " + id + " not found");
     }
 
     public static ResponseStatusException taskNotFound(Long id) {

@@ -14,7 +14,7 @@
         <property name="hikari.idleTimeout">30000</property>
         <property name="hibernate.hikari.dataSourceClassName">org.postgresql.ds.PGSimpleDataSource</property>
         <property name="hikari.dataSource.url">jdbc:postgresql://localhost:5432/module_3</property>
-        <property name="hikari.dataSource.user">postgres</property>
+        <property name="hikari.dataSource.beltCuttingUser">postgres</property>
         <property name="hikari.dataSource.password">0000</property>
 
 

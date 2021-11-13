@@ -1,6 +1,9 @@
-package com.yevheniimakar.beltcutting.model;
+package com.yevheniimakar.beltcutting.model.user;
 
 
+import com.yevheniimakar.beltcutting.model.KnownAuthority;
+import com.yevheniimakar.beltcutting.model.UserAuthority;
+import com.yevheniimakar.beltcutting.model.UserStatus;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import org.hibernate.annotations.NaturalId;
 
@@ -12,7 +15,7 @@ import java.util.Map;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class BeltCuttingUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -121,8 +124,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return email.equals(user.email);
+        BeltCuttingUser beltCuttingUser = (BeltCuttingUser) o;
+        return email.equals(beltCuttingUser.email);
     }
 
     @Override

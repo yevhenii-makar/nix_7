@@ -1,7 +1,7 @@
 package com.yevheniimakar.beltcutting.service.impl;
 
 import com.yevheniimakar.beltcutting.exceptions.BeltCuttingExceptions;
-import com.yevheniimakar.beltcutting.model.User;
+import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 import com.yevheniimakar.beltcutting.model.card.Card;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
@@ -57,19 +57,19 @@ public class TaskServiceImpl implements TaskService {
     public Page<TaskResponseViewInList> getUserTaskList(Pageable pageable, Authentication authentication) {
 
         List<List> statuses = userAuthorityService.getStatuses(authentication);
-        User user = getUser(authentication);
-        return taskRepository.findByTaskStatusListAndUser(user, statuses.get(0), statuses.get(1), pageable).map(o -> new TaskResponseViewInList((Task) o));
+        BeltCuttingUser beltCuttingUser = getUser(authentication);
+        return taskRepository.findByTaskStatusListAndUser(beltCuttingUser, statuses.get(0), statuses.get(1), pageable).map(o -> new TaskResponseViewInList((Task) o));
     }
 
     @Override
     public TaskResponseSingle update(Long id, TaskUpdateRequest request, Authentication authentication) {
 
-        User user = getUser(authentication);
+        BeltCuttingUser beltCuttingUser = getUser(authentication);
         Task task = getTask(id);
 
         if ((userAuthorityService.isManager(authentication)
                 && userAuthorityService.getManagerStatuses().contains(request.getStatus())
-                && user.equals(task.getUser()))
+                && beltCuttingUser.equals(task.getBeltCuttingUser()))
                 || userAuthorityService.isAdmin(authentication)) {
             if (task.getStatus().equals(TaskStatus.CREATED)) {
                 task.setName(request.getName());
@@ -97,7 +97,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskResponseSingle changeTaskStatus(Long id, TaskStatus status, Authentication authentication) {
-        User user = getUser(authentication);
+        BeltCuttingUser beltCuttingUser = getUser(authentication);
         Task task = getTask(id);
 
         if (status != task.getStatus()) {
@@ -106,7 +106,7 @@ public class TaskServiceImpl implements TaskService {
             } else {
                 if (userAuthorityService.isManager(authentication)
                         && userAuthorityService.getManagerStatuses().contains(task.getStatus())
-                        && user.equals(task.getUser())) {
+                        && beltCuttingUser.equals(task.getBeltCuttingUser())) {
                     task.setStatus(status);
                 } else if ((userAuthorityService.isTechnicalSpecialist(authentication) && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW))
                         || (userAuthorityService.isMachineOperator(authentication) && task.getStatus().equals(TaskStatus.PRODUCTION_REVIEW))) {
@@ -120,12 +120,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskResponseSingle create(TaskCreateRequest request, Authentication authentication) {
-        User user = getUser(authentication);
+        BeltCuttingUser beltCuttingUser = getUser(authentication);
         Card card = getCard(request.getCardId());
 
         Task task = new Task();
 
-        task.setUser(user);
+        task.setBeltCuttingUser(beltCuttingUser);
         task.setName(request.getName());
         task.setMessage(request.getMessage());
         task.setStatus(TaskStatus.CREATED);
@@ -143,7 +143,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Optional<TaskResponseSingle> findById(Long id, Authentication authentication) {
-        User user = getUser(authentication);
+        BeltCuttingUser beltCuttingUser = getUser(authentication);
         return Optional.empty();
     }
 
@@ -152,7 +152,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
 
-    private User getUser(Authentication authentication) {
+    private BeltCuttingUser getUser(Authentication authentication) {
         String email = (String) authentication.getPrincipal();
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> BeltCuttingExceptions.userNotFound(email));
