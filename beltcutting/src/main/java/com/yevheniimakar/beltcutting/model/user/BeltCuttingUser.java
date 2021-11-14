@@ -2,7 +2,6 @@ package com.yevheniimakar.beltcutting.model.user;
 
 
 import com.yevheniimakar.beltcutting.model.KnownAuthority;
-import com.yevheniimakar.beltcutting.model.UserAuthority;
 import com.yevheniimakar.beltcutting.model.UserStatus;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import org.hibernate.annotations.NaturalId;
@@ -38,7 +37,7 @@ public class BeltCuttingUser {
     )
     @MapKeyEnumerated(EnumType.ORDINAL)
     @MapKey(name = "id")
-    private Map<KnownAuthority, UserAuthority> authorities = new EnumMap<>(KnownAuthority.class);
+    private Map<KnownAuthority, BeltCuttingUserAuthority> authorities = new EnumMap<>(KnownAuthority.class);
 
 
     @Column(nullable = false)
@@ -49,7 +48,7 @@ public class BeltCuttingUser {
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "beltCuttingUser")
     private List<Task> tasks;
 
     public long getId() {
@@ -88,11 +87,11 @@ public class BeltCuttingUser {
         this.email = email;
     }
 
-    public Map<KnownAuthority, UserAuthority> getAuthorities() {
+    public Map<KnownAuthority, BeltCuttingUserAuthority> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(Map<KnownAuthority, UserAuthority> authorities) {
+    public void setAuthorities(Map<KnownAuthority, BeltCuttingUserAuthority> authorities) {
         this.authorities = authorities;
     }
 

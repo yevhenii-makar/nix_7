@@ -87,6 +87,7 @@ create table  pieces
     card_id integer references cards (id) 
 
 );
+
 create table task_statuses
 (
     id serial primary key,

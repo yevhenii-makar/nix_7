@@ -14,7 +14,7 @@ public class Card {
     @Column(nullable = false)
     private String name;
 
-    private Long count = 0L;
+    private Integer count = 0;
 
     private Long price;
 
@@ -51,11 +51,11 @@ public class Card {
     }
 
 
-    public Long getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(Long count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 

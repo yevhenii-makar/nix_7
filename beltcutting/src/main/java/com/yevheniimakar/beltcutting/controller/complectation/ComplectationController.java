@@ -1,4 +1,4 @@
-package com.yevheniimakar.beltcutting.controller.task;
+package com.yevheniimakar.beltcutting.controller.complectation;
 
 import com.yevheniimakar.beltcutting.Routes;
 import com.yevheniimakar.beltcutting.model.complectation.response.ComplectationTemplateResponse;

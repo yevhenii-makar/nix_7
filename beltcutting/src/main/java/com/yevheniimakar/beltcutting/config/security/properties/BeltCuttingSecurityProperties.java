@@ -10,7 +10,6 @@ import javax.validation.constraints.NotBlank;
 import java.util.Map;
 
 @Validated
-@Component
 @ConfigurationProperties(prefix = "belt-cutting.security")
 public class BeltCuttingSecurityProperties {
 

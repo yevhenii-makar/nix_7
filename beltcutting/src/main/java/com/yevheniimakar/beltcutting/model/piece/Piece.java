@@ -4,6 +4,7 @@ import com.yevheniimakar.beltcutting.model.unit.Unit;
 import com.yevheniimakar.beltcutting.model.card.Card;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "pieces")
@@ -65,4 +66,18 @@ public class Piece {
         this.card = card;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return Objects.equals(id, piece.id) &&
+                Objects.equals(size, piece.size) &&
+                Objects.equals(piecesNumber, piece.piecesNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, size, piecesNumber);
+    }
 }

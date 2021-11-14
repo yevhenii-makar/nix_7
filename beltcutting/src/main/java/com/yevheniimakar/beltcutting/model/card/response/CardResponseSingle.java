@@ -5,7 +5,7 @@ import com.yevheniimakar.beltcutting.model.card.Card;
 public class CardResponseSingle {
     private Long id;
     private String name;
-    private Long count;
+    private Integer count;
     private Long price;
     private Integer size;
     private String manufacturer;
@@ -41,11 +41,11 @@ public class CardResponseSingle {
         this.name = name;
     }
 
-    public Long getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(Long count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 

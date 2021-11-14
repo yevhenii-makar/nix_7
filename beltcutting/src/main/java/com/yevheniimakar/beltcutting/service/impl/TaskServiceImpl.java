@@ -1,6 +1,8 @@
 package com.yevheniimakar.beltcutting.service.impl;
 
 import com.yevheniimakar.beltcutting.exceptions.BeltCuttingExceptions;
+import com.yevheniimakar.beltcutting.model.complectation.Complectation;
+import com.yevheniimakar.beltcutting.model.piece.Piece;
 import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 import com.yevheniimakar.beltcutting.model.card.Card;
 import com.yevheniimakar.beltcutting.model.task.Task;
@@ -25,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -96,6 +100,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public TaskResponseSingle changeTaskStatus(Long id, TaskStatus status, Authentication authentication) {
         BeltCuttingUser beltCuttingUser = getUser(authentication);
         Task task = getTask(id);
@@ -108,15 +113,25 @@ public class TaskServiceImpl implements TaskService {
                         && userAuthorityService.getManagerStatuses().contains(task.getStatus())
                         && beltCuttingUser.equals(task.getBeltCuttingUser())) {
                     task.setStatus(status);
-                } else if ((userAuthorityService.isTechnicalSpecialist(authentication) && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW))
-                        || (userAuthorityService.isMachineOperator(authentication) && task.getStatus().equals(TaskStatus.PRODUCTION_REVIEW))) {
+                } else if (userAuthorityService.isTechnicalSpecialist(authentication) && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW)){
                     task.setStatus(status);
+                } else if (userAuthorityService.isMachineOperator(authentication) && task.getStatus().equals(TaskStatus.PRODUCTION_REVIEW)){
+                    task.setStatus(status);
+                    if(task.getStatus().equals(TaskStatus.READY)){
+                        List<Complectation> complectations = task.getComplectationList();
+                        for (Complectation c: complectations) {
+                            c.getPiece().setSize(c.getPiece().getSize()-c.getSize());
+                            c.getPiece().getCard().setCount(c.getPiece().getCard().getCount()-c.getSize());
+                        }
+                        task.getCard().setCount(task.getCount());
+                    }
                 }
 
             }
         }
         return new TaskResponseSingle(task);
     }
+
 
     @Override
     public TaskResponseSingle create(TaskCreateRequest request, Authentication authentication) {

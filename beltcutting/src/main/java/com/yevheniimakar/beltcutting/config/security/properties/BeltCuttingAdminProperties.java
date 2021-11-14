@@ -1,9 +1,12 @@
 package com.yevheniimakar.beltcutting.config.security.properties;
 
+import org.springframework.stereotype.Component;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 
 public class BeltCuttingAdminProperties {
 

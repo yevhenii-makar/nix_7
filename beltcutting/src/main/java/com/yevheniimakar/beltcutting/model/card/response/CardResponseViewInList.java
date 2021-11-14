@@ -7,7 +7,7 @@ public class CardResponseViewInList {
 
     private Long id;
     private String name;
-    private Long count;
+    private Integer count;
     private Long price;
     private String manufacturer;
     private String unit;
@@ -19,7 +19,7 @@ public class CardResponseViewInList {
 
     }
 
-    public CardResponseViewInList(Long id, String name, Long count, Long price, String manufacturer, String unit) {
+    public CardResponseViewInList(Long id, String name, Integer count, Long price, String manufacturer, String unit) {
         this.id = id;
         this.name = name;
         this.count = count;
@@ -52,11 +52,11 @@ public class CardResponseViewInList {
         this.name = name;
     }
 
-    public Long getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(Long count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 

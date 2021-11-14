@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import javax.validation.constraints.NotEmpty;
 import java.time.Duration;
 
-@Component
 public class BeltCuttingJWTProperties {
 
     @NotEmpty

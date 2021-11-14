@@ -7,11 +7,18 @@ public class Routes {
     }
 
 
+
     public static final String API_ROOT = "/api/v1";
 
     public static final String TASKS = API_ROOT + "/tasks";
 
     public static final String COMPLECTATION = API_ROOT + "/complectation";
+
+    public static final String USERS = API_ROOT + "/users";
+
+    public static final String PIECES = API_ROOT + "/pieces" ;
+
+    public static final String TOKEN = API_ROOT + "/token";
 
     public static String task(long id){
         return  TASKS+ '/' + id;

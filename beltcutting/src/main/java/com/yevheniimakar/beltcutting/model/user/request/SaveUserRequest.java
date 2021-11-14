@@ -24,6 +24,9 @@ public class SaveUserRequest {
         this.password = password;
     }
 
+    public SaveUserRequest(String email, String s, String key) {
+    }
+
     public String getEmail() {
         return email;
     }

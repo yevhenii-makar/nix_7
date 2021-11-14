@@ -1,6 +1,7 @@
 package com.yevheniimakar.beltcutting.config.security.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yevheniimakar.beltcutting.model.auth.request.SignInRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,8 +38,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new UncheckedIOException(e);
         }
         var authToken = new UsernamePasswordAuthenticationToken(
-                credentials.login(),
-                credentials.password()
+                credentials.getLogin(),
+                credentials.getPassword()
         );
         return getAuthenticationManager().authenticate(authToken);
     }

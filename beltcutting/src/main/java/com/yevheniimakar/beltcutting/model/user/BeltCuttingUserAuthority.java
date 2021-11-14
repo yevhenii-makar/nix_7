@@ -1,6 +1,6 @@
-package com.yevheniimakar.beltcutting.model;
+package com.yevheniimakar.beltcutting.model.user;
 
-import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
+import com.yevheniimakar.beltcutting.model.KnownAuthority;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "authorities")
-public class UserAuthority {
+public class BeltCuttingUserAuthority {
 
     @Id
     @Column(nullable = false, unique = true)
@@ -17,13 +17,13 @@ public class UserAuthority {
 
     @ManyToMany(mappedBy = "authorities")
     @SuppressWarnings("FieldMayBeFinal")
-    private Set<BeltCuttingUser> beltCuttingUsers = new HashSet<>();
+    private Set<BeltCuttingUser> users = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserAuthority that = (UserAuthority) o;
+        BeltCuttingUserAuthority that = (BeltCuttingUserAuthority) o;
         return id.equals(that.id);
     }
 
@@ -40,8 +40,7 @@ public class UserAuthority {
         this.id = id;
     }
 
-    public Set<BeltCuttingUser> getBeltCuttingUsers() {
-        return beltCuttingUsers;
+    public Set<BeltCuttingUser> getUsers() {
+        return users;
     }
-
 }

@@ -1,7 +1,11 @@
 package com.yevheniimakar.beltcutting.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yevheniimakar.beltcutting.Routes;
+import com.yevheniimakar.beltcutting.config.security.filters.JWTAuthenticationFilter;
+import com.yevheniimakar.beltcutting.config.security.filters.JWTAuthorizationFilter;
 import com.yevheniimakar.beltcutting.model.user.request.SaveUserRequest;
+import com.yevheniimakar.beltcutting.service.UserService;
 import com.yevheniimakar.beltcutting.service.impl.UserServiceImpl;
 import com.yevheniimakar.beltcutting.config.security.properties.BeltCuttingSecurityProperties;
 import org.slf4j.Logger;
@@ -63,9 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         List<SaveUserRequest> requests = securityProperties.getAdmins().entrySet().stream()
                 .map(entry -> new SaveUserRequest(
                         entry.getValue().getEmail(),
-                        new String(entry.getValue().getPassword()),
-                        entry.getKey()))
-                .peek(admin -> log.info("Default admin found: {} <{}>", admin.email()))
+                        new String(entry.getValue().getPassword())))
+                .peek(admin -> log.info("Default admin found: {} <{}>", admin.getEmail()))
                 .collect(Collectors.toList());
         userService.mergeAdmins(requests);
     }
@@ -111,7 +114,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private JWTAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        var filter = new JWTAuthenticationFilter(authenticationManager(), objectMapper);
+        JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager(), objectMapper);
         filter.setFilterProcessesUrl(Routes.TOKEN);
         return filter;
     }
