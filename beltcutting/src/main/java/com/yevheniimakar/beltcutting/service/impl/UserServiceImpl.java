@@ -1,10 +1,12 @@
 package com.yevheniimakar.beltcutting.service.impl;
 
+import com.yevheniimakar.beltcutting.exceptions.BeltCuttingExceptions;
 import com.yevheniimakar.beltcutting.model.KnownAuthority;
 import com.yevheniimakar.beltcutting.model.auth.BeltCuttingUserDetails;
 import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 import com.yevheniimakar.beltcutting.model.user.BeltCuttingUserAuthority;
 import com.yevheniimakar.beltcutting.model.user.request.SaveUserRequest;
+import com.yevheniimakar.beltcutting.model.user.response.UserResponse;
 import com.yevheniimakar.beltcutting.repository.AuthorityRepository;
 import com.yevheniimakar.beltcutting.repository.UserRepository;
 import com.yevheniimakar.beltcutting.service.UserService;
@@ -19,6 +21,7 @@ import java.time.OffsetDateTime;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -56,7 +59,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
-    private Map<KnownAuthority, BeltCuttingUserAuthority> getAdminAuthorities() {
+    @Override
+    public UserResponse create(SaveUserRequest request) {
+        validateUniqueFields(request);
+        return new UserResponse(save(request, getRegularUserAuthorities(request.getAuthorities())));
+    }
+
+    private Map<KnownAuthority, BeltCuttingUserAuthority> getAdminAuthorities( ) {
         return authorityRepository.findAllByIdIn(AuthorityRepository.ADMIN_AUTHORITIES)
                 .collect(Collectors.toMap(
                         BeltCuttingUserAuthority::getId,
@@ -72,5 +81,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User " + email + " not found"));
 
         return new BeltCuttingUserDetails(user);
+    }
+
+    private void validateUniqueFields(SaveUserRequest request) {
+        String email = request.getEmail();
+        if (userRepository.existsByEmail(email)) {
+            throw BeltCuttingExceptions.duplicateEmail(email);
+        }
+
+    }
+
+    private BeltCuttingUser save(SaveUserRequest request, Map<KnownAuthority, BeltCuttingUserAuthority> authorities) {
+        var user = new BeltCuttingUser();
+        user.getAuthorities().putAll(authorities);
+        user.setEmail(request.getEmail());
+        user.setName(request.getName());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setCreatedAt(OffsetDateTime.now());
+        userRepository.save(user);
+        return user;
+    }
+
+    private Map<KnownAuthority, BeltCuttingUserAuthority> getRegularUserAuthorities(Set<KnownAuthority> knownAuthorities) {
+        return authorityRepository.findAllByIdIn(knownAuthorities)
+                .collect(Collectors.toMap(
+                        BeltCuttingUserAuthority::getId,
+                        Function.identity(),
+                        (e1, e2) -> e2,
+                        () -> new EnumMap<>(KnownAuthority.class)));
     }
 }

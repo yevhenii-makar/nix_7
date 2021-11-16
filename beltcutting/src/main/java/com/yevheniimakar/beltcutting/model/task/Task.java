@@ -44,6 +44,28 @@ public class Task {
         this.complectationList = new ArrayList<>();
     }
 
+    public Task(Long id,
+                String name,
+                String message,
+                OffsetDateTime created_at,
+                OffsetDateTime updated_at,
+                TaskStatus status,
+                BeltCuttingUser beltCuttingUser,
+                Card card,
+                Integer count,
+                List<Complectation> complectationList) {
+        this.id = id;
+        this.name = name;
+        this.message = message;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.status = status;
+        this.beltCuttingUser = beltCuttingUser;
+        this.card = card;
+        this.count = count;
+        this.complectationList = complectationList;
+    }
+
     public Long getId() {
         return id;
     }

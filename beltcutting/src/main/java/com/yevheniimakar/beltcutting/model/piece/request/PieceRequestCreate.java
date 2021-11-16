@@ -1,14 +1,17 @@
 package com.yevheniimakar.beltcutting.model.piece.request;
 
+import javax.validation.constraints.Min;
+
 public class PieceRequestCreate {
 
+    @Min(value = 1, message = "The value must be more than zero")
     int size;
     Long unitId;
 
     public PieceRequestCreate() {
     }
 
-    public PieceRequestCreate(int size, Long unitId) {
+    public PieceRequestCreate(@Min(value = 1, message = "The value must be more than zero")int size, Long unitId) {
         this.size = size;
         this.unitId = unitId;
     }

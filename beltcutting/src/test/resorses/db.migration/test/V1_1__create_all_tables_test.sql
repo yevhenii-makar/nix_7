@@ -11,12 +11,12 @@ values (1, 'SUSPENDED');
 
 create table users
 (
-    id bigserial primary key,
+    id bigint primary key,
     name text,
     email text,
     password text,
     status     int         not null references user_statuses (id),
-    created_at timestamptz not null default now()
+    created_at timestamp with time zone not null default now()
 );
 
 create unique index users_email_uindex on users (email);
@@ -53,26 +53,24 @@ create table user_authorities
 
 create table manufacturers
 (
-    id serial primary key ,
+    id bigint primary key ,
     name text
 );
 
 create table units
 (
-    id serial primary key,
+    id bigint primary key,
     name text unique
 );
 
 
 create table cards
 (
-    id serial primary key,
+    id bigint primary key,
     name text,
     count int,
     price bigint,
     size integer,
-    created_at timestamptz not null default now(),
-    updated_at timestamptz not null default now(),
     unit_id integer references units (id) ,
     manufacturer_id integer references manufacturers (id) ,
     accessorY_id integer references cards (id) 
@@ -80,7 +78,7 @@ create table cards
 
 create table  pieces
 (
-    id serial primary key,
+    id bigint primary key,
     size integer,
     pieces_number integer,
     unit_id integer references units (id) ,
@@ -90,7 +88,7 @@ create table  pieces
 
 create table task_statuses
 (
-    id serial primary key,
+    id bigint primary key,
     value text
 );
 insert into task_statuses (id, value)
@@ -112,22 +110,22 @@ values (6, 'CANCELED');
 
 create table  tasks
 (
-    id serial primary key,
+    id bigint primary key,
     name text,
     message text,
     count integer,
     status integer references task_statuses (id) ,
     user_id integer references users (id) ,
     card_id integer references cards (id),
-    created_at timestamptz not null default now(),
-    updated_at timestamptz not null default now()
+    created_at timestamp with time zone not null default now(),
+    updated_at timestamp with time zone not null default now()
 
 
 );
 
 create table complectations
 (
-    id serial primary key,
+    id bigint primary key,
     size integer,
     task_id integer references tasks (id) ,
     card_id integer references cards (id) ,
@@ -139,8 +137,8 @@ create table refresh_tokens
 (
     value     uuid        not null primary key,
     user_id   bigint      not null,
-    issued_at timestamptz not null,
-    expire_at timestamptz not null,
+    issued_at timestamp with time zone not null,
+    expire_at timestamp with time zone not null,
     next      uuid,
     constraint refresh_tokens_user_fk foreign key (user_id)
         references users (id) on delete cascade,

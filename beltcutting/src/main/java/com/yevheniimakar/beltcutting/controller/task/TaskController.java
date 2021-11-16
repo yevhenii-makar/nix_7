@@ -45,7 +45,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public TaskResponseSingle getTask(@PathVariable Long id, Authentication authentication) {
-        return taskService.findById(id, authentication).orElseThrow(() -> BeltCuttingExceptions.taskNotFound(id));
+        return taskService.findById(id, authentication);
     }
 
     @PatchMapping("/{id}")

@@ -16,7 +16,6 @@
     <properties>
         <java.version>11</java.version>
         <java-jwt.version>3.18.2</java-jwt.version>
-        <tika.version>2.0.0</tika.version>
         <spring.security.core.version>5.5.3</spring.security.core.version>
         <springdoc.openapi.maven.plugin.version>1.0</springdoc.openapi.maven.plugin.version>
         <springdoc.openapi.ui.plugin.version>1.5.12</springdoc.openapi.ui.plugin.version>
@@ -89,11 +88,6 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>${spring.security.core.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-            <version>${tika.version}</version>
         </dependency>
     </dependencies>
 

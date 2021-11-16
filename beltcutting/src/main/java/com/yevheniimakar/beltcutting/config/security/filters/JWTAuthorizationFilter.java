@@ -42,7 +42,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         var securityContext = SecurityContextHolder.getContext();
 
         var authentication = securityContext.getAuthentication();
-        // if authenticated by other means, such as JWTAuthenticationFilter
+
         if (authentication != null && authentication.isAuthenticated()) {
             chain.doFilter(request, response);
             return;

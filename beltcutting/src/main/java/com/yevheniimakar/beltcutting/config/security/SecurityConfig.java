@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yevheniimakar.beltcutting.Routes;
 import com.yevheniimakar.beltcutting.config.security.filters.JWTAuthenticationFilter;
 import com.yevheniimakar.beltcutting.config.security.filters.JWTAuthorizationFilter;
-import com.yevheniimakar.beltcutting.model.user.request.SaveUserRequest;
-import com.yevheniimakar.beltcutting.service.UserService;
-import com.yevheniimakar.beltcutting.service.impl.UserServiceImpl;
 import com.yevheniimakar.beltcutting.config.security.properties.BeltCuttingSecurityProperties;
+import com.yevheniimakar.beltcutting.model.KnownAuthority;
+import com.yevheniimakar.beltcutting.model.user.request.SaveUserRequest;
+import com.yevheniimakar.beltcutting.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -28,6 +28,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.PostConstruct;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         List<SaveUserRequest> requests = securityProperties.getAdmins().entrySet().stream()
                 .map(entry -> new SaveUserRequest(
                         entry.getValue().getEmail(),
-                        new String(entry.getValue().getPassword())))
+                        new String(entry.getValue().getPassword()), EnumSet.of(KnownAuthority.ROLE_ADMIN)))
                 .peek(admin -> log.info("Default admin found: {} <{}>", admin.getEmail()))
                 .collect(Collectors.toList());
         userService.mergeAdmins(requests);
@@ -81,21 +82,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                // open static resources
+
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                // open swagger-ui
                 .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                // allow user registration and refresh, ignore authorization filters on login
                 .antMatchers(HttpMethod.POST, Routes.USERS, Routes.TOKEN + "/refresh").permitAll()
-                // admin can register new admins
                 .antMatchers(HttpMethod.POST, Routes.USERS + "/admins").hasRole("ADMIN")
-                // regular users can view basic user info for other users
-                .antMatchers(HttpMethod.GET,Routes.USERS + "/{id:\\d+}").authenticated()
-                // admin can manage users by id
-                .antMatchers(Routes.USERS + "/{id:\\d+}/**").hasRole("ADMIN")
-                // admin can use Actuator endpoints
+                .antMatchers(HttpMethod.POST, Routes.CARDS + "/{id:\\d+}").hasAnyRole("ADMIN", "TECHNICAL_SPECIALIST")
+                .antMatchers(HttpMethod.POST, Routes.PIECES + "/{id:\\d+}", Routes.PIECES + "/**/{id:\\d+}").hasAnyRole("ADMIN", "TECHNICAL_SPECIALIST")
+                .antMatchers(HttpMethod.POST, Routes.TASKS).hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers(HttpMethod.POST, Routes.ADMIN + "/**").hasRole("ADMIN")
+                .antMatchers( Routes.ADMIN + "/{id:\\d+}/**",Routes.ADMIN + "/**/{id:\\d+}").hasRole("ADMIN")
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
-                // by default, require authentication
                 .anyRequest().authenticated()
                 .and()
                 // auth filter

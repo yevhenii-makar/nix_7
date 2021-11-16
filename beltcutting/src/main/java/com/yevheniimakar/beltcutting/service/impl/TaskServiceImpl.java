@@ -1,16 +1,15 @@
 package com.yevheniimakar.beltcutting.service.impl;
 
 import com.yevheniimakar.beltcutting.exceptions.BeltCuttingExceptions;
-import com.yevheniimakar.beltcutting.model.complectation.Complectation;
-import com.yevheniimakar.beltcutting.model.piece.Piece;
-import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 import com.yevheniimakar.beltcutting.model.card.Card;
+import com.yevheniimakar.beltcutting.model.complectation.Complectation;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
 import com.yevheniimakar.beltcutting.model.task.request.TaskCreateRequest;
 import com.yevheniimakar.beltcutting.model.task.request.TaskUpdateRequest;
 import com.yevheniimakar.beltcutting.model.task.response.TaskResponseSingle;
 import com.yevheniimakar.beltcutting.model.task.response.TaskResponseViewInList;
+import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 import com.yevheniimakar.beltcutting.repository.CardRepository;
 import com.yevheniimakar.beltcutting.repository.TaskRepository;
 import com.yevheniimakar.beltcutting.repository.UserRepository;
@@ -25,10 +24,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -38,16 +35,15 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
     private final CardRepository cardRepository;
     private final ComplectationService complectationService;
-    private final UserAuthenticationService userAuthorityService;
+    private final UserAuthenticationService userAuthenticationService;
 
-    public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository, CardRepository cardRepository, ComplectationService complectationService, UserAuthenticationService userAuthorityService, UserAuthenticationService userAuthorityService1) {
+    public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository, CardRepository cardRepository, ComplectationService complectationService, UserAuthenticationService userAuthenticationService) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
         this.cardRepository = cardRepository;
         this.complectationService = complectationService;
-        this.userAuthorityService = userAuthorityService1;
+        this.userAuthenticationService = userAuthenticationService;
     }
-
 
     @Override
     @Transactional
@@ -60,7 +56,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public Page<TaskResponseViewInList> getUserTaskList(Pageable pageable, Authentication authentication) {
 
-        List<List> statuses = userAuthorityService.getStatuses(authentication);
+        List<List> statuses = userAuthenticationService.getStatuses(authentication);
         BeltCuttingUser beltCuttingUser = getUser(authentication);
         return taskRepository.findByTaskStatusListAndUser(beltCuttingUser, statuses.get(0), statuses.get(1), pageable).map(o -> new TaskResponseViewInList((Task) o));
     }
@@ -71,10 +67,10 @@ public class TaskServiceImpl implements TaskService {
         BeltCuttingUser beltCuttingUser = getUser(authentication);
         Task task = getTask(id);
 
-        if ((userAuthorityService.isManager(authentication)
-                && userAuthorityService.getManagerStatuses().contains(request.getStatus())
+        if ((userAuthenticationService.isManager(authentication)
+                && userAuthenticationService.getManagerStatuses().contains(request.getStatus())
                 && beltCuttingUser.equals(task.getBeltCuttingUser()))
-                || userAuthorityService.isAdmin(authentication)) {
+                || userAuthenticationService.isAdmin(authentication)) {
             if (task.getStatus().equals(TaskStatus.CREATED)) {
                 task.setName(request.getName());
                 task.setMessage(request.getMessage());
@@ -84,19 +80,20 @@ public class TaskServiceImpl implements TaskService {
             task.setName(request.getName());
             task.setCount(request.getCount());
             task.setCard(getCard(request.getCardId()));
+            task.setUpdated_at(OffsetDateTime.now());
 
-        } else if ((userAuthorityService.isTechnicalSpecialist(authentication) && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW))
-                || (userAuthorityService.isMachineOperator(authentication) && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW))) {
-            if(!task.getMessage().equals(request.getMessage())){
+        } else if ((userAuthenticationService.isTechnicalSpecialist(authentication) && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW))
+                || (userAuthenticationService.isMachineOperator(authentication) && task.getStatus().equals(TaskStatus.PRODUCTION_REVIEW))) {
+            if (!task.getMessage().equals(request.getMessage())) {
                 task.setMessage(task.getMessage() + "\n" + request.getMessage());
             }
-            if(userAuthorityService.isTechnicalSpecialist(authentication)){
-                task.setComplectationList(complectationService.saveComplectationList(task.getId(),request.getComplectationRequestList()));
+            if (userAuthenticationService.isTechnicalSpecialist(authentication)) {
+                task.setComplectationList(complectationService.saveComplectationList(task.getId(), request.getComplectationRequestList()));
             }
+        } else {
+            throw BeltCuttingExceptions.notHavingNecessaryPermissionsForGetTask(request.getId(), beltCuttingUser.getName());
         }
-
         return new TaskResponseSingle(task);
-
     }
 
     @Override
@@ -106,32 +103,30 @@ public class TaskServiceImpl implements TaskService {
         Task task = getTask(id);
 
         if (status != task.getStatus()) {
-            if (userAuthorityService.isAdmin(authentication)) {
+            if (userAuthenticationService.isAdmin(authentication)) {
                 task.setStatus(status);
             } else {
-                if (userAuthorityService.isManager(authentication)
-                        && userAuthorityService.getManagerStatuses().contains(task.getStatus())
+                if (userAuthenticationService.isManager(authentication)
+                        && userAuthenticationService.getManagerStatuses().contains(task.getStatus())
                         && beltCuttingUser.equals(task.getBeltCuttingUser())) {
                     task.setStatus(status);
-                } else if (userAuthorityService.isTechnicalSpecialist(authentication) && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW)){
+                } else if (userAuthenticationService.isTechnicalSpecialist(authentication) && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW)) {
                     task.setStatus(status);
-                } else if (userAuthorityService.isMachineOperator(authentication) && task.getStatus().equals(TaskStatus.PRODUCTION_REVIEW)){
+                } else if (userAuthenticationService.isMachineOperator(authentication) && task.getStatus().equals(TaskStatus.PRODUCTION_REVIEW)) {
                     task.setStatus(status);
-                    if(task.getStatus().equals(TaskStatus.READY)){
+                    if (task.getStatus().equals(TaskStatus.READY)) {
                         List<Complectation> complectations = task.getComplectationList();
-                        for (Complectation c: complectations) {
-                            c.getPiece().setSize(c.getPiece().getSize()-c.getSize());
-                            c.getPiece().getCard().setCount(c.getPiece().getCard().getCount()-c.getSize());
+                        for (Complectation c : complectations) {
+                            c.getPiece().setSize(c.getPiece().getSize() - c.getSize());
+                            c.getPiece().getCard().setCount(c.getPiece().getCard().getCount() - c.getSize());
                         }
                         task.getCard().setCount(task.getCount());
                     }
                 }
-
             }
         }
         return new TaskResponseSingle(task);
     }
-
 
     @Override
     public TaskResponseSingle create(TaskCreateRequest request, Authentication authentication) {
@@ -139,17 +134,17 @@ public class TaskServiceImpl implements TaskService {
         Card card = getCard(request.getCardId());
 
         Task task = new Task();
-
         task.setBeltCuttingUser(beltCuttingUser);
         task.setName(request.getName());
         task.setMessage(request.getMessage());
         task.setStatus(TaskStatus.CREATED);
         task.setCount(request.getCount());
         task.setCard(card);
+        task.setUpdated_at(OffsetDateTime.now());
+        task.setCreated_at(OffsetDateTime.now());
 
         return new TaskResponseSingle(taskRepository.save(task));
     }
-
 
     @Override
     public void deleteById(Long id) {
@@ -157,15 +152,23 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<TaskResponseSingle> findById(Long id, Authentication authentication) {
+    public TaskResponseSingle findById(Long id, Authentication authentication) {
         BeltCuttingUser beltCuttingUser = getUser(authentication);
-        return Optional.empty();
+        Task task = taskRepository.findById(id).orElseThrow(() -> BeltCuttingExceptions.taskNotFound(id));
+        if (!(userAuthenticationService.isAdmin(authentication)
+                || userAuthenticationService.isTechnicalSpecialist(authentication)
+                || userAuthenticationService.isMachineOperator(authentication))) {
+            if (userAuthenticationService.isManager(authentication)
+                    && !beltCuttingUser.equals(task.getBeltCuttingUser())) {
+                throw BeltCuttingExceptions.notHavingNecessaryPermissionsForGetTask(id, beltCuttingUser.getName());
+            }
+        }
+        return new TaskResponseSingle(task);
     }
 
     private Task getTask(long id) {
         return taskRepository.findById(id).orElseThrow(() -> BeltCuttingExceptions.taskNotFound(id));
     }
-
 
     private BeltCuttingUser getUser(Authentication authentication) {
         String email = (String) authentication.getPrincipal();
@@ -176,10 +179,5 @@ public class TaskServiceImpl implements TaskService {
     private Card getCard(Long id) {
         return cardRepository.findById(id).orElseThrow(() -> BeltCuttingExceptions.cardNotFound(id));
     }
-
-
-
-
-
 
 }

@@ -37,7 +37,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-        var authToken = new UsernamePasswordAuthenticationToken(
+        Authentication authToken = new UsernamePasswordAuthenticationToken(
                 credentials.getLogin(),
                 credentials.getPassword()
         );

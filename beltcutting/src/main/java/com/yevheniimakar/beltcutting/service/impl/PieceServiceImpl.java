@@ -1,6 +1,5 @@
 package com.yevheniimakar.beltcutting.service.impl;
 
-import com.yevheniimakar.beltcutting.exceptions.BeltCuttingNumberException;
 import com.yevheniimakar.beltcutting.model.card.Card;
 import com.yevheniimakar.beltcutting.model.piece.Piece;
 import com.yevheniimakar.beltcutting.model.piece.request.PieceRequestCreate;
@@ -39,7 +38,7 @@ public class PieceServiceImpl implements PieceService {
 
     @Override
     @Transactional
-    public List <PieceResponseViewInList> savePieceListByCardId(List<PieceRequestCreate> picesRequest, Long cardId) throws BeltCuttingNumberException {
+    public List <PieceResponseViewInList> savePieceListByCardId(List<PieceRequestCreate> picesRequest, Long cardId) {
         Card card = cardService.getCardById(cardId);
         Set<Integer> pieceNumberSet = pieceRepository.getPiecesNumberSetByCard(card);
         List<Unit> units = unitService.getAll();
@@ -47,10 +46,8 @@ public class PieceServiceImpl implements PieceService {
 
         for (PieceRequestCreate pc: picesRequest ) {
             Piece piece = new Piece();
-            if(pc.getSize() <= 0){
-               throw new BeltCuttingNumberException("pieces must be positive");
-            }
-                piece.setSize(pc.getSize());
+
+            piece.setSize(pc.getSize());
             piece.setCard(card);
 
             piece.setUnit(units.stream().filter(u -> u.getId() == pc.getUnitId()).findFirst().get());

@@ -23,7 +23,7 @@ public interface TaskService {
 
     void deleteById(Long id);
 
-    Optional<TaskResponseSingle> findById(Long id, Authentication authentication);
+    TaskResponseSingle findById(Long id, Authentication authentication);
 
 
     TaskResponseSingle changeTaskStatus(Long id, TaskStatus status, Authentication authentication);

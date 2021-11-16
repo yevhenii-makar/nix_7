@@ -16,6 +16,7 @@ public class TaskResponseSingle {
     private Long id;
     private String name;
     private String message;
+    private int count;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private OffsetDateTime updated_at;
     private TaskStatus status;
@@ -27,6 +28,7 @@ public class TaskResponseSingle {
         this.id = task.getId();
         this.name = task.getName();
         this.message = task.getMessage();
+        this.count = task.getCount();
         this.updated_at = task.getUpdated_at();
         this.status = task.getStatus();
         this.card = new CardResponseViewInList(task.getCard());
@@ -59,6 +61,14 @@ public class TaskResponseSingle {
         this.message = message;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public OffsetDateTime getUpdated_at() {
         return updated_at;
     }
@@ -81,5 +91,13 @@ public class TaskResponseSingle {
 
     public void setCard(CardResponseViewInList card) {
         this.card = card;
+    }
+
+    public List<ComplectationResponse> getComplectationResponses() {
+        return complectationResponses;
+    }
+
+    public void setComplectationResponses(List<ComplectationResponse> complectationResponses) {
+        this.complectationResponses = complectationResponses;
     }
 }

@@ -32,6 +32,19 @@ public class Card {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
+    public Card() {
+    }
+
+    public Card(Long id, String name, Integer count, Long price, Integer size, Manufacturer manufacturer, Card accessory, Unit unit) {
+        this.id = id;
+        this.name = name;
+        this.count = count;
+        this.price = price;
+        this.size = size;
+        this.manufacturer = manufacturer;
+        this.accessory = accessory;
+        this.unit = unit;
+    }
 
     public long getId() {
         return id;
