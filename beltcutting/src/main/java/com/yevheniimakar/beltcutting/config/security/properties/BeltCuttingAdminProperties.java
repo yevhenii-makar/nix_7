@@ -18,6 +18,9 @@ public class BeltCuttingAdminProperties {
     @Size(min = 8, message = "password's length must be at least 8")
     private char[] password;
 
+    @NotNull(message = "name must not be null")
+    private String name;
+
     public String getEmail() {
         return email;
     }
@@ -32,5 +35,13 @@ public class BeltCuttingAdminProperties {
 
     public void setPassword(char[] password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

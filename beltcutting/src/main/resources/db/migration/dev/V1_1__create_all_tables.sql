@@ -16,7 +16,7 @@ create table users
     email text,
     password text,
     status     int         not null references user_statuses (id),
-    created_at timestamp with time zone not null default now()
+    created_at timestamptz not null default now()
 );
 
 create unique index users_email_uindex on users (email);
@@ -117,8 +117,8 @@ create table  tasks
     status integer references task_statuses (id) ,
     user_id integer references users (id) ,
     card_id integer references cards (id),
-    created_at timestamp with time zone not null default now(),
-    updated_at timestamp with time zone not null default now()
+    created_at timestamptz not null default now(),
+    updated_at timestamptz not null default now()
 
 
 );
@@ -137,8 +137,8 @@ create table refresh_tokens
 (
     value     uuid        not null primary key,
     user_id   bigint      not null,
-    issued_at timestamp with time zone not null,
-    expire_at timestamp with time zone not null,
+    issued_at timestamptz not null,
+    expire_at timestamptz not null,
     next      uuid,
     constraint refresh_tokens_user_fk foreign key (user_id)
         references users (id) on delete cascade,

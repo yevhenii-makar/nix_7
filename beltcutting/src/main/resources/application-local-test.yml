@@ -1,10 +1,11 @@
 spring:
+  flyway:
+    enabled: false
   datasource:
-    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:db;MODE=PostgreSQl;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
     username: test
     password: test
     jpa:
-      open-in-view: false
-  flyway:
-    locations: classpath:db/migration/test/
+      hibernate:
+        ddl-auto: update

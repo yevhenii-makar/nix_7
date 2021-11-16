@@ -45,10 +45,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Map<KnownAuthority, BeltCuttingUserAuthority> authorities = getAdminAuthorities();
         for (SaveUserRequest request : requests) {
             String email = request.getEmail();
+            String name = request.getName();
             BeltCuttingUser user = userRepository.findByEmail(email).orElseGet(() -> {
                 BeltCuttingUser newUser = new BeltCuttingUser();
                 newUser.setCreatedAt(OffsetDateTime.now());
                 newUser.setEmail(email);
+                newUser.setName(name);
                 return newUser;
             });
 

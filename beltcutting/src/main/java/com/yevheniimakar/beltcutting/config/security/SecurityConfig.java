@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         List<SaveUserRequest> requests = securityProperties.getAdmins().entrySet().stream()
                 .map(entry -> new SaveUserRequest(
                         entry.getValue().getEmail(),
-                        new String(entry.getValue().getPassword()), EnumSet.of(KnownAuthority.ROLE_ADMIN)))
+                        new String(entry.getValue().getPassword()), EnumSet.of(KnownAuthority.ROLE_ADMIN), entry.getValue().getName()))
                 .peek(admin -> log.info("Default admin found: {} <{}>", admin.getEmail()))
                 .collect(Collectors.toList());
         userService.mergeAdmins(requests);
