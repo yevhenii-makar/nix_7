@@ -122,7 +122,7 @@ public class ComplectationServiceImpl implements ComplectationService {
     }
 
     @Transactional
-    private void isCorrectComlectation(List<Complectation> complectations) {
+    void isCorrectComlectation(List<Complectation> complectations) {
         for (Complectation c : complectations) {
             int sizeSumm = complectations.stream().filter(o -> o.equals(c.getPiece())).map(o -> o.getSize()).reduce(0, (a, b) -> a + b);
             int count = complectations.stream().filter(o -> o.equals(c.getCard())).map(o -> o.getSize()).reduce(0, (a, b) -> a + b);
