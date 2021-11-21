@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -65,11 +66,13 @@ public class ComplectationServiceImpl implements ComplectationService {
     }
 
     @Override
+    @Transactional
     public List<ComplectationResponse> saveComplectationResponseList(Long taskId, List<ComplectationUpdateRequest> complectationUpdateRequestList, Authentication authentication) {
         return saveComplectationList(taskId, complectationUpdateRequestList).stream().map(ComplectationResponse::new).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional
     public List<Complectation> saveComplectationList(Long taskId, List<ComplectationUpdateRequest> complectationUpdateRequestList) {
 
         if (complectationUpdateRequestList.isEmpty()) {
@@ -118,16 +121,16 @@ public class ComplectationServiceImpl implements ComplectationService {
         return taskRepository.findById(id).orElseThrow(() -> BeltCuttingExceptions.taskNotFound(id));
     }
 
+    @Transactional
     private void isCorrectComlectation(List<Complectation> complectations) {
         for (Complectation c : complectations) {
             int sizeSumm = complectations.stream().filter(o -> o.equals(c.getPiece())).map(o -> o.getSize()).reduce(0, (a, b) -> a + b);
             int count = complectations.stream().filter(o -> o.equals(c.getCard())).map(o -> o.getSize()).reduce(0, (a, b) -> a + b);
             if (sizeSumm > c.getPiece().getSize()) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "Piece number " + c.getPiece().getPiecesNumber()
-                        + "with id " + c.getPiece().getId() + " of card with id " + c.getCard().getId() + " is not enough");
+                throw BeltCuttingExceptions.pieceNotEnough(c.getPiece().getPiecesNumber(),c.getPiece().getId(), c.getCard().getId());
             }
             if (count > c.getCard().getCount()) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "Count of card " + c.getPiece().getPiecesNumber() + " is not enough");
+                throw BeltCuttingExceptions.countCardNotEnough(c.getCard().getId());
             }
         }
     }

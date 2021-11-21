@@ -36,6 +36,13 @@ public final class BeltCuttingExceptions {
     public static ResponseStatusException pieceNotFound(Long id) {
         return new ResponseStatusException(HttpStatus.NOT_FOUND, "Piece with id " + id + " not found");
     }
+    public static ResponseStatusException pieceNotEnough(int pieceNumber, Long pieceId, Long cardId) {
+        return new ResponseStatusException(HttpStatus.CONFLICT, "Piece number " + pieceNumber
+                + "with id " + pieceId + " of card with id " + cardId + " is not enough");
+    }
+    public static ResponseStatusException countCardNotEnough(Long cardId) {
+        return new ResponseStatusException(HttpStatus.CONFLICT, "Count of card " + cardId + " is not enough");
+    }
 
     public static ResponseStatusException duplicateEmail(String email) {
         return new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email " + email + " already taken");
