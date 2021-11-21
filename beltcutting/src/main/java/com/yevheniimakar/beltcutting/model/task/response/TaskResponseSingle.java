@@ -2,13 +2,11 @@ package com.yevheniimakar.beltcutting.model.task.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yevheniimakar.beltcutting.model.card.response.CardResponseViewInList;
-import com.yevheniimakar.beltcutting.model.complectation.Complectation;
 import com.yevheniimakar.beltcutting.model.complectation.response.ComplectationResponse;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +21,6 @@ public class TaskResponseSingle {
     private CardResponseViewInList card;
     private List<ComplectationResponse> complectationResponses;
 
-
     public TaskResponseSingle(Task task) {
         this.id = task.getId();
         this.name = task.getName();
@@ -35,7 +32,9 @@ public class TaskResponseSingle {
         this.complectationResponses = task.getComplectationList().stream().map(ComplectationResponse::new).collect(Collectors.toList());
 
     }
-    public TaskResponseSingle() {}
+
+    public TaskResponseSingle() {
+    }
 
     public Long getId() {
         return id;

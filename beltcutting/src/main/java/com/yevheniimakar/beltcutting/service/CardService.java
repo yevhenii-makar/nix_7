@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 public interface CardService {
 
     Card getCardById(Long id);
-    
+
     CardResponseSingle getCardResponseById(Long id);
 
     Page<CardResponseViewInList> getAllCards(Pageable pageable);

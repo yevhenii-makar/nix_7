@@ -1,8 +1,5 @@
 package com.yevheniimakar.beltcutting.model.auth;
 
-
-
-
 import com.yevheniimakar.beltcutting.model.UserStatus;
 import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 import org.springframework.security.core.userdetails.User;

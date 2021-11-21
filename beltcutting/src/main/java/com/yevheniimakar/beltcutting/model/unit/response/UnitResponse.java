@@ -7,9 +7,10 @@ public class UnitResponse {
     private Long id;
     private String name;
 
-    public UnitResponse() {}
+    public UnitResponse() {
+    }
 
-   public UnitResponse(Unit unit) {
+    public UnitResponse(Unit unit) {
         this.id = unit.getId();
         this.name = unit.getName();
     }
@@ -18,7 +19,7 @@ public class UnitResponse {
         return id;
     }
 
-    public void setId(Long  id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,11 +1,7 @@
 package com.yevheniimakar.beltcutting.model.complectation.response;
 
-
 import com.yevheniimakar.beltcutting.model.card.response.CardResponseViewInList;
 import com.yevheniimakar.beltcutting.model.complectation.Complectation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ComplectationResponse {
     private Long id;

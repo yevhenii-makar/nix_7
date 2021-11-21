@@ -55,7 +55,7 @@ public class ComplectationServiceImpl implements ComplectationService {
         if (!(userAuthenticationService.isTechnicalSpecialist(authentication) || userAuthenticationService.isAdmin(authentication))) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Doт`t have permission to do getComplectationTemplat");
         }
-        if (count <= 0){
+        if (count <= 0) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Doт`t have permission to do getComplectationTemplat");
         }
         Card card = cardRepository.findById(cardId).orElseThrow(() -> BeltCuttingExceptions.cardNotFound(cardId));

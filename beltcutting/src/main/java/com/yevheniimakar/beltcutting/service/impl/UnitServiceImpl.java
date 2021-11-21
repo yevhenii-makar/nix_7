@@ -1,6 +1,5 @@
 package com.yevheniimakar.beltcutting.service.impl;
 
-
 import com.yevheniimakar.beltcutting.exceptions.BeltCuttingExceptions;
 import com.yevheniimakar.beltcutting.model.unit.Unit;
 import com.yevheniimakar.beltcutting.model.unit.request.UnitUpdateRequest;
@@ -27,6 +26,7 @@ public class UnitServiceImpl implements UnitService {
     public Unit getById(Long id) {
         return unitRepository.findById(id).orElseThrow(() -> BeltCuttingExceptions.unitNotFound(id));
     }
+
     @Override
     public UnitResponse getResponseById(Long id) {
         return new UnitResponse(getById(id));

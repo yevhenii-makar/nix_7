@@ -25,21 +25,19 @@ public class CardController {
     }
 
     @GetMapping("/{id}")
-    public CardResponseSingle getCardById(@PathVariable Long id, Authentication authentication){
+    public CardResponseSingle getCardById(@PathVariable Long id, Authentication authentication) {
         return cardService.getCardResponseById(id);
     }
 
     @GetMapping
     @PageableAsQueryParam
-    public Page<CardResponseViewInList> getAllCard(@Parameter(hidden = true) Pageable pageable, Authentication authentication){
+    public Page<CardResponseViewInList> getAllCard(@Parameter(hidden = true) Pageable pageable, Authentication authentication) {
         return cardService.getAllCards(pageable);
     }
 
     @PostMapping
-    public CardResponseSingle createCard(@RequestBody @Valid CardCreateRequest request, Authentication authentication){
+    public CardResponseSingle createCard(@RequestBody @Valid CardCreateRequest request, Authentication authentication) {
         return cardService.create(request, authentication);
     }
-
-
 
 }

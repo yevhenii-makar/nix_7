@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface UserAuthenticationService {
 
-
     boolean isAdmin(Authentication authentication);
 
     boolean isTechnicalSpecialist(Authentication authentication);

@@ -55,7 +55,6 @@ public class Card {
         this.id = id;
     }
 
-
     public String getName() {
         return name;
     }
@@ -63,7 +62,6 @@ public class Card {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public Integer getCount() {
         return count;

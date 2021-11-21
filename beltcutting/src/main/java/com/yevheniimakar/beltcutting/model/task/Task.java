@@ -1,7 +1,7 @@
 package com.yevheniimakar.beltcutting.model.task;
 
-import com.yevheniimakar.beltcutting.model.complectation.Complectation;
 import com.yevheniimakar.beltcutting.model.card.Card;
+import com.yevheniimakar.beltcutting.model.complectation.Complectation;
 import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 
 import javax.persistence.*;
@@ -38,7 +38,7 @@ public class Task {
 
     private Integer count;
 
-    @OneToMany(mappedBy = "task" )
+    @OneToMany(mappedBy = "task")
     private List<Complectation> complectationList;
 
     public Task() {

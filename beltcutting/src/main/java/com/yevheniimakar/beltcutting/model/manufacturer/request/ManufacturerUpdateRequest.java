@@ -1,9 +1,12 @@
 package com.yevheniimakar.beltcutting.model.manufacturer.request;
 
+import javax.validation.constraints.NotBlank;
+
 public class ManufacturerUpdateRequest {
 
+    @NotBlank(message = "id mast be blank")
     Long id;
-
+    @NotBlank(message = "name mast be blank")
     private String name;
 
     public ManufacturerUpdateRequest() {
@@ -27,6 +30,6 @@ public class ManufacturerUpdateRequest {
     }
 
     public void setName(String name) {
-        name = name;
+        this.name = name;
     }
 }

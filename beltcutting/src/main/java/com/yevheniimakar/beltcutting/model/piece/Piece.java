@@ -1,7 +1,7 @@
 package com.yevheniimakar.beltcutting.model.piece;
 
-import com.yevheniimakar.beltcutting.model.unit.Unit;
 import com.yevheniimakar.beltcutting.model.card.Card;
+import com.yevheniimakar.beltcutting.model.unit.Unit;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -24,7 +24,6 @@ public class Piece {
     @JoinColumn(name = "card_id")
     private Card card;
 
-
     public Long getId() {
         return id;
     }
@@ -33,7 +32,6 @@ public class Piece {
         this.id = id;
     }
 
-
     public Integer getSize() {
         return size;
     }
@@ -41,7 +39,6 @@ public class Piece {
     public void setSize(Integer size) {
         this.size = size;
     }
-
 
     public Integer getPiecesNumber() {
         return piecesNumber;

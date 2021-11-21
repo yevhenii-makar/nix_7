@@ -9,7 +9,6 @@ import java.util.Objects;
 
 public class TaskResponseViewInList {
 
-
     private Long id;
     private String name;
     private String message;
@@ -24,8 +23,9 @@ public class TaskResponseViewInList {
         this.updated_at = task.getUpdated_at();
         this.status = task.getStatus();
     }
-    public TaskResponseViewInList() {}
 
+    public TaskResponseViewInList() {
+    }
 
     public Long getId() {
         return id;

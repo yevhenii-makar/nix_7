@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthorityRepository authorityRepository;
@@ -68,7 +67,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return new UserResponse(save(request, getRegularUserAuthorities(request.getAuthorities())));
     }
 
-    private Map<KnownAuthority, BeltCuttingUserAuthority> getAdminAuthorities( ) {
+    private Map<KnownAuthority, BeltCuttingUserAuthority> getAdminAuthorities() {
         return authorityRepository.findAllByIdIn(AuthorityRepository.ADMIN_AUTHORITIES)
                 .collect(Collectors.toMap(
                         BeltCuttingUserAuthority::getId,

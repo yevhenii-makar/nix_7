@@ -24,7 +24,6 @@ public class PieceServiceImpl implements PieceService {
     private final CardService cardService;
     private final UnitService unitService;
 
-
     public PieceServiceImpl(PieceRepository pieceRepository, CardService cardService, UnitService unitService) {
         this.pieceRepository = pieceRepository;
         this.cardService = cardService;
@@ -38,13 +37,13 @@ public class PieceServiceImpl implements PieceService {
 
     @Override
     @Transactional
-    public List <PieceResponseViewInList> savePieceListByCardId(List<PieceRequestCreate> picesRequest, Long cardId) {
+    public List<PieceResponseViewInList> savePieceListByCardId(List<PieceRequestCreate> picesRequest, Long cardId) {
         Card card = cardService.getCardById(cardId);
         Set<Integer> pieceNumberSet = pieceRepository.getPiecesNumberSetByCard(card);
         List<Unit> units = unitService.getAll();
         List<Piece> pieces = new ArrayList<>(picesRequest.size());
 
-        for (PieceRequestCreate pc: picesRequest ) {
+        for (PieceRequestCreate pc : picesRequest) {
             Piece piece = new Piece();
 
             piece.setSize(pc.getSize());
@@ -53,7 +52,7 @@ public class PieceServiceImpl implements PieceService {
             piece.setUnit(units.stream().filter(u -> u.getId() == pc.getUnitId()).findFirst().get());
 
             int pieceNumber = 1;
-            while (pieceNumberSet.contains(pieceNumber)){
+            while (pieceNumberSet.contains(pieceNumber)) {
                 pieceNumber++;
             }
             pieceNumberSet.add(pieceNumber);

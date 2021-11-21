@@ -1,6 +1,6 @@
 package com.yevheniimakar.beltcutting.model.auth.response;
 
-public class AccessTokenResponse{
+public class AccessTokenResponse {
 
     String accessToken;
     String refreshToken;

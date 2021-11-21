@@ -3,19 +3,19 @@ package com.yevheniimakar.beltcutting.model.task.request;
 import com.yevheniimakar.beltcutting.model.task.TaskType;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class TaskCreateRequest {
 
-    @NotBlank
+    @NotBlank(message = "name mast be blank")
     private String name;
-    @NotBlank
+
+    @NotBlank(message = "message mast be blank")
     private String message;
-    @NotBlank
+    @NotBlank(message = "type mast be blank")
     private TaskType type;
-    @NotBlank
+    @NotBlank(message = "cardId mast be blank")
     private long cardId;
-    @NotBlank
+    @NotBlank(message = "count mast be blank")
     private int count;
 
     public TaskCreateRequest(String name, String message, TaskType type, long cardId, int count) {
@@ -25,7 +25,9 @@ public class TaskCreateRequest {
         this.cardId = cardId;
         this.count = count;
     }
-     public TaskCreateRequest() {}
+
+    public TaskCreateRequest() {
+    }
 
     public String getName() {
         return name;

@@ -1,12 +1,10 @@
 package com.yevheniimakar.beltcutting.service.impl;
 
 import com.yevheniimakar.beltcutting.model.KnownAuthority;
-import com.yevheniimakar.beltcutting.model.complectation.Complectation;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
 import com.yevheniimakar.beltcutting.model.task.response.TaskResponseSingle;
 import com.yevheniimakar.beltcutting.model.task.response.TaskResponseViewInList;
-import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 import com.yevheniimakar.beltcutting.repository.CardRepository;
 import com.yevheniimakar.beltcutting.repository.ComplectationRepository;
 import com.yevheniimakar.beltcutting.repository.TaskRepository;
@@ -63,7 +61,7 @@ class TaskServiceTest {
     @Autowired
     private CardRepository cardRepository;
 
-    private Pageable pageable = PageRequest.of(0, 20);
+    private final Pageable pageable = PageRequest.of(0, 20);
 
     @BeforeEach
     public void setUpDb() {
@@ -73,8 +71,6 @@ class TaskServiceTest {
         DatabasePopulatorUtils.execute(tables, dataSource);
 
     }
-
-
 
     @Test
     @Transactional
@@ -139,11 +135,10 @@ class TaskServiceTest {
 
     }
 
-
     @Test
     void changeTaskStatus() {
 //        List<Task> controlTaskList = taskRepository.findAll();
-        List<Task> controlTaskList =new ArrayList<>(taskRepository.getTaskList());
+        List<Task> controlTaskList = new ArrayList<>(taskRepository.getTaskList());
         Task task = controlTaskList.stream().filter(o -> o.getStatus() == TaskStatus.CREATED).findFirst().get();
         TaskStatus status1 = TaskStatus.TECHNICAL_REVIEW;
 
@@ -184,14 +179,13 @@ class TaskServiceTest {
                 .isThrownBy(() -> taskService.changeTaskStatus(task3.getId(), status3, getAuthenticationManagerAndTech()))
                 .satisfies(e -> assertThat(e.getStatus()).isSameAs(HttpStatus.FORBIDDEN));
         TaskResponseSingle taskResponseSingle = taskService.changeTaskStatus(task3.getId(), status3, getAuthenticationOperator());
-        Task result = taskRepository.getTaskList().stream().filter(o->o.getId()==taskResponseSingle.getId()).findFirst().get();
+        Task result = taskRepository.getTaskList().stream().filter(o -> o.getId() == taskResponseSingle.getId()).findFirst().get();
         int resultCountOnCard = result.getCard().getCount();
-        int resultCountOnAccessoryCard =  result.getComplectationList().stream().map(o -> o.getCard()).distinct().map(o -> o.getCount()).reduce(0, (subtotal, element) -> subtotal + element);
+        int resultCountOnAccessoryCard = result.getComplectationList().stream().map(o -> o.getCard()).distinct().map(o -> o.getCount()).reduce(0, (subtotal, element) -> subtotal + element);
         assertTrue(actualCountOnCard < resultCountOnCard);
         assertTrue(actualCountOnAccessoryCard > resultCountOnAccessoryCard);
 
     }
-
 
     private Authentication getAuthenticationAdmin() {
         Set<KnownAuthority> authorities = new HashSet<>();

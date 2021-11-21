@@ -21,10 +21,8 @@ public class ComplectationController {
     }
 
     @GetMapping("/template")
-    public ComplectationTemplateResponse getComplectationTeplate (Long cardId, @Min(value = 1, message = "The value must be positive") int count, Authentication authentication){
+    public ComplectationTemplateResponse getComplectationTeplate(Long cardId, @Min(value = 1, message = "The value must be positive") int count, Authentication authentication) {
         return complectationService.getComplectationTemplateResponseByCardIdAndCount(cardId, count, authentication);
     }
-
-
 
 }

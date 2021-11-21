@@ -20,7 +20,7 @@ public class Admin {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse createUser(@RequestBody @Valid SaveUserRequest request){
+    public UserResponse createUser(@RequestBody @Valid SaveUserRequest request) {
         return userService.create(request);
     }
 }

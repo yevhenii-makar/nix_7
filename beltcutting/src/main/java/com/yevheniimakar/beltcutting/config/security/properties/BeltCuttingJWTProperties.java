@@ -2,7 +2,6 @@ package com.yevheniimakar.beltcutting.config.security.properties;
 
 import org.hibernate.validator.constraints.time.DurationMax;
 import org.hibernate.validator.constraints.time.DurationMin;
-import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.Duration;

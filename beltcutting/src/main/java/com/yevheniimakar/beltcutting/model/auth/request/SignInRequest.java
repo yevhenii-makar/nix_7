@@ -4,31 +4,32 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 
 public class SignInRequest {
 
-        @JsonAlias({"username", "email"})
-        String login;
-        String password;
+    @JsonAlias({"username", "email"})
+    String login;
+    String password;
 
-        public SignInRequest() {
+    public SignInRequest() {
 
-        }
-        public SignInRequest(@JsonAlias({"username", "email"})String login, String password) {
-                this.login = login;
-                this.password = password;
-        }
+    }
 
-        public String getLogin() {
-                return login;
-        }
+    public SignInRequest(@JsonAlias({"username", "email"}) String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 
-        public void setLogin(String login) {
-                this.login = login;
-        }
+    public String getLogin() {
+        return login;
+    }
 
-        public String getPassword() {
-                return password;
-        }
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-        public void setPassword(String password) {
-                this.password = password;
-        }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

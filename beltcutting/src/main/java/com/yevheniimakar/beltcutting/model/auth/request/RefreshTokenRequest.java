@@ -7,7 +7,8 @@ public class RefreshTokenRequest {
     @NotNull
     String refreshToken;
 
-    public RefreshTokenRequest() {}
+    public RefreshTokenRequest() {
+    }
 
     public RefreshTokenRequest(@NotNull String refreshToken) {
         this.refreshToken = refreshToken;

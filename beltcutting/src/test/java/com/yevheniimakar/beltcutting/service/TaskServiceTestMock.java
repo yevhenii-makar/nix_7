@@ -1,7 +1,7 @@
 package com.yevheniimakar.beltcutting.service;
 
-import com.yevheniimakar.beltcutting.model.manufacturer.Manufacturer;
 import com.yevheniimakar.beltcutting.model.card.Card;
+import com.yevheniimakar.beltcutting.model.manufacturer.Manufacturer;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
 import com.yevheniimakar.beltcutting.model.task.request.TaskUpdateRequest;
@@ -32,9 +32,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.mockito.Mockito.*;
 
-
 @ActiveProfiles({"local-test", "debug"})
-public class TaskServiceTestMock{
+public class TaskServiceTestMock {
 
     long absentId;
     long presentId1;
@@ -245,7 +244,6 @@ public class TaskServiceTestMock{
                 .satisfies(e -> assertThat(e.getStatus()).isSameAs(HttpStatus.FORBIDDEN));
         verify(taskRepository, times(3)).findById(presentId1);
 
-
         when(taskRepository.findById(presentId1)).thenReturn(Optional.of(task1));
         Optional<TaskResponseSingle> responseTechnicalReview = Optional.of(taskService.update(presentId1, request, authenticationTech));
 
@@ -253,7 +251,6 @@ public class TaskServiceTestMock{
                 assertTaskMachesRespone(request, rm));
         assertThat(responseTechnicalReview.get().getMessage()).isEqualTo(massage1 + "\n" + massage2);
         verify(taskRepository, times(4)).findById(presentId1);
-
 
         request.setMessage(massage2);
         task1.setMessage(massage1);

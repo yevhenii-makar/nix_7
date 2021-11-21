@@ -26,6 +26,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     public Manufacturer getById(Long id) {
         return manufacturerRepository.findById(id).orElseThrow(() -> BeltCuttingExceptions.manufacturerNotFound(id));
     }
+
     @Override
     public ManufacturerResponse getResponseById(Long id) {
         return new ManufacturerResponse(getById(id));

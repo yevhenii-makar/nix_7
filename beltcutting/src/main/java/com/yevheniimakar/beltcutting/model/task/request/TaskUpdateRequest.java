@@ -4,21 +4,24 @@ import com.yevheniimakar.beltcutting.model.complectation.request.ComplectationUp
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
 import com.yevheniimakar.beltcutting.model.task.TaskType;
 
-import java.time.OffsetDateTime;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public class TaskUpdateRequest {
+    List<ComplectationUpdateRequest> complectationRequestList;
+    @NotBlank(message = "idd mast be blank")
     private long id;
+    @NotBlank(message = "name mast be blank")
     private String name;
+    @NotBlank(message = "massage mast be blank")
     private String message;
+    @NotBlank(message = "userId mast be blank")
     private long userId;
     private TaskStatus status;
+    @NotBlank(message = "caddId mast be blank")
     private long cardId;
+    @NotBlank(message = "count mast be blank")
     private int count;
-    private OffsetDateTime created_at;
-    List<ComplectationUpdateRequest> complectationRequestList;
-
-
 
     public TaskUpdateRequest(
             long id,
@@ -28,8 +31,6 @@ public class TaskUpdateRequest {
             TaskType type,
             long cardId,
             int count,
-            OffsetDateTime created_at,
-            OffsetDateTime updated_at,
             List<ComplectationUpdateRequest> complectationRequestList, TaskStatus status) {
         this.id = id;
         this.name = name;
@@ -37,12 +38,12 @@ public class TaskUpdateRequest {
         this.userId = userId;
         this.cardId = cardId;
         this.count = count;
-        this.created_at = created_at;
         this.complectationRequestList = complectationRequestList;
         this.status = status;
     }
 
-    public TaskUpdateRequest() {}
+    public TaskUpdateRequest() {
+    }
 
     public long getId() {
         return id;
@@ -64,16 +65,16 @@ public class TaskUpdateRequest {
         return message;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public long getUserId() {
         return userId;
     }
 
     public void setUserId(long userId) {
         this.userId = userId;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public long getCardId() {
@@ -92,15 +93,7 @@ public class TaskUpdateRequest {
         this.count = count;
     }
 
-    public OffsetDateTime getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(OffsetDateTime created_at) {
-        this.created_at = created_at;
-    }
-
-     public List<ComplectationUpdateRequest> getComplectationRequestList() {
+    public List<ComplectationUpdateRequest> getComplectationRequestList() {
         return complectationRequestList;
     }
 

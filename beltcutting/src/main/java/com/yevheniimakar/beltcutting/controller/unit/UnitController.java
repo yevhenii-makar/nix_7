@@ -27,7 +27,7 @@ public class UnitController {
     }
 
     @PatchMapping("/{id}")
-    public UnitResponse update(@PathVariable Long id, @RequestBody @Valid UnitUpdateRequest request){
+    public UnitResponse update(@PathVariable Long id, @RequestBody @Valid UnitUpdateRequest request) {
         return unitService.update(id, request);
     }
 
