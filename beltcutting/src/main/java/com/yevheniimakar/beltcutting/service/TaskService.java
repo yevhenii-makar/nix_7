@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 
-import java.util.Optional;
-
 public interface TaskService {
 
     Page<TaskResponseViewInList> list(Pageable pageable);
@@ -21,10 +19,7 @@ public interface TaskService {
 
     TaskResponseSingle create(TaskCreateRequest request, Authentication authentication);
 
-    void deleteById(Long id);
-
     TaskResponseSingle findById(Long id, Authentication authentication);
-
 
     TaskResponseSingle changeTaskStatus(Long id, TaskStatus status, Authentication authentication);
 }

@@ -1,6 +1,6 @@
 package com.yevheniimakar.beltcutting.model.card;
 
-import com.yevheniimakar.beltcutting.model.Manufacturer;
+import com.yevheniimakar.beltcutting.model.manufacturer.Manufacturer;
 import com.yevheniimakar.beltcutting.model.unit.Unit;
 
 import javax.persistence.*;
@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class Card {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String name;

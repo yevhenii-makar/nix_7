@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Piece {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer size;
     private Integer piecesNumber;

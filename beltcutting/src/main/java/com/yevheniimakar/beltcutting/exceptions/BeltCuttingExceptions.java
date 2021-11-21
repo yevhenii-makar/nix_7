@@ -6,7 +6,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 public final class BeltCuttingExceptions {
 
-    private BeltCuttingExceptions() {}
+    private BeltCuttingExceptions() {
+    }
 
     public static ResponseStatusException userNotFound(String email) {
         return new ResponseStatusException(HttpStatus.NOT_FOUND, "BeltCuttingUser with email " + email + " not found");
@@ -41,12 +42,14 @@ public final class BeltCuttingExceptions {
     }
 
     public static ResponseStatusException invalidRefreshToken(InvalidRefreshTokenException cause) {
-        return new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                "Refresh token is invalid! It may have been rotated, invalidated or expired naturally", cause);
+        return new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token is invalid! It may have been rotated, invalidated or expired naturally", cause);
     }
 
-    public static ResponseStatusException notHavingNecessaryPermissionsForGetTask(Long id, String name){
+    public static ResponseStatusException notHavingNecessaryPermissionsForGetTask(Long id, String name) {
         return new ResponseStatusException(HttpStatus.FORBIDDEN, "Task with id " + id + " not available for user " + name);
     }
 
+    public static ResponseStatusException emptyListComplectation(Long id) {
+        return new ResponseStatusException(HttpStatus.CONFLICT, "Complectation for task " + id + "mast be not empty");
+    }
 }

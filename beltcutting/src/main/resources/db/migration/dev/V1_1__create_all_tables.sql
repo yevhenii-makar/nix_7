@@ -53,32 +53,32 @@ create table user_authorities
 
 create table manufacturers
 (
-    id serial primary key ,
+    id bigserial primary key ,
     name text
 );
 
 create table units
 (
-    id serial primary key,
+    id bigserial primary key,
     name text unique
 );
 
 
 create table cards
 (
-    id serial primary key,
+    id bigserial primary key,
     name text,
     count int,
     price bigint,
     size integer,
     unit_id integer references units (id) ,
     manufacturer_id integer references manufacturers (id) ,
-    accessorY_id integer references cards (id) 
+    accessory_id integer references cards (id)
 );
 
 create table  pieces
 (
-    id serial primary key,
+    id bigserial primary key,
     size integer,
     pieces_number integer,
     unit_id integer references units (id) ,
@@ -88,7 +88,7 @@ create table  pieces
 
 create table task_statuses
 (
-    id serial primary key,
+    id bigserial primary key,
     value text
 );
 insert into task_statuses (id, value)
@@ -110,11 +110,11 @@ values (6, 'CANCELED');
 
 create table  tasks
 (
-    id serial primary key,
+    id bigserial primary key,
     name text,
     message text,
     count integer,
-    status integer references task_statuses (id) ,
+    status_id integer references task_statuses (id) ,
     user_id integer references users (id) ,
     card_id integer references cards (id),
     created_at timestamptz not null default now(),
@@ -125,7 +125,7 @@ create table  tasks
 
 create table complectations
 (
-    id serial primary key,
+    id bigserial primary key,
     size integer,
     task_id integer references tasks (id) ,
     card_id integer references cards (id) ,

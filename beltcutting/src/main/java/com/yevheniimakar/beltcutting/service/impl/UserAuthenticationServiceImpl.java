@@ -39,7 +39,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
         if (isTechnicalSpecialist(authentication)) {
             statuses.add(TaskStatus.TECHNICAL_REVIEW);
         }
-        if (isTechnicalSpecialist(authentication)) {
+        if (isMachineOperator(authentication)) {
             statuses.add(TaskStatus.PRODUCTION_REVIEW);
         }
 
@@ -72,8 +72,8 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
 
     @Override
     public List<List> getStatuses(Authentication authentication) {
-        List<TaskStatus> techStatuses = new ArrayList<>(6);
-        List<TaskStatus> managerStatuses = new ArrayList<>(3);
+        List<TaskStatus> techStatuses = null;
+        List<TaskStatus> managerStatuses = null;
         List<List> statuses = new ArrayList<>(2);
 
         if (isAdmin(authentication)) {

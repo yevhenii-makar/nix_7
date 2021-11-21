@@ -1,29 +1,38 @@
 package com.yevheniimakar.beltcutting.model.card.request;
 
-import com.yevheniimakar.beltcutting.model.card.response.CardResponseViewInList;
+import javax.validation.constraints.NotBlank;
 
 public class CardUpdateRequest {
 
+    @NotBlank(message = "id mast be blank")
     private Long id;
+    @NotBlank(message = "name id mast be blank")
     private String name;
+    @NotBlank(message = "count id mast be blank")
     private Long count;
     private Long price;
+    @NotBlank(message = "size mast be blank")
     private Integer size;
-    private String manufacturer;
-    private String unit;
+    @NotBlank(message = "manufacture id mast be blank")
+    private Long manufacturerId;
+    @NotBlank(message = "unit id mast be blank")
+    private Long unitId;
+
     private long cardId;
 
-    public CardUpdateRequest(Long id, String name, Long count, Long price, Integer size, String manufacturer, String unit, long cardId) {
+    public CardUpdateRequest(Long id, String name, Long count, Long price, Integer size, Long manufacturerId, Long unitId, long cardId) {
         this.id = id;
         this.name = name;
         this.count = count;
         this.price = price;
         this.size = size;
-        this.manufacturer = manufacturer;
-        this.unit = unit;
+        this.manufacturerId = manufacturerId;
+        this.unitId = unitId;
         this.cardId = cardId;
     }
-    public CardUpdateRequest() {}
+
+    public CardUpdateRequest() {
+    }
 
     public Long getId() {
         return id;
@@ -65,20 +74,20 @@ public class CardUpdateRequest {
         this.size = size;
     }
 
-    public String getManufacturer() {
-        return manufacturer;
+    public Long getManufacturerId() {
+        return manufacturerId;
     }
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
+    public void setManufacturerId(Long manufacturerId) {
+        this.manufacturerId = manufacturerId;
     }
 
-    public String getUnit() {
-        return unit;
+    public Long getUnitId() {
+        return unitId;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setUnitId(Long unitId) {
+        this.unitId = unitId;
     }
 
     public long getCardId() {

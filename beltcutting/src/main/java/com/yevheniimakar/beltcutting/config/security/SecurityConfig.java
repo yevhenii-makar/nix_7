@@ -82,7 +82,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .antMatchers(HttpMethod.POST, Routes.USERS, Routes.TOKEN + "/refresh").permitAll()
@@ -90,23 +89,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, Routes.CARDS + "/{id:\\d+}").hasAnyRole("ADMIN", "TECHNICAL_SPECIALIST")
                 .antMatchers(HttpMethod.POST, Routes.PIECES + "/{id:\\d+}", Routes.PIECES + "/**/{id:\\d+}").hasAnyRole("ADMIN", "TECHNICAL_SPECIALIST")
                 .antMatchers(HttpMethod.POST, Routes.TASKS).hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers(HttpMethod.POST, Routes.MANUFACTURERS + "/**", Routes.MANUFACTURERS + "{id:\\d+}/").hasAnyRole("ADMIN", "TECHNICAL_SPECIALIST")
+                .antMatchers(HttpMethod.PATCH, Routes.MANUFACTURERS, Routes.MANUFACTURERS + "{id:\\d+}/").hasAnyRole("ADMIN", "TECHNICAL_SPECIALIST")
+                .antMatchers(HttpMethod.POST, Routes.UNITS + "/**", Routes.UNITS + "{id:\\d+}/").hasAnyRole("ADMIN", "TECHNICAL_SPECIALIST")
+                .antMatchers(HttpMethod.PATCH, Routes.UNITS, Routes.UNITS + "{id:\\d+}/").hasAnyRole("ADMIN", "TECHNICAL_SPECIALIST")
                 .antMatchers(HttpMethod.POST, Routes.ADMIN + "/**").hasRole("ADMIN")
-                .antMatchers( Routes.ADMIN + "/{id:\\d+}/**",Routes.ADMIN + "/**/{id:\\d+}").hasRole("ADMIN")
+                .antMatchers(Routes.ADMIN + "/{id:\\d+}/**", Routes.ADMIN + "/**/{id:\\d+}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                // auth filter
                 .addFilter(jwtAuthenticationFilter())
-                // jwt-verification filter
                 .addFilter(jwtAuthorizationFilter())
-                // for unauthorized requests return 401
                 .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
-                // allow cross-origin requests for all endpoints
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .csrf().disable()
-                // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
@@ -121,7 +120,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private CorsConfigurationSource corsConfigurationSource() {
-        var source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }

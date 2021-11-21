@@ -1,6 +1,6 @@
 package com.yevheniimakar.beltcutting.service;
 
-import com.yevheniimakar.beltcutting.model.Manufacturer;
+import com.yevheniimakar.beltcutting.model.manufacturer.Manufacturer;
 import com.yevheniimakar.beltcutting.model.card.Card;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
@@ -17,7 +17,6 @@ import com.yevheniimakar.beltcutting.service.impl.UserAuthenticationServiceImpl;
 import com.yevheniimakar.beltcutting.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -91,7 +90,7 @@ public class TaskServiceTestMock{
         cardRepository = mock(CardRepository.class);
         complectationService = mock(ComplectationServiceImpl.class);
         userAuthenticationService = mock(UserAuthenticationServiceImpl.class);
-        taskService = new TaskServiceImpl(taskRepository, userRepository, cardRepository, complectationService, userAuthenticationService);
+        taskService = new TaskServiceImpl(taskRepository, cardRepository, complectationService, userAuthenticationService, userService);
 
         absentId = 1L;
         presentId1 = 2L;

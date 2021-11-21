@@ -20,6 +20,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(Routes.TOKEN)
 public class AuthController {
+
     private final AuthService authService;
 
     public AuthController(AuthService authService) {

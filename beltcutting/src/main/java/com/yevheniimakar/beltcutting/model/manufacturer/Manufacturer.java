@@ -1,19 +1,20 @@
-package com.yevheniimakar.beltcutting.model;
+package com.yevheniimakar.beltcutting.model.manufacturer;
 
 import com.yevheniimakar.beltcutting.model.card.Card;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "manufacturers")
 public class Manufacturer {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "manufacturer")
@@ -43,5 +44,17 @@ public class Manufacturer {
         this.cards = cards;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Manufacturer that = (Manufacturer) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 }

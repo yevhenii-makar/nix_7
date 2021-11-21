@@ -1,7 +1,6 @@
 package com.yevheniimakar.beltcutting.controller.task;
 
 import com.yevheniimakar.beltcutting.Routes;
-import com.yevheniimakar.beltcutting.exceptions.BeltCuttingExceptions;
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
 import com.yevheniimakar.beltcutting.model.task.request.TaskCreateRequest;
 import com.yevheniimakar.beltcutting.model.task.request.TaskUpdateRequest;

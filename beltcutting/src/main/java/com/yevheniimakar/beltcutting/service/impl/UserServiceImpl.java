@@ -10,6 +10,7 @@ import com.yevheniimakar.beltcutting.model.user.response.UserResponse;
 import com.yevheniimakar.beltcutting.repository.AuthorityRepository;
 import com.yevheniimakar.beltcutting.repository.UserRepository;
 import com.yevheniimakar.beltcutting.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -83,6 +84,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User " + email + " not found"));
 
         return new BeltCuttingUserDetails(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public BeltCuttingUser getUser(Authentication authentication) {
+        String email = (String) authentication.getPrincipal();
+        BeltCuttingUser beltCuttingUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> BeltCuttingExceptions.userNotFound(email));
+        return beltCuttingUser;
     }
 
     private void validateUniqueFields(SaveUserRequest request) {

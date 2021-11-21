@@ -1,16 +1,21 @@
 package com.yevheniimakar.beltcutting.model.card.request;
 
-import com.yevheniimakar.beltcutting.model.card.response.CardResponseViewInList;
+import javax.validation.constraints.NotBlank;
 
 public class CardCreateRequest {
+    @NotBlank(message = "name must be blank")
     private String name;
+
+    @NotBlank(message = "manufacture id must be blank")
     private Long manufactureId;
     private Long accessoryId;
     private Integer size;
+
+    @NotBlank(message = "unit id must be blank")
     private Long unitId;
 
-
-    public CardCreateRequest() {}
+    public CardCreateRequest() {
+    }
 
     public CardCreateRequest(String name, String manufacturer, Long manufactureId, Long accessoryId, Integer size, Long unitId) {
         this.name = name;

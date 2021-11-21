@@ -4,7 +4,7 @@ import com.yevheniimakar.beltcutting.model.unit.Unit;
 
 public class UnitResponse {
 
-    private int id;
+    private Long id;
     private String name;
 
     public UnitResponse() {}
@@ -14,11 +14,11 @@ public class UnitResponse {
         this.name = unit.getName();
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long  id) {
         this.id = id;
     }
 

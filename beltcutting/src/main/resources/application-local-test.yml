@@ -2,10 +2,13 @@ spring:
   flyway:
     enabled: false
   datasource:
-    url: jdbc:h2:mem:db;MODE=PostgreSQl;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:db;mode=MySQL;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
     username: test
     password: test
     jpa:
       hibernate:
-        ddl-auto: update
+        hbm2ddl:
+          auto: create
+        show_sql: true
+        format_sql: true

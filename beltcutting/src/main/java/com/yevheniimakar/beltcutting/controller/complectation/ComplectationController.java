@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.Min;
 
 @RestController
-@RequestMapping(Routes.COMPLECTATION)
+@RequestMapping(Routes.COMPLECTATIONS)
 public class ComplectationController {
 
     ComplectationService complectationService;

@@ -2,12 +2,20 @@ package com.yevheniimakar.beltcutting.model.task.request;
 
 import com.yevheniimakar.beltcutting.model.task.TaskType;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class TaskCreateRequest {
 
+    @NotBlank
     private String name;
+    @NotBlank
     private String message;
+    @NotBlank
     private TaskType type;
+    @NotBlank
     private long cardId;
+    @NotBlank
     private int count;
 
     public TaskCreateRequest(String name, String message, TaskType type, long cardId, int count) {

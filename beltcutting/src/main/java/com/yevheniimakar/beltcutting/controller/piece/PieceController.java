@@ -20,18 +20,13 @@ public class PieceController {
     }
 
     @GetMapping("/card/{id}")
-    public List<PieceResponseViewInList> getPiecesByCardId(@PathVariable Long id, Authentication authentication){
-
+    public List<PieceResponseViewInList> getPiecesByCardId(@PathVariable Long id, Authentication authentication) {
         return pieceService.getPieceListByCardId(id);
     }
 
     @PostMapping("/card/{id}")
-    public List<PieceResponseViewInList> createPiecesByCardId(@PathVariable Long id, List<PieceRequestCreate> request, Authentication authentication){
-
+    public List<PieceResponseViewInList> createPiecesByCardId(@PathVariable Long id, List<PieceRequestCreate> request, Authentication authentication) {
         return pieceService.savePieceListByCardId(request, id);
     }
-
-
-
 
 }

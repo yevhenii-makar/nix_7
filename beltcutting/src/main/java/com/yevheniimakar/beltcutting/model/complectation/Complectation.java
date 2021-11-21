@@ -11,6 +11,7 @@ import javax.persistence.*;
 public class Complectation {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer size;
     @ManyToOne(fetch = FetchType.LAZY)

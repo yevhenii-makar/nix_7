@@ -3,6 +3,7 @@ package com.yevheniimakar.beltcutting.service.impl;
 import com.yevheniimakar.beltcutting.exceptions.BeltCuttingExceptions;
 import com.yevheniimakar.beltcutting.model.card.Card;
 import com.yevheniimakar.beltcutting.model.complectation.Complectation;
+import com.yevheniimakar.beltcutting.model.piece.Piece;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
 import com.yevheniimakar.beltcutting.model.task.request.TaskCreateRequest;
@@ -12,10 +13,10 @@ import com.yevheniimakar.beltcutting.model.task.response.TaskResponseViewInList;
 import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 import com.yevheniimakar.beltcutting.repository.CardRepository;
 import com.yevheniimakar.beltcutting.repository.TaskRepository;
-import com.yevheniimakar.beltcutting.repository.UserRepository;
 import com.yevheniimakar.beltcutting.service.ComplectationService;
 import com.yevheniimakar.beltcutting.service.TaskService;
 import com.yevheniimakar.beltcutting.service.UserAuthenticationService;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -32,39 +33,39 @@ public class TaskServiceImpl implements TaskService {
     private static final Logger log = LoggerFactory.getLogger(TaskServiceImpl.class);
 
     private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
     private final CardRepository cardRepository;
     private final ComplectationService complectationService;
     private final UserAuthenticationService userAuthenticationService;
+    private final UserServiceImpl userService;
 
-    public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository, CardRepository cardRepository, ComplectationService complectationService, UserAuthenticationService userAuthenticationService) {
+    public TaskServiceImpl(TaskRepository taskRepository, CardRepository cardRepository, ComplectationService complectationService, UserAuthenticationService userAuthenticationService, UserServiceImpl userService) {
         this.taskRepository = taskRepository;
-        this.userRepository = userRepository;
         this.cardRepository = cardRepository;
         this.complectationService = complectationService;
         this.userAuthenticationService = userAuthenticationService;
+        this.userService = userService;
     }
 
     @Override
     @Transactional
     public Page<TaskResponseViewInList> list(Pageable pageable) {
         return taskRepository.findAll(pageable).map(TaskResponseViewInList::new);
-
     }
 
     @Override
     @Transactional
     public Page<TaskResponseViewInList> getUserTaskList(Pageable pageable, Authentication authentication) {
-
         List<List> statuses = userAuthenticationService.getStatuses(authentication);
-        BeltCuttingUser beltCuttingUser = getUser(authentication);
-        return taskRepository.findByTaskStatusListAndUser(beltCuttingUser, statuses.get(0), statuses.get(1), pageable).map(o -> new TaskResponseViewInList((Task) o));
+        BeltCuttingUser beltCuttingUser = userService.getUser(authentication);
+        return taskRepository.findByTaskStatusListAndUser(beltCuttingUser, statuses.get(0), statuses.get(1), pageable).map(o -> {
+            return new TaskResponseViewInList((Task) o);
+        });
     }
 
     @Override
     public TaskResponseSingle update(Long id, TaskUpdateRequest request, Authentication authentication) {
 
-        BeltCuttingUser beltCuttingUser = getUser(authentication);
+        BeltCuttingUser beltCuttingUser = userService.getUser(authentication);
         Task task = getTask(id);
 
         if ((userAuthenticationService.isManager(authentication)
@@ -99,7 +100,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public TaskResponseSingle changeTaskStatus(Long id, TaskStatus status, Authentication authentication) {
-        BeltCuttingUser beltCuttingUser = getUser(authentication);
+        BeltCuttingUser beltCuttingUser = userService.getUser(authentication);
         Task task = getTask(id);
 
         if (status != task.getStatus()) {
@@ -108,20 +109,29 @@ public class TaskServiceImpl implements TaskService {
             } else {
                 if (userAuthenticationService.isManager(authentication)
                         && userAuthenticationService.getManagerStatuses().contains(task.getStatus())
-                        && beltCuttingUser.equals(task.getBeltCuttingUser())) {
+                        && task.getBeltCuttingUser().equals(beltCuttingUser)) {
                     task.setStatus(status);
-                } else if (userAuthenticationService.isTechnicalSpecialist(authentication) && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW)) {
+                } else if (userAuthenticationService.isTechnicalSpecialist(authentication)
+                        && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW)) {
+                    if (task.getComplectationList().isEmpty() && status == TaskStatus.PRODUCTION_REVIEW) {
+                        throw BeltCuttingExceptions.emptyListComplectation(task.getId());
+                    }
                     task.setStatus(status);
                 } else if (userAuthenticationService.isMachineOperator(authentication) && task.getStatus().equals(TaskStatus.PRODUCTION_REVIEW)) {
                     task.setStatus(status);
                     if (task.getStatus().equals(TaskStatus.READY)) {
                         List<Complectation> complectations = task.getComplectationList();
                         for (Complectation c : complectations) {
-                            c.getPiece().setSize(c.getPiece().getSize() - c.getSize());
-                            c.getPiece().getCard().setCount(c.getPiece().getCard().getCount() - c.getSize());
+                            Piece piece = (Piece) Hibernate.unproxy(c.getPiece());
+                            Card card = (Card) Hibernate.unproxy(piece.getCard());
+                            piece.setSize(c.getPiece().getSize() - c.getSize());
+                            card.setCount(card.getCount() - c.getSize());
                         }
-                        task.getCard().setCount(task.getCount());
+                        task.getCard().setCount(task.getCard().getCount() + task.getCount());
                     }
+                } else {
+                    throw BeltCuttingExceptions.notHavingNecessaryPermissionsForGetTask(task.getId(), beltCuttingUser.getName());
+
                 }
             }
         }
@@ -130,7 +140,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskResponseSingle create(TaskCreateRequest request, Authentication authentication) {
-        BeltCuttingUser beltCuttingUser = getUser(authentication);
+        BeltCuttingUser beltCuttingUser = userService.getUser(authentication);
         Card card = getCard(request.getCardId());
 
         Task task = new Task();
@@ -147,13 +157,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteById(Long id) {
-
-    }
-
-    @Override
     public TaskResponseSingle findById(Long id, Authentication authentication) {
-        BeltCuttingUser beltCuttingUser = getUser(authentication);
+        BeltCuttingUser beltCuttingUser = userService.getUser(authentication);
         Task task = taskRepository.findById(id).orElseThrow(() -> BeltCuttingExceptions.taskNotFound(id));
         if (!(userAuthenticationService.isAdmin(authentication)
                 || userAuthenticationService.isTechnicalSpecialist(authentication)
@@ -168,12 +173,6 @@ public class TaskServiceImpl implements TaskService {
 
     private Task getTask(long id) {
         return taskRepository.findById(id).orElseThrow(() -> BeltCuttingExceptions.taskNotFound(id));
-    }
-
-    private BeltCuttingUser getUser(Authentication authentication) {
-        String email = (String) authentication.getPrincipal();
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> BeltCuttingExceptions.userNotFound(email));
     }
 
     private Card getCard(Long id) {
