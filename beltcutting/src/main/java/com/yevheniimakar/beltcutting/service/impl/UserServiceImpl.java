@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserResponse create(SaveUserRequest request) {
         validateUniqueFields(request);
         return new UserResponse(save(request, getRegularUserAuthorities(request.getAuthorities())));
@@ -108,6 +109,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setEmail(request.getEmail());
         user.setName(request.getName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        System.out.println(user.getPassword());
         user.setCreatedAt(OffsetDateTime.now());
         userRepository.save(user);
         return user;

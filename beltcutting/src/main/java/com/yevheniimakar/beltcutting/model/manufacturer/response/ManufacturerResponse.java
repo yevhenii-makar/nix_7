@@ -4,28 +4,29 @@ import com.yevheniimakar.beltcutting.model.manufacturer.Manufacturer;
 
 public class ManufacturerResponse {
 
-        Long id;
+    Long id;
 
-        private String name;
+    private String name;
 
-        public ManufacturerResponse() {
-        }
+    public ManufacturerResponse() {
+    }
 
-        public ManufacturerResponse(Long id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-        public ManufacturerResponse(Manufacturer manufacturer) {
-            this.id = manufacturer.getId();
-            this.name = manufacturer.getName();
-        }
+    public ManufacturerResponse(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public ManufacturerResponse(Manufacturer manufacturer) {
+        this.id = manufacturer.getId();
+        this.name = manufacturer.getName();
+    }
 
-        public void setName(String name) {
-            name = name;
-        }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        name = name;
+    }
 
 }

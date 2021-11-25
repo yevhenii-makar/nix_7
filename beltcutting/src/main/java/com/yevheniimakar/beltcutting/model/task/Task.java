@@ -1,7 +1,7 @@
 package com.yevheniimakar.beltcutting.model.task;
 
 import com.yevheniimakar.beltcutting.model.card.Card;
-import com.yevheniimakar.beltcutting.model.complectation.Complectation;
+import com.yevheniimakar.beltcutting.model.equipment.Equipment;
 import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 
 import javax.persistence.*;
@@ -24,7 +24,7 @@ public class Task {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updated_at;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "status_id")
     @Enumerated(EnumType.ORDINAL)
     private TaskStatus status = TaskStatus.CREATED;
 
@@ -39,10 +39,10 @@ public class Task {
     private Integer count;
 
     @OneToMany(mappedBy = "task")
-    private List<Complectation> complectationList;
+    private List<Equipment> equipmentList;
 
     public Task() {
-        this.complectationList = new ArrayList<>();
+        this.equipmentList = new ArrayList<>();
     }
 
     public Task(Long id,
@@ -54,7 +54,7 @@ public class Task {
                 BeltCuttingUser beltCuttingUser,
                 Card card,
                 Integer count,
-                List<Complectation> complectationList) {
+                List<Equipment> equipmentList) {
         this.id = id;
         this.name = name;
         this.message = message;
@@ -64,7 +64,7 @@ public class Task {
         this.beltCuttingUser = beltCuttingUser;
         this.card = card;
         this.count = count;
-        this.complectationList = complectationList;
+        this.equipmentList = equipmentList;
     }
 
     public Long getId() {
@@ -139,11 +139,11 @@ public class Task {
         this.count = count;
     }
 
-    public List<Complectation> getComplectationList() {
-        return complectationList;
+    public List<Equipment> getEquipmentList() {
+        return equipmentList;
     }
 
-    public void setComplectationList(List<Complectation> complectationList) {
-        this.complectationList = complectationList;
+    public void setEquipmentList(List<Equipment> equipmentList) {
+        this.equipmentList = equipmentList;
     }
 }

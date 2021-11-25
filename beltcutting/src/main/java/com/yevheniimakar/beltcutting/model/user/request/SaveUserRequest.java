@@ -22,17 +22,16 @@ public class SaveUserRequest {
     @NotBlank(message = "name must not be blank")
     private String name;
 
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     Set<KnownAuthority> authorities;
 
-
-    public SaveUserRequest() {}
+    public SaveUserRequest() {
+    }
 
     public SaveUserRequest(@Email(message = "email must be a valid email string")
                            @NotNull(message = "email must not be null") String email,
                            @NotBlank(message = "password must not be blank") @Size(min = 8, message = "password's length must be at least 8") String password,
-                           @NotBlank(message = "authorities must not be blank")@JsonInclude(JsonInclude.Include.NON_NULL) Set<KnownAuthority> authorities,
+                           @NotBlank(message = "authorities must not be blank") @JsonInclude(JsonInclude.Include.NON_NULL) Set<KnownAuthority> authorities,
                            @NotNull(message = "name must not be null") String name) {
 
         this.email = email;

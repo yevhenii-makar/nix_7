@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 
 public class SignInRequest {
 
-    @JsonAlias({"username", "email"})
+    @JsonAlias("email")
     String login;
     String password;
 
@@ -12,7 +12,7 @@ public class SignInRequest {
 
     }
 
-    public SignInRequest(@JsonAlias({"username", "email"}) String login, String password) {
+    public SignInRequest(@JsonAlias("email") String login, String password) {
         this.login = login;
         this.password = password;
     }

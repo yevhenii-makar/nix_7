@@ -16,8 +16,7 @@ public class BeltCuttingUserAuthority {
     private KnownAuthority id;
 
     @ManyToMany(mappedBy = "authorities")
-    @SuppressWarnings("FieldMayBeFinal")
-    private Set<BeltCuttingUser> users = new HashSet<>();
+    private final Set<BeltCuttingUser> users = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

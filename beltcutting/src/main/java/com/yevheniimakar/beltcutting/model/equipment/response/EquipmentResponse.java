@@ -1,22 +1,22 @@
-package com.yevheniimakar.beltcutting.model.complectation.response;
+package com.yevheniimakar.beltcutting.model.equipment.response;
 
 import com.yevheniimakar.beltcutting.model.card.response.CardResponseViewInList;
-import com.yevheniimakar.beltcutting.model.complectation.Complectation;
+import com.yevheniimakar.beltcutting.model.equipment.Equipment;
 
-public class ComplectationResponse {
+public class EquipmentResponse {
     private Long id;
     private Integer size;
     private CardResponseViewInList card;
     private Integer pieceNumber;
 
-    public ComplectationResponse() {
+    public EquipmentResponse() {
     }
 
-    public ComplectationResponse(Complectation complectation) {
-        this.id = complectation.getId();
-        this.size = complectation.getSize();
-        this.card = new CardResponseViewInList(complectation.getCard());
-        this.pieceNumber = complectation.getPiece().getPiecesNumber();
+    public EquipmentResponse(Equipment equipment) {
+        this.id = equipment.getId();
+        this.size = equipment.getSize();
+        this.card = new CardResponseViewInList(equipment.getCard());
+        this.pieceNumber = equipment.getPiece().getPiecesNumber();
     }
 
     public Long getId() {

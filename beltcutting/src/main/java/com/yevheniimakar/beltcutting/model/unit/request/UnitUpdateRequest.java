@@ -7,7 +7,7 @@ public class UnitUpdateRequest {
     @NotBlank(message = "Id mast be blank")
     private Long id;
 
-    @NotBlank(message = "tname mast be blank")
+    @NotBlank(message = "name mast be blank")
     private String name;
 
     public UnitUpdateRequest() {

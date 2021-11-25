@@ -10,7 +10,8 @@ public class PieceResponseViewInList {
     private Integer piecesNumber;
     private UnitResponse unit;
 
-    public PieceResponseViewInList() {}
+    public PieceResponseViewInList() {
+    }
 
     public PieceResponseViewInList(Piece piece) {
         this.id = piece.getId();

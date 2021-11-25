@@ -1,8 +1,11 @@
 package com.yevheniimakar.beltcutting.model.task.request;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.yevheniimakar.beltcutting.model.task.TaskType;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class TaskCreateRequest {
 
@@ -11,11 +14,14 @@ public class TaskCreateRequest {
 
     @NotBlank(message = "message mast be blank")
     private String message;
-    @NotBlank(message = "type mast be blank")
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private TaskType type;
-    @NotBlank(message = "cardId mast be blank")
+    @NotNull(message = "cardId mast be not null")
+    @Min(value = 1, message = "id value must be positive")
     private long cardId;
-    @NotBlank(message = "count mast be blank")
+    @NotNull(message = "count mast be not null")
+    @Min(value = 1, message = "id value must be positive")
     private int count;
 
     public TaskCreateRequest(String name, String message, TaskType type, long cardId, int count) {

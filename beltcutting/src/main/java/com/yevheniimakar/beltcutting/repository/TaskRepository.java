@@ -16,7 +16,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query("select t from Task t  where  t.status in (:techStatuses) or (t.status in (:managerStatuses) and t.beltCuttingUser = :beltCuttingUser )")
     Page<Task> findByTaskStatusListAndUser(BeltCuttingUser beltCuttingUser, List<TaskStatus> techStatuses, List<TaskStatus> managerStatuses, Pageable pageable);
 
-    @Query("select t from Task t left join fetch t.card left join fetch t.complectationList c left join fetch c.card")
+    @Query("select t from Task t left join fetch t.card left join fetch t.equipmentList c left join fetch c.card")
     Set<Task> getTaskList();
 
 }

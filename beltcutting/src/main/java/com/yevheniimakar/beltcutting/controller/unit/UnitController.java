@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class UnitController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UnitResponse createTask(@RequestBody @Valid String request) {
+    public UnitResponse createTask(@RequestBody @NotBlank String request) {
         return unitService.create(request);
     }
 

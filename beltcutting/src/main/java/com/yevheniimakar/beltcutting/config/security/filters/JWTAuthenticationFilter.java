@@ -51,7 +51,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication auth) throws IOException, ServletException {
 
         SecurityContextHolder.getContext().setAuthentication(auth);
-
         chain.doFilter(req, res);
     }
 }

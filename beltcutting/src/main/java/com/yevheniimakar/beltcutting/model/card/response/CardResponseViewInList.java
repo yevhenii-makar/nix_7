@@ -4,7 +4,6 @@ import com.yevheniimakar.beltcutting.model.card.Card;
 
 public class CardResponseViewInList {
 
-
     private Long id;
     private String name;
     private Integer count;
@@ -12,10 +11,7 @@ public class CardResponseViewInList {
     private String manufacturer;
     private String unit;
 
-
-
     public CardResponseViewInList() {
-
 
     }
 
@@ -27,7 +23,8 @@ public class CardResponseViewInList {
         this.manufacturer = manufacturer;
         this.unit = unit;
     }
-    public CardResponseViewInList (Card card) {
+
+    public CardResponseViewInList(Card card) {
         this.id = card.getId();
         this.name = card.getName();
         this.count = card.getCount();

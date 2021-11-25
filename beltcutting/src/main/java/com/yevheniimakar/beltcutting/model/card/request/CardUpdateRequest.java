@@ -1,26 +1,33 @@
 package com.yevheniimakar.beltcutting.model.card.request;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class CardUpdateRequest {
 
-    @NotBlank(message = "id mast be blank")
+    @NotNull(message = "id must be not null")
+    @Min(value = 1, message = "The value must be positive")
     private Long id;
     @NotBlank(message = "name id mast be blank")
     private String name;
-    @NotBlank(message = "count id mast be blank")
+    @NotNull(message = "count must be not null")
+    @Min(value = 1, message = "The value must be positive")
     private Long count;
     private Long price;
-    @NotBlank(message = "size mast be blank")
+    @NotNull(message = "size must be not null")
+    @Min(value = 1, message = "The value must be positive")
     private Integer size;
-    @NotBlank(message = "manufacture id mast be blank")
+    @NotNull(message = "manufacture id must be not null")
+    @Min(value = 1, message = "The value must be positive")
     private Long manufacturerId;
-    @NotBlank(message = "unit id mast be blank")
+    @NotNull(message = "unit id must be not null")
+    @Min(value = 1, message = "The value must be positive")
     private Long unitId;
 
-    private long cardId;
+    private Long accessoryId;
 
-    public CardUpdateRequest(Long id, String name, Long count, Long price, Integer size, Long manufacturerId, Long unitId, long cardId) {
+    public CardUpdateRequest(Long id, String name, Long count, Long price, Integer size, Long manufacturerId, Long unitId, long accessoryId) {
         this.id = id;
         this.name = name;
         this.count = count;
@@ -28,7 +35,7 @@ public class CardUpdateRequest {
         this.size = size;
         this.manufacturerId = manufacturerId;
         this.unitId = unitId;
-        this.cardId = cardId;
+        this.accessoryId = accessoryId;
     }
 
     public CardUpdateRequest() {
@@ -90,11 +97,11 @@ public class CardUpdateRequest {
         this.unitId = unitId;
     }
 
-    public long getCardId() {
-        return cardId;
+    public Long getAccessoryId() {
+        return accessoryId;
     }
 
-    public void setCardId(long cardId) {
-        this.cardId = cardId;
+    public void setAccessoryId(Long accessoryId) {
+        this.accessoryId = accessoryId;
     }
 }

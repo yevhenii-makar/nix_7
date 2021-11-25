@@ -1,20 +1,24 @@
-package com.yevheniimakar.beltcutting.model.complectation.request;
+package com.yevheniimakar.beltcutting.model.equipment.request;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
-public class ComplectationCreateRequest {
-    @NotBlank(message = "ышяу mast be blank")
+public class EquipmentCreateRequest {
+    @NotNull(message = "size mast be not null")
+    @Min(value = 1, message = "The value must be positive")
     private Integer size;
-    @NotBlank(message = "taskId mast be blank")
+    @NotNull(message = "taskId mast be not null")
+    @Min(value = 1, message = "The value must be positive")
     private Long taskId;
-    @NotBlank(message = "cardId mast be blank")
+    @NotNull(message = "cardId mast be not null")
+    @Min(value = 1, message = "The value must be positive")
     private Long cardId;
     private Long pieceId;
 
-    public ComplectationCreateRequest() {
+    public EquipmentCreateRequest() {
     }
 
-    public ComplectationCreateRequest(Integer size, Long taskId, Long cardId, Long pieceId) {
+    public EquipmentCreateRequest(Integer size, Long taskId, Long cardId, Long pieceId) {
         this.size = size;
         this.taskId = taskId;
         this.cardId = cardId;

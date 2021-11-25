@@ -75,7 +75,12 @@ values (0, 150, 1, 1, 0),
        (2, 50, 2, 2, 1),
        (3, 750, 1, 3, 2),
        (4, 250, 2, 3, 2),
-       (5, 500, 3, 3, 2);
+       (5, 500, 3, 3, 2)
+on duplicate key update id=id,
+                        size=size,
+                        pieces_number=pieces_number,
+                        unit_id=unit_id,
+                        card_id=card_id;
 
 create table if not exists task_statuses
 (
@@ -115,7 +120,7 @@ on duplicate key update name   = name,
                         card_id=card_id;
 
 
-insert into complectations (id, size, task_id, card_id, piece_id)
+insert into equipments (id, size, task_id, card_id, piece_id)
 values (1, 50, 1, 1, 1),
        (2, 50, 1, 1, 2),
        (3, 50, 2, 1, 1),

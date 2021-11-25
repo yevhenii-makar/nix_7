@@ -6,7 +6,7 @@ import com.yevheniimakar.beltcutting.model.task.TaskStatus;
 import com.yevheniimakar.beltcutting.model.task.response.TaskResponseSingle;
 import com.yevheniimakar.beltcutting.model.task.response.TaskResponseViewInList;
 import com.yevheniimakar.beltcutting.repository.CardRepository;
-import com.yevheniimakar.beltcutting.repository.ComplectationRepository;
+import com.yevheniimakar.beltcutting.repository.EquipmentRepository;
 import com.yevheniimakar.beltcutting.repository.TaskRepository;
 import com.yevheniimakar.beltcutting.repository.UserRepository;
 import com.yevheniimakar.beltcutting.service.TaskService;
@@ -44,6 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 @ActiveProfiles({"local-test", "debug"})
 class TaskServiceTest {
+    private final Pageable pageable = PageRequest.of(0, 20);
     @Autowired
     private TaskService taskService;
     @Autowired
@@ -57,16 +58,14 @@ class TaskServiceTest {
     @Autowired
     private UserAuthenticationService userAuthenticationService;
     @Autowired
-    private ComplectationRepository complectationRepository;
+    private EquipmentRepository equipmentRepository;
     @Autowired
     private CardRepository cardRepository;
-
-    private final Pageable pageable = PageRequest.of(0, 20);
 
     @BeforeEach
     public void setUpDb() {
         ResourceDatabasePopulator tables = new ResourceDatabasePopulator();
-        tables.addScript(new ClassPathResource("/test-create-data.sql"));
+        tables.addScript(new ClassPathResource("/testresorses/test-create-data.sql"));
 
         DatabasePopulatorUtils.execute(tables, dataSource);
 
@@ -137,7 +136,6 @@ class TaskServiceTest {
 
     @Test
     void changeTaskStatus() {
-//        List<Task> controlTaskList = taskRepository.findAll();
         List<Task> controlTaskList = new ArrayList<>(taskRepository.getTaskList());
         Task task = controlTaskList.stream().filter(o -> o.getStatus() == TaskStatus.CREATED).findFirst().get();
         TaskStatus status1 = TaskStatus.TECHNICAL_REVIEW;
@@ -173,7 +171,7 @@ class TaskServiceTest {
         Task task3 = controlTaskList.stream().filter(o -> o.getStatus() == TaskStatus.PRODUCTION_REVIEW).findFirst().get();
         TaskStatus status3 = TaskStatus.READY;
         int actualCountOnCard = task3.getCard().getCount();
-        int actualCountOnAccessoryCard = task3.getComplectationList().stream().map(o -> o.getCard()).distinct().map(o -> o.getCount()).reduce(0, (subtotal, element) -> subtotal + element);
+        int actualCountOnAccessoryCard = task3.getEquipmentList().stream().map(o -> o.getCard()).distinct().map(o -> o.getCount()).reduce(0, (subtotal, element) -> subtotal + element);
 
         assertThatExceptionOfType(ResponseStatusException.class)
                 .isThrownBy(() -> taskService.changeTaskStatus(task3.getId(), status3, getAuthenticationManagerAndTech()))
@@ -181,7 +179,7 @@ class TaskServiceTest {
         TaskResponseSingle taskResponseSingle = taskService.changeTaskStatus(task3.getId(), status3, getAuthenticationOperator());
         Task result = taskRepository.getTaskList().stream().filter(o -> o.getId() == taskResponseSingle.getId()).findFirst().get();
         int resultCountOnCard = result.getCard().getCount();
-        int resultCountOnAccessoryCard = result.getComplectationList().stream().map(o -> o.getCard()).distinct().map(o -> o.getCount()).reduce(0, (subtotal, element) -> subtotal + element);
+        int resultCountOnAccessoryCard = result.getEquipmentList().stream().map(o -> o.getCard()).distinct().map(o -> o.getCount()).reduce(0, (subtotal, element) -> subtotal + element);
         assertTrue(actualCountOnCard < resultCountOnCard);
         assertTrue(actualCountOnAccessoryCard > resultCountOnAccessoryCard);
 
@@ -222,7 +220,7 @@ class TaskServiceTest {
     public void afterAll() {
 
         ResourceDatabasePopulator tables = new ResourceDatabasePopulator();
-        tables.addScript(new ClassPathResource("/test-delete-data.sql"));
+        tables.addScript(new ClassPathResource("/testresorses/test-delete-data.sql"));
 
         DatabasePopulatorUtils.execute(tables, dataSource);
     }

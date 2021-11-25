@@ -1,11 +1,14 @@
 package com.yevheniimakar.beltcutting.model.manufacturer.request;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class ManufacturerUpdateRequest {
 
-    @NotBlank(message = "id mast be blank")
-    Long id;
+    @NotNull(message = "id mast be not null")
+    @Min(value = 1, message = "id value must be positive")
+    private Long id;
     @NotBlank(message = "name mast be blank")
     private String name;
 

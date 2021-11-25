@@ -1,16 +1,16 @@
-package com.yevheniimakar.beltcutting.model.complectation.response;
+package com.yevheniimakar.beltcutting.model.equipment.response;
 
 import com.yevheniimakar.beltcutting.model.card.Card;
 import com.yevheniimakar.beltcutting.model.card.response.CardResponseViewInList;
 
-public class ComplectationTemplateResponse {
+public class EquipmentTemplateResponse {
     private Integer size;
     private CardResponseViewInList card;
 
-    public ComplectationTemplateResponse() {
+    public EquipmentTemplateResponse() {
     }
 
-    public ComplectationTemplateResponse(Integer size, Card card) {
+    public EquipmentTemplateResponse(Integer size, Card card) {
         this.size = size;
         this.card = new CardResponseViewInList(card);
 

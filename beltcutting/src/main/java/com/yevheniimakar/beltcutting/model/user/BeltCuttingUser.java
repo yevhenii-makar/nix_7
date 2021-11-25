@@ -1,6 +1,5 @@
 package com.yevheniimakar.beltcutting.model.user;
 
-
 import com.yevheniimakar.beltcutting.model.KnownAuthority;
 import com.yevheniimakar.beltcutting.model.UserStatus;
 import com.yevheniimakar.beltcutting.model.task.Task;
@@ -39,11 +38,9 @@ public class BeltCuttingUser {
     @MapKey(name = "id")
     private Map<KnownAuthority, BeltCuttingUserAuthority> authorities = new EnumMap<>(KnownAuthority.class);
 
-
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private UserStatus status = UserStatus.ACTIVE;
-
 
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
@@ -131,7 +128,5 @@ public class BeltCuttingUser {
     public int hashCode() {
         return email.hashCode();
     }
-
-
 
 }

@@ -11,7 +11,7 @@ import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 import com.yevheniimakar.beltcutting.repository.CardRepository;
 import com.yevheniimakar.beltcutting.repository.TaskRepository;
 import com.yevheniimakar.beltcutting.repository.UserRepository;
-import com.yevheniimakar.beltcutting.service.impl.ComplectationServiceImpl;
+import com.yevheniimakar.beltcutting.service.impl.EquipmentServiceImpl;
 import com.yevheniimakar.beltcutting.service.impl.TaskServiceImpl;
 import com.yevheniimakar.beltcutting.service.impl.UserAuthenticationServiceImpl;
 import com.yevheniimakar.beltcutting.service.impl.UserServiceImpl;
@@ -63,7 +63,7 @@ public class TaskServiceTestMock {
     private UserRepository userRepository;
     private UserServiceImpl userService;
     private CardRepository cardRepository;
-    private ComplectationService complectationService;
+    private EquipmentService equipmentService;
     private UserAuthenticationService userAuthenticationService;
 
     private static void assertTaskMatchesResponse(Task task, TaskResponseSingle taskResponseSingle) {
@@ -87,9 +87,9 @@ public class TaskServiceTestMock {
         userRepository = mock(UserRepository.class);
         userService = mock(UserServiceImpl.class);
         cardRepository = mock(CardRepository.class);
-        complectationService = mock(ComplectationServiceImpl.class);
+        equipmentService = mock(EquipmentServiceImpl.class);
         userAuthenticationService = mock(UserAuthenticationServiceImpl.class);
-        taskService = new TaskServiceImpl(taskRepository, cardRepository, complectationService, userAuthenticationService, userService);
+        taskService = new TaskServiceImpl(taskRepository, cardRepository, equipmentService, userAuthenticationService, userService);
 
         absentId = 1L;
         presentId1 = 2L;

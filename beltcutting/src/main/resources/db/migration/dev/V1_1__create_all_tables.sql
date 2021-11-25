@@ -63,6 +63,11 @@ create table units
     name text unique
 );
 
+insert into units (id, name) values (1, 'ribbed');
+insert into units (id, name) values (2, 'mm');
+insert into units (id, name) values (3, 'inch/100');
+insert into units (id, name) values (4, 'pc');
+
 
 create table cards
 (
@@ -71,9 +76,9 @@ create table cards
     count int,
     price bigint,
     size integer,
-    unit_id integer references units (id) ,
-    manufacturer_id integer references manufacturers (id) ,
-    accessory_id integer references cards (id)
+    unit_id bigint references units (id) ,
+    manufacturer_id bigint references manufacturers (id) ,
+    accessory_id bigint references cards (id)
 );
 
 create table  pieces
@@ -81,8 +86,8 @@ create table  pieces
     id bigserial primary key,
     size integer,
     pieces_number integer,
-    unit_id integer references units (id) ,
-    card_id integer references cards (id) 
+    unit_id bigint references units (id) ,
+    card_id bigint references cards (id)
 
 );
 
@@ -114,22 +119,22 @@ create table  tasks
     name text,
     message text,
     count integer,
-    status_id integer references task_statuses (id) ,
-    user_id integer references users (id) ,
-    card_id integer references cards (id),
+    status_id bigint references task_statuses (id) ,
+    user_id bigint references users (id) ,
+    card_id bigint references cards (id),
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now()
 
 
 );
 
-create table complectations
+create table equipments
 (
     id bigserial primary key,
-    size integer,
-    task_id integer references tasks (id) ,
-    card_id integer references cards (id) ,
-    piece_id integer references pieces (id)
+    size bigint,
+    task_id bigint references tasks (id) ,
+    card_id bigint references cards (id) ,
+    piece_id bigint references pieces (id)
 
 );
 

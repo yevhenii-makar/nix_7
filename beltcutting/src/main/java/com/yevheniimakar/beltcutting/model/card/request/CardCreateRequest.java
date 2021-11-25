@@ -1,17 +1,21 @@
 package com.yevheniimakar.beltcutting.model.card.request;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class CardCreateRequest {
     @NotBlank(message = "name must be blank")
     private String name;
 
-    @NotBlank(message = "manufacture id must be blank")
+    @NotNull(message = "manufacture id must be not null")
+    @Min(value = 1, message = "The value must be positive")
     private Long manufactureId;
     private Long accessoryId;
     private Integer size;
 
-    @NotBlank(message = "unit id must be blank")
+    @NotNull(message = "unit id must be not null")
+    @Min(value = 1, message = "The value must be positive")
     private Long unitId;
 
     public CardCreateRequest() {

@@ -2,7 +2,7 @@ package com.yevheniimakar.beltcutting.model.task.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yevheniimakar.beltcutting.model.card.response.CardResponseViewInList;
-import com.yevheniimakar.beltcutting.model.complectation.response.ComplectationResponse;
+import com.yevheniimakar.beltcutting.model.equipment.response.EquipmentResponse;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
 
@@ -19,7 +19,7 @@ public class TaskResponseSingle {
     private OffsetDateTime updated_at;
     private TaskStatus status;
     private CardResponseViewInList card;
-    private List<ComplectationResponse> complectationResponses;
+    private List<EquipmentResponse> equipmentResponses;
 
     public TaskResponseSingle(Task task) {
         this.id = task.getId();
@@ -29,7 +29,7 @@ public class TaskResponseSingle {
         this.updated_at = task.getUpdated_at();
         this.status = task.getStatus();
         this.card = new CardResponseViewInList(task.getCard());
-        this.complectationResponses = task.getComplectationList().stream().map(ComplectationResponse::new).collect(Collectors.toList());
+        this.equipmentResponses = task.getEquipmentList().stream().map(EquipmentResponse::new).collect(Collectors.toList());
 
     }
 
@@ -92,11 +92,11 @@ public class TaskResponseSingle {
         this.card = card;
     }
 
-    public List<ComplectationResponse> getComplectationResponses() {
-        return complectationResponses;
+    public List<EquipmentResponse> getEquipmentResponses() {
+        return equipmentResponses;
     }
 
-    public void setComplectationResponses(List<ComplectationResponse> complectationResponses) {
-        this.complectationResponses = complectationResponses;
+    public void setEquipmentResponses(List<EquipmentResponse> equipmentResponses) {
+        this.equipmentResponses = equipmentResponses;
     }
 }

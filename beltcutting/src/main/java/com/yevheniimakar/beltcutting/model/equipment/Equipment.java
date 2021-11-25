@@ -1,4 +1,4 @@
-package com.yevheniimakar.beltcutting.model.complectation;
+package com.yevheniimakar.beltcutting.model.equipment;
 
 import com.yevheniimakar.beltcutting.model.card.Card;
 import com.yevheniimakar.beltcutting.model.piece.Piece;
@@ -7,8 +7,8 @@ import com.yevheniimakar.beltcutting.model.task.Task;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "complectations")
-public class Complectation {
+@Table(name = "equipments")
+public class Equipment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class Complectation {
     @JoinColumn(name = "piece_id")
     private Piece piece;
 
-    public Complectation(Long id, Integer size, Task task, Card card, Piece piece) {
+    public Equipment(Long id, Integer size, Task task, Card card, Piece piece) {
         this.id = id;
         this.size = size;
         this.task = task;
@@ -32,7 +32,7 @@ public class Complectation {
         this.piece = piece;
     }
 
-    public Complectation() {
+    public Equipment() {
     }
 
     public Long getId() {

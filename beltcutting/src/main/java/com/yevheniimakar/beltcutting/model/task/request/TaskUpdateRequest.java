@@ -1,55 +1,49 @@
 package com.yevheniimakar.beltcutting.model.task.request;
 
-import com.yevheniimakar.beltcutting.model.complectation.request.ComplectationUpdateRequest;
-import com.yevheniimakar.beltcutting.model.task.TaskStatus;
 import com.yevheniimakar.beltcutting.model.task.TaskType;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 public class TaskUpdateRequest {
-    List<ComplectationUpdateRequest> complectationRequestList;
-    @NotBlank(message = "idd mast be blank")
-    private long id;
+    @NotNull(message = "id mast be blank")
+    @Min(value = 1, message = "id value must be positive")
+    private Long id;
     @NotBlank(message = "name mast be blank")
     private String name;
     @NotBlank(message = "massage mast be blank")
     private String message;
-    @NotBlank(message = "userId mast be blank")
-    private long userId;
-    private TaskStatus status;
-    @NotBlank(message = "caddId mast be blank")
-    private long cardId;
-    @NotBlank(message = "count mast be blank")
+    @NotNull(message = "cardId mast be not null")
+    @Min(value = 1, message = "count value must be positive")
+    private Long cardId;
+    @NotNull(message = "count mast be not null")
+    @Min(value = 1, message = "count value must be positive")
     private int count;
 
     public TaskUpdateRequest(
-            long id,
+            Long id,
             String name,
             String message,
-            long userId,
             TaskType type,
-            long cardId,
-            int count,
-            List<ComplectationUpdateRequest> complectationRequestList, TaskStatus status) {
+            Long cardId,
+            int count) {
         this.id = id;
         this.name = name;
         this.message = message;
-        this.userId = userId;
         this.cardId = cardId;
         this.count = count;
-        this.complectationRequestList = complectationRequestList;
-        this.status = status;
+
     }
 
     public TaskUpdateRequest() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -69,19 +63,11 @@ public class TaskUpdateRequest {
         this.message = message;
     }
 
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public long getCardId() {
+    public Long getCardId() {
         return cardId;
     }
 
-    public void setCardId(long cardId) {
+    public void setCardId(Long cardId) {
         this.cardId = cardId;
     }
 
@@ -93,19 +79,4 @@ public class TaskUpdateRequest {
         this.count = count;
     }
 
-    public List<ComplectationUpdateRequest> getComplectationRequestList() {
-        return complectationRequestList;
-    }
-
-    public void setComplectationRequestList(List<ComplectationUpdateRequest> complectationRequestList) {
-        this.complectationRequestList = complectationRequestList;
-    }
-
-    public TaskStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(TaskStatus status) {
-        this.status = status;
-    }
 }

@@ -37,13 +37,13 @@ public class PieceServiceImpl implements PieceService {
 
     @Override
     @Transactional
-    public List<PieceResponseViewInList> savePieceListByCardId(List<PieceRequestCreate> picesRequest, Long cardId) {
+    public List<PieceResponseViewInList> savePieceListCardId(List<PieceRequestCreate> piecesRequest, Long cardId) {
         Card card = cardService.getCardById(cardId);
         Set<Integer> pieceNumberSet = pieceRepository.getPiecesNumberSetByCard(card);
         List<Unit> units = unitService.getAll();
-        List<Piece> pieces = new ArrayList<>(picesRequest.size());
+        List<Piece> pieces = new ArrayList<>(piecesRequest.size());
 
-        for (PieceRequestCreate pc : picesRequest) {
+        for (PieceRequestCreate pc : piecesRequest) {
             Piece piece = new Piece();
 
             piece.setSize(pc.getSize());

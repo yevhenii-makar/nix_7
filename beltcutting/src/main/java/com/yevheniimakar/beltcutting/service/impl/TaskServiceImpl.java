@@ -2,7 +2,7 @@ package com.yevheniimakar.beltcutting.service.impl;
 
 import com.yevheniimakar.beltcutting.exceptions.BeltCuttingExceptions;
 import com.yevheniimakar.beltcutting.model.card.Card;
-import com.yevheniimakar.beltcutting.model.complectation.Complectation;
+import com.yevheniimakar.beltcutting.model.equipment.Equipment;
 import com.yevheniimakar.beltcutting.model.piece.Piece;
 import com.yevheniimakar.beltcutting.model.task.Task;
 import com.yevheniimakar.beltcutting.model.task.TaskStatus;
@@ -13,7 +13,7 @@ import com.yevheniimakar.beltcutting.model.task.response.TaskResponseViewInList;
 import com.yevheniimakar.beltcutting.model.user.BeltCuttingUser;
 import com.yevheniimakar.beltcutting.repository.CardRepository;
 import com.yevheniimakar.beltcutting.repository.TaskRepository;
-import com.yevheniimakar.beltcutting.service.ComplectationService;
+import com.yevheniimakar.beltcutting.service.EquipmentService;
 import com.yevheniimakar.beltcutting.service.TaskService;
 import com.yevheniimakar.beltcutting.service.UserAuthenticationService;
 import org.hibernate.Hibernate;
@@ -34,14 +34,14 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final CardRepository cardRepository;
-    private final ComplectationService complectationService;
+    private final EquipmentService equipmentService;
     private final UserAuthenticationService userAuthenticationService;
     private final UserServiceImpl userService;
 
-    public TaskServiceImpl(TaskRepository taskRepository, CardRepository cardRepository, ComplectationService complectationService, UserAuthenticationService userAuthenticationService, UserServiceImpl userService) {
+    public TaskServiceImpl(TaskRepository taskRepository, CardRepository cardRepository, EquipmentService equipmentService, UserAuthenticationService userAuthenticationService, UserServiceImpl userService) {
         this.taskRepository = taskRepository;
         this.cardRepository = cardRepository;
-        this.complectationService = complectationService;
+        this.equipmentService = equipmentService;
         this.userAuthenticationService = userAuthenticationService;
         this.userService = userService;
     }
@@ -69,7 +69,7 @@ public class TaskServiceImpl implements TaskService {
         Task task = getTask(id);
 
         if ((userAuthenticationService.isManager(authentication)
-                && userAuthenticationService.getManagerStatuses().contains(request.getStatus())
+                && userAuthenticationService.getManagerStatuses().contains(task.getStatus())
                 && beltCuttingUser.equals(task.getBeltCuttingUser()))
                 || userAuthenticationService.isAdmin(authentication)) {
             if (task.getStatus().equals(TaskStatus.CREATED)) {
@@ -88,9 +88,7 @@ public class TaskServiceImpl implements TaskService {
             if (!task.getMessage().equals(request.getMessage())) {
                 task.setMessage(task.getMessage() + "\n" + request.getMessage());
             }
-            if (userAuthenticationService.isTechnicalSpecialist(authentication)) {
-                task.setComplectationList(complectationService.saveComplectationList(task.getId(), request.getComplectationRequestList()));
-            }
+
         } else {
             throw BeltCuttingExceptions.notHavingNecessaryPermissionsForGetTask(request.getId(), beltCuttingUser.getName());
         }
@@ -106,6 +104,16 @@ public class TaskServiceImpl implements TaskService {
         if (status != task.getStatus()) {
             if (userAuthenticationService.isAdmin(authentication)) {
                 task.setStatus(status);
+                if (task.getStatus().equals(TaskStatus.READY)) {
+                    List<Equipment> equipments = task.getEquipmentList();
+                    for (Equipment c : equipments) {
+                        Piece piece = (Piece) Hibernate.unproxy(c.getPiece());
+                        Card card = (Card) Hibernate.unproxy(piece.getCard());
+                        piece.setSize(c.getPiece().getSize() - c.getSize());
+                        card.setCount(card.getCount() - c.getSize());
+                    }
+                    task.getCard().setCount(task.getCard().getCount() + task.getCount());
+                }
             } else {
                 if (userAuthenticationService.isManager(authentication)
                         && userAuthenticationService.getManagerStatuses().contains(task.getStatus())
@@ -113,15 +121,15 @@ public class TaskServiceImpl implements TaskService {
                     task.setStatus(status);
                 } else if (userAuthenticationService.isTechnicalSpecialist(authentication)
                         && task.getStatus().equals(TaskStatus.TECHNICAL_REVIEW)) {
-                    if (task.getComplectationList().isEmpty() && status == TaskStatus.PRODUCTION_REVIEW) {
-                        throw BeltCuttingExceptions.emptyListComplectation(task.getId());
+                    if (task.getEquipmentList().isEmpty() && status == TaskStatus.PRODUCTION_REVIEW) {
+                        throw BeltCuttingExceptions.emptyListEquipment(task.getId());
                     }
                     task.setStatus(status);
                 } else if (userAuthenticationService.isMachineOperator(authentication) && task.getStatus().equals(TaskStatus.PRODUCTION_REVIEW)) {
                     task.setStatus(status);
                     if (task.getStatus().equals(TaskStatus.READY)) {
-                        List<Complectation> complectations = task.getComplectationList();
-                        for (Complectation c : complectations) {
+                        List<Equipment> equipments = task.getEquipmentList();
+                        for (Equipment c : equipments) {
                             Piece piece = (Piece) Hibernate.unproxy(c.getPiece());
                             Card card = (Card) Hibernate.unproxy(piece.getCard());
                             piece.setSize(c.getPiece().getSize() - c.getSize());
@@ -139,6 +147,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public TaskResponseSingle create(TaskCreateRequest request, Authentication authentication) {
         BeltCuttingUser beltCuttingUser = userService.getUser(authentication);
         Card card = getCard(request.getCardId());

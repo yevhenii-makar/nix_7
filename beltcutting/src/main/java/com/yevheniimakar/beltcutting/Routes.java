@@ -12,7 +12,7 @@ public class Routes {
 
     public static final String TASKS = API_ROOT + "/tasks";
 
-    public static final String COMPLECTATIONS = API_ROOT + "/complectation";
+    public static final String COMPLECTATIONS = API_ROOT + "/equipment";
 
     public static final String USERS = API_ROOT + "/users";
 

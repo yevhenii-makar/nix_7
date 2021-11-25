@@ -47,7 +47,7 @@ public class Card {
         this.unit = unit;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

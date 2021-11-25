@@ -1,7 +1,7 @@
 package com.yevheniimakar.beltcutting.controller.piece;
 
 import com.yevheniimakar.beltcutting.Routes;
-import com.yevheniimakar.beltcutting.model.piece.request.PieceRequestCreate;
+import com.yevheniimakar.beltcutting.model.piece.request.PieceCreateList;
 import com.yevheniimakar.beltcutting.model.piece.response.PieceResponseViewInList;
 import com.yevheniimakar.beltcutting.service.PieceService;
 import org.springframework.security.core.Authentication;
@@ -25,8 +25,8 @@ public class PieceController {
     }
 
     @PostMapping("/card/{id}")
-    public List<PieceResponseViewInList> createPiecesByCardId(@PathVariable Long id, List<PieceRequestCreate> request, Authentication authentication) {
-        return pieceService.savePieceListByCardId(request, id);
+    public List<PieceResponseViewInList> createPiecesByCardId(@PathVariable Long id, @RequestBody PieceCreateList request, Authentication authentication) {
+        return pieceService.savePieceListCardId(request.getPieceRequestCreateList(), id);
     }
 
 }

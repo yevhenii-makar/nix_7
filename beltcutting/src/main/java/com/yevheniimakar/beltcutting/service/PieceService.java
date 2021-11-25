@@ -9,5 +9,5 @@ public interface PieceService {
 
     List<PieceResponseViewInList> getPieceListByCardId(Long id);
 
-    List<PieceResponseViewInList> savePieceListByCardId(List<PieceRequestCreate> pices, Long cardId);
+    List<PieceResponseViewInList> savePieceListCardId(List<PieceRequestCreate> pieces, Long cardId);
 }

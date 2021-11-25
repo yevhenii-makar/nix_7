@@ -12,7 +12,8 @@ public class CardResponseSingle {
     private String unit;
     private CardResponseViewInList accessory;
 
-    public CardResponseSingle() {}
+    public CardResponseSingle() {
+    }
 
     public CardResponseSingle(Card card) {
         this.id = card.getId();
@@ -22,7 +23,7 @@ public class CardResponseSingle {
         this.manufacturer = card.getManufacturer().getName();
         this.unit = card.getUnit().getName();
         this.size = card.getSize();
-        this.accessory = new CardResponseViewInList(card.getAccessory());
+        this.accessory = card.getAccessory() == null ? null : new CardResponseViewInList(card.getAccessory());
     }
 
     public Long getId() {

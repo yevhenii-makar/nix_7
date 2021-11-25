@@ -56,7 +56,8 @@ public class CardServiceImpl implements CardService {
         if (request.getAccessoryId() != null) {
             card.setAccessory(getCardById(request.getAccessoryId()));
         }
+        card = cardRepository.save(card);
 
-        return new CardResponseSingle(cardRepository.save(card));
+        return new CardResponseSingle(card);
     }
 }
